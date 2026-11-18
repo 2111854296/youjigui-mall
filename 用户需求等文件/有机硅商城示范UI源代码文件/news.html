@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信息资讯 · 有机硅商城</title>
+<style>
+:root{
+  --blue:#2468F2; --blue-deep:#1443B8; --blue-ink:#123C8F;
+  --grad-blue:linear-gradient(135deg,#1D4FD7 0%,#2F6FE8 55%,#3F86F9 100%);
+  --bg:#F3F6FB; --surface:#FFFFFF;
+  --ink:#13294B; --ink-2:#5A6B85; --ink-3:#98A5BC;
+  --up:#F04B3E; --down:#14B968;
+  --line:#E9EEF6;
+  --font-sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --r-md:12px; --r-lg:16px; --r-xl:20px;
+  --shadow-card:0 2px 14px rgba(19,41,75,.06);
+  --shadow-pop:0 10px 30px -8px rgba(36,104,242,.22);
+  --maxw:1280px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 var(--s5,20px)}
+.up{color:var(--up)}.down{color:var(--down)}
+.more-link{color:var(--blue);font-size:13px;font-weight:600;white-space:nowrap}
+
+/* 工具条 */
+.topbar{background:#fff;color:var(--ink-2);font-size:12.5px;border-bottom:1px solid var(--line)}
+.topbar .container{display:flex;align-items:center;justify-content:space-between;height:34px}
+.topbar .tb-l,.topbar .tb-r{display:flex;align-items:center;gap:16px}
+.topbar a:hover{color:var(--blue)}
+.topbar .vip{color:var(--up);font-weight:600}
+.topbar .tel{color:var(--up);font-weight:800}
+/* 搜索主行 */
+.head-main{background:#fff;padding:16px 0 8px}
+.head-main .container{display:flex;align-items:center;gap:32px}
+.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.lg-yjg{height:48px;width:auto;display:block}
+.lg-x{font-size:15px;color:var(--ink-3);font-weight:600;margin:0 2px}
+.lg-silink{height:56px;width:auto;display:block;border-radius:9px;border:1px solid var(--line);background:#fff}
+.h-search{flex:1;max-width:620px;margin:0 auto}
+.h-search .bar{display:flex;align-items:stretch;border:2px solid var(--blue);border-radius:9px;overflow:hidden;height:46px;background:#fff}
+.h-search .cat{display:flex;align-items:center;gap:5px;padding:0 15px;font-size:13.5px;color:var(--ink);border-right:1px solid var(--line);white-space:nowrap}
+.h-search input{flex:1;border:none;outline:none;padding:0 14px;font-size:13.5px;color:var(--ink);min-width:0}
+.h-search .go{background:var(--blue);color:#fff;font-weight:700;padding:0 32px;font-size:15px;letter-spacing:2px}
+.h-search .go:hover{background:var(--blue-deep)}
+.h-actions{display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;font-weight:600;border-radius:10px;transition:all .18s;white-space:nowrap}
+.btn--primary{padding:11px 22px;font-size:13.5px;color:#fff;background:var(--blue);box-shadow:var(--shadow-pop)}
+.btn--primary:hover{background:var(--blue-deep)}
+.btn--tint{padding:11px 22px;font-size:13.5px;color:var(--blue);background:#EEF4FF}
+/* 菜单行 */
+.menu-bar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(19,41,75,.05)}
+.menu-bar .container{display:flex;align-items:center;height:46px;gap:24px}
+.menu-bar .menu{display:flex;align-items:center;gap:20px}
+.menu-bar .menu a{font-size:14px;font-weight:500;color:var(--ink-2);position:relative;padding:5px 0}
+.menu-bar .menu a:hover{color:var(--blue)}
+.menu-bar .menu a.active{color:var(--blue);font-weight:700}
+.menu-bar .menu a.active::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:1px;width:20px;height:3px;border-radius:3px;background:var(--blue)}
+
+/* 面包屑 + 栏目 tab */
+.crumb-row{background:#fff;border-bottom:1px solid var(--line)}
+.crumb-row .container{display:flex;align-items:center;justify-content:space-between;height:44px;gap:16px;flex-wrap:wrap}
+.crumb{font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.crumb .cur{color:var(--blue);font-weight:700;font-size:14px}
+.crumb .sep{color:var(--ink-3)}
+.crumb-tabs{display:flex;gap:18px;overflow-x:auto}
+.crumb-tabs a{font-size:13.5px;color:var(--ink-2);white-space:nowrap;padding:3px 0}
+.crumb-tabs a:hover{color:var(--blue)}
+.crumb-tabs a.on{color:var(--blue);font-weight:700}
+.tel-tag{font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+.tel-tag b{color:var(--blue)}
+/* 市场提示条 */
+.tip-bar{background:#EAF1FE;border-bottom:1px solid #D6E4FF;font-size:12.5px;color:var(--blue-ink)}
+.tip-bar .container{display:flex;align-items:center;gap:8px;padding-top:7px;padding-bottom:7px;flex-wrap:wrap}
+.tip-bar b{color:var(--blue);flex-shrink:0}
+/* 栏目标题 */
+.blk{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:14px 16px;display:flex;flex-direction:column;min-width:0}
+.blk .b-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.blk .b-head b{font-size:15px;font-weight:800;display:flex;align-items:center;gap:7px}
+.blk .b-head b::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--blue)}
+.blk .b-head .sub-tabs{display:flex;gap:12px}
+.blk .b-head .sub-tabs a{font-size:12px;color:var(--ink-2)}
+.blk .b-head .sub-tabs a.on{color:var(--blue);font-weight:700}
+.li-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:7.5px 0;border-bottom:1px dashed var(--line)}
+.li-row:last-child{border-bottom:none}
+.li-row .t{font-size:12.8px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li-row .t:hover{color:var(--blue)}
+.li-row .t::before{content:"•";color:var(--blue);margin-right:6px;font-weight:800}
+.li-row time{font-size:11.5px;color:var(--ink-3);flex-shrink:0}
+.blk .b-foot{text-align:right;padding-top:8px}
+.blk .b-foot a{font-size:12px;color:var(--blue);font-weight:600}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.section{padding:16px 0}
+
+/* 广告 banner */
+.ad-banner{background:var(--grad-blue);border-radius:var(--r-lg);color:#fff;position:relative;overflow:hidden;min-height:100%;display:flex;align-items:center;padding:22px 24px;box-shadow:var(--shadow-pop)}
+.ad-banner::after{content:"";position:absolute;right:-40px;bottom:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
+.ad-banner .ad-tag{position:absolute;top:12px;right:12px;font-size:11px;background:rgba(255,255,255,.2);padding:2px 10px;border-radius:100px}
+.ad-banner b{font-size:19px;font-weight:800;line-height:1.45;position:relative;z-index:1}
+.ad-banner p{font-size:12.5px;color:#D6E4FF;margin-top:6px;position:relative;z-index:1}
+.ad-banner a{position:relative;z-index:1;display:inline-block;margin-top:14px;background:#fff;color:var(--blue-deep);font-size:12.5px;font-weight:700;padding:7px 20px;border-radius:100px}
+/* 价格数据库 */
+.db-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.db-btns a{font-size:12.5px;color:var(--blue);background:#EEF4FF;padding:6px 14px;border-radius:8px;font-weight:600}
+.db-btns a:hover{background:var(--blue);color:#fff}
+.report-btns{display:flex;gap:8px;margin-top:auto;padding-top:10px;border-top:1px solid var(--line)}
+.report-btns a{flex:1;text-align:center;font-size:12.5px;color:#fff;background:var(--blue);padding:8px 0;border-radius:8px;font-weight:600}
+.report-btns a:last-child{background:#EEF4FF;color:var(--blue)}
+/* 客服栏 */
+.service-bar{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px;align-items:center}
+.sv-item{width:54px;background:#fff;border-radius:10px;box-shadow:var(--shadow-card);padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--ink-2);border:1px solid var(--line)}
+.sv-item:hover{color:var(--blue);border-color:var(--blue)}
+.sv-item svg{width:17px;height:17px}
+.sv-consult{width:54px;background:var(--grad-blue);color:#fff;border-radius:10px;padding:14px 2px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;font-weight:700;box-shadow:var(--shadow-pop)}
+.sv-consult span{writing-mode:vertical-rl;letter-spacing:5px}
+.sv-consult svg{width:18px;height:18px}
+/* 栏目高度统一：每行等高、内容推底、各行统一最小高度 */
+.grid3,.grid-quote,.grid-news{min-height:360px;align-items:stretch}
+.blk{padding-bottom:12px}
+.blk .b-foot{margin-top:auto;text-align:right;padding-top:8px}
+/* 价格行情（主页同款合并版） */
+.grid-quote{display:grid;grid-template-columns:1fr 2fr;gap:14px}
+.quote-grid2{display:grid;grid-template-columns:320px 1fr;gap:14px;min-width:0}
+/* 大横幅广告 */
+.banner-wide{height:190px}
+.banner-wide b{font-size:22px}
+/* 价格行情连体板块：蓝白渐变 */
+.pz-card{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-card)}
+.pz-body{display:grid;grid-template-columns:330px 1fr;background:linear-gradient(90deg,#1D4FD7 0%,#2F6FE8 16%,#D9E6FA 46%,#FFFFFF 62%)}
+.pz-info{padding:20px 22px 20px;color:#fff}
+.pz-info .qc-data{margin-top:auto}
+.pz-info.quote-card{background:none;box-shadow:none;border-radius:0;display:flex;flex-direction:column}
+.pz-chart{padding:12px 16px 12px;min-width:0}
+.pz-chart .month-tabs{flex-wrap:wrap;gap:4px;margin:8px 0}
+.pz-chart .month-tabs button{padding:4px 11px;font-size:12px}
+.pz-chart .tc-head{display:flex;align-items:center;justify-content:space-between}
+.pz-chart .tc-head b{font-size:15px;font-weight:800}
+.pz-chart .tc-head .yr{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--blue);background:#EAF1FE;padding:3px 11px;border-radius:100px;font-weight:600}
+.pz-chart svg{width:100%;height:auto;display:block}
+/* 行情右列：连体板块 + 关联品种/区域价格 */
+.pz-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pz-col .pz-bottom{margin-top:auto}
+.pz-bottom{display:grid;grid-template-columns:1fr 1.35fr;gap:12px}
+.pzb-block{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:10px 12px;min-width:0}
+.pzb-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.pzb-head b{font-size:13px;font-weight:800}
+.pzb-head a{font-size:11px;color:var(--blue);font-weight:600}
+.pzb-cards{display:grid;gap:6px}
+.pzb-cards.cols3{grid-template-columns:repeat(3,1fr)}
+.pzb-cards.cols4{grid-template-columns:repeat(4,1fr)}
+.pzb-card{border:1.5px solid transparent;background:#F6F9FE;border-radius:9px;padding:7px 9px;min-width:0;transition:all .18s;display:block}
+a.pzb-card:hover{border-color:var(--blue);background:#EEF4FF}
+.pzb-card.on{border-color:var(--blue);background:#EEF4FF}
+.pzb-card .n{font-size:10.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pzb-card .p{font-size:15px;font-weight:800;color:var(--blue-ink);line-height:1.3}
+.pzb-card .p small{font-size:9.5px;color:var(--ink-3);font-weight:500}
+.pzb-card .c{font-size:10px}
+#pnToggle{margin-top:auto;align-self:flex-start}
+.quote-card{background:var(--grad-blue);border-radius:var(--r-lg);padding:18px;color:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.quote-card::after{content:"";position:absolute;right:-50px;top:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%)}
+.quote-card .qc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;position:relative;z-index:1}
+.quote-card .qc-name{font-size:15.5px;font-weight:800;line-height:1.35}
+.quote-card .qc-btns{display:flex;gap:6px;flex-shrink:0}
+.quote-card .qc-btns span{font-size:11px;background:rgba(255,255,255,.18);padding:3px 11px;border-radius:100px}
+.quote-card .qc-tags{display:flex;gap:7px;margin-top:9px;position:relative;z-index:1}
+.quote-card .qc-tags .tg{font-size:11px;background:rgba(255,255,255,.16);padding:2px 10px;border-radius:100px}
+.quote-card .qc-price{display:flex;align-items:baseline;gap:9px;margin-top:9px;position:relative;z-index:1}
+.quote-card .qc-price b{font-size:36px;font-weight:800;line-height:1}
+.quote-card .qc-price small{font-size:12.5px;opacity:.85}
+.quote-card .qc-chg{display:flex;gap:12px;margin-top:5px;font-weight:700;position:relative;z-index:1}
+.quote-card .qc-chg span{font-size:14px;color:#FF6A5E}
+.quote-card .qc-time{margin-top:4px;font-size:11px;opacity:.75;position:relative;z-index:1}
+.quote-card .qc-data{margin-top:auto;background:#fff;border-radius:10px;padding:9px 3px;display:grid;grid-template-columns:repeat(6,1fr);position:relative;z-index:1}
+.quote-card .qc-data .d{text-align:center;position:relative}
+.quote-card .qc-data .d:not(:last-child)::after{content:"";position:absolute;right:0;top:14%;height:72%;width:1px;background:var(--line)}
+.quote-card .qc-data .k{font-size:10px;color:var(--ink-3);white-space:nowrap}
+.quote-card .qc-data .v{font-size:11.5px;font-weight:800;color:var(--blue-ink);margin-top:1px;white-space:nowrap}
+.quote-card .qc-data .d{padding:0 2px}
+.trend-card{background:#fff;border-radius:var(--r-lg);padding:16px 18px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;min-width:0}
+.trend-card .tc-head{display:flex;align-items:center;justify-content:space-between}
+.trend-card .tc-head b{font-size:15px;font-weight:800}
+.trend-card .tc-head .yr{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--blue);background:#EAF1FE;padding:3px 11px;border-radius:100px;font-weight:600}
+.month-tabs{display:flex;gap:5px;margin:10px 0;overflow-x:auto}
+.month-tabs button{font-size:12.5px;color:var(--ink-2);padding:5px 14px;border-radius:8px;white-space:nowrap}
+.month-tabs button.on{background:var(--blue);color:#fff;font-weight:700}
+.trend-card svg{width:100%;height:auto;flex:1}
+/* 品类 chips + 价格行情资讯 */
+.grid-news{display:grid;grid-template-columns:1fr 2fr;gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 8px}
+.chip{font-size:12px;color:var(--ink-2);background:#F3F6FB;padding:5px 13px;border-radius:100px;font-weight:500;cursor:pointer;white-space:nowrap}
+.chip:hover{color:var(--blue)}
+.chip.active{color:#fff;background:var(--blue);font-weight:600}
+.collapse-btn{margin-top:8px;font-size:12.5px;font-weight:600;color:var(--blue);display:inline-flex;align-items:center;gap:4px}
+.collapse-btn svg{transition:transform .25s}
+.collapse-btn.open svg{transform:rotate(180deg)}
+.li-hidden{display:none}
+.li-hidden.open{display:flex;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+/* 页脚 */
+.footer{background:#0E2A5C;color:#8FA6CC;margin-top:20px}
+.footer .container{padding:36px 20px 24px}
+.footer .t{color:#fff;font-size:18px;font-weight:800;display:flex;align-items:center;gap:10px}
+.footer .t .fmark{height:30px;width:auto;border-radius:6px;object-fit:cover;display:block;background:#fff;padding:2px}
+.footer .t .fx{color:#8FA6CC;font-size:13px;font-weight:600}
+.footer p{font-size:12.5px;margin-top:12px;max-width:46ch;line-height:1.7}
+.footer .bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:24px;padding-top:16px;font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media (max-width:1024px){
+  .grid3{grid-template-columns:1fr}
+  .grid-quote,.grid-news{grid-template-columns:1fr;min-height:0}
+  .pz-bottom{grid-template-columns:1fr}
+  .quote-grid2{grid-template-columns:1fr}
+  .pz-body{grid-template-columns:1fr;background:linear-gradient(180deg,#1D4FD7 0%,#2F6FE8 40%,#EAF1FC 78%,#FFFFFF 100%)}
+  .pz-info{padding-bottom:14px}
+  .head-main .container{flex-wrap:wrap;gap:12px}
+  .h-search{order:3;flex-basis:100%;max-width:100%}
+  .menu-bar .menu{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- 工具条 -->
+<div class="topbar">
+  <div class="container">
+    <div class="tb-l"><a href="#">请登录</a><a href="#">免费注册</a></div>
+    <div class="tb-r"><a href="#">用户中心 ▾</a><a href="#">客服中心 ▾</a><a href="#">帮助中心</a><a class="vip" href="#">★ VIP会员 · 尊享推广权益</a><a class="tel" href="#">☎ 400-800-7283</a></div>
+  </div>
+</div>
+
+<!-- 搜索主行 -->
+<div class="head-main">
+  <div class="container">
+    <a class="logo" href="index.html" title="有机硅商城 × 硅源智链 · 联合运营"><img class="lg-yjg" src="assets/logo-yjg.png" alt="有机硅商城"><span class="lg-x">×</span><img class="lg-silink" src="assets/logo-silink.png" alt="硅源智链 SILINK TECH"></a>
+    <div class="h-search">
+      <div class="bar">
+        <span class="cat">产品 ▾</span>
+        <input type="text" placeholder="请输入产品名、型号、牌号、品牌等，如：DMC、107胶、白炭黑">
+        <button class="go">搜全站</button>
+      </div>
+    </div>
+    <div class="h-actions"><a class="btn btn--primary" href="#">免费发布</a><a class="btn btn--tint" href="#">企业入驻</a></div>
+  </div>
+</div>
+
+<!-- 菜单行 -->
+<header class="menu-bar">
+  <div class="container">
+    <nav class="menu">
+      <a href="index.html">首页</a>
+      <a href="index.html#quote">价格行情</a>
+      <a href="index.html#products">产品分类</a>
+      <a href="index.html#company">名企推荐</a>
+      <a href="index.html#supply">供求信息</a>
+      <a href="news.html" class="active">信息资讯</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 栏目 tabs -->
+<div class="crumb-row" style="border-bottom:none">
+  <div class="container" style="height:auto;padding-top:8px;padding-bottom:8px">
+    <div class="crumb-tabs">
+      <a class="on" href="#">价格汇总</a><a href="#">市场网评</a><a href="#">价格动态</a><a href="#">图表分析</a><a href="#">产能产量</a><a href="#">进出口</a><a href="#">研究报告</a>
+    </div>
+  </div>
+</div>
+
+<!-- 市场提示条 -->
+<div class="tip-bar">
+  <div class="container"><b>有机硅市场提示：</b>单体厂商挺价意愿明显，下游按需采购，市场处于供应释放与需求博弈期；短期行情以区间震荡为主，建议下游按需采购、贸易商谨慎操作，实际以成交商谈为准。</div>
+</div>
+
+<!-- 行1：广告 + 价格行情（价格汇总+价格数据库合并） -->
+<div class="section" style="padding-top:14px">
+  <div class="container">
+    <div class="grid-quote">
+      <div class="ad-banner">
+        <span class="ad-tag">广告</span>
+        <div><b>2026 华南橡塑与<br>有机硅专题论坛<br>4月9日-11日 · 深圳</b><p>汇聚产业链上下游，共探市场新机遇</p><a href="#">了解详情 →</a></div>
+      </div>
+
+    <div class="pz-col">
+      <div class="pz-card">
+        <div class="pz-body">
+          <div class="pz-info quote-card">
+            <div class="qc-top">
+              <div class="qc-name">二甲基环硅氧烷混合物（DMC）</div>
+              <div class="qc-btns"><span>收藏</span><span>分享</span></div>
+            </div>
+            <div class="qc-tags"><span class="tg">市场报价</span><span class="tg">⇄ 切换品种</span></div>
+            <div class="qc-price"><b class="num">29,800</b><small>元/吨</small></div>
+            <div class="qc-chg"><span class="num">+263.17</span><span class="num">+0.89%</span></div>
+            <div class="qc-time">更新于 2026-09-23 · 华东</div>
+            <div class="qc-data">
+              <div class="d"><div class="k">今开</div><div class="v num">29,500</div></div>
+              <div class="d"><div class="k">最高</div><div class="v num up">30,100</div></div>
+              <div class="d"><div class="k">最低</div><div class="v num down">29,300</div></div>
+              <div class="d"><div class="k">昨收</div><div class="v num">29,537</div></div>
+              <div class="d"><div class="k">成交量</div><div class="v">--</div></div>
+              <div class="d"><div class="k">成交额</div><div class="v">--</div></div>
+            </div>
+          </div>
+
+          <div class="pz-chart">
+            <div class="tc-head"><b>价格走势</b><span class="yr">2026年 ▾</span></div>
+            <div class="month-tabs">
+              <button class="on">9月</button><button>8月</button><button>7月</button><button>6月</button><button>5月</button><button>4月</button><button>3月</button><button>2月</button>
+            </div>
+            <svg viewBox="0 0 440 150" aria-hidden="true">
+              <g font-size="10.5" text-anchor="start">
+                <text x="4" y="24" fill="#F04B3E">30,400</text><text x="4" y="60" fill="#F04B3E">30,150</text><text x="4" y="96" fill="#13294B">29,900</text><text x="4" y="132" fill="#14B968">29,650</text>
+              </g>
+              <g font-size="10.5" text-anchor="end">
+                <text x="436" y="24" fill="#F04B3E">+6.47%</text><text x="436" y="60" fill="#F04B3E">+3.24%</text><text x="436" y="96" fill="#98A5BC">+0.00%</text><text x="436" y="132" fill="#14B968">-3.24%</text>
+              </g>
+              <g stroke="#E4ECF7"><line x1="46" y1="20" x2="392" y2="20"/><line x1="46" y1="56" x2="392" y2="56"/><line x1="46" y1="92" x2="392" y2="92"/><line x1="46" y1="128" x2="392" y2="128"/></g>
+              <path fill="rgba(36,104,242,.08)" d="M46,124 L97,109 L148,90 L199,66 L250,38 L301,31 L352,33 L392,27 L392,136 L46,136 Z"/>
+              <path fill="none" stroke="#2468F2" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M46,124 L97,109 L148,90 L199,66 L250,38 L301,31 L352,33 L392,27"/>
+              <circle cx="392" cy="27" r="4" fill="#2468F2" stroke="#fff" stroke-width="2"/>
+              <g font-size="10.5" fill="#98A5BC" text-anchor="middle">
+                <text x="60" y="147">09-01</text><text x="170" y="147">09-08</text><text x="290" y="147">09-16</text><text x="385" y="147">09-23</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 关联品种 + 区域价格（填充行情卡下方） -->
+      <div class="pz-bottom">
+        <div class="pzb-block">
+          <div class="pzb-head"><b>关联品种</b><a href="#">更多 ›</a></div>
+          <div class="pzb-cards cols3">
+            <a class="pzb-card on" href="#"><div class="n">二甲基环硅氧烷混合物（DMC）</div><div class="p num">29,800</div><div class="c num up">+263.17 +0.89%</div></a>
+            <a class="pzb-card" href="#"><div class="n">八甲基环四硅氧烷（D4）</div><div class="p num">29,500</div><div class="c num up">+0.8%</div></a>
+            <a class="pzb-card" href="#"><div class="n">甲基乙烯基硅橡胶（生胶）</div><div class="p num">30,800</div><div class="c num down">-0.3%</div></a>
+          </div>
+        </div>
+        <div class="pzb-block">
+          <div class="pzb-head"><b>区域价格</b><a href="#">更多 ›</a></div>
+          <div class="pzb-cards cols4">
+            <div class="pzb-card"><div class="n">华东地区</div><div class="p num">29,800<small> 元/吨</small></div><div class="c num up">+263 +0.89%</div></div>
+            <div class="pzb-card"><div class="n">山东地区</div><div class="p num">29,650<small> 元/吨</small></div><div class="c num up">+212 +0.72%</div></div>
+            <div class="pzb-card"><div class="n">华北地区</div><div class="p num">29,700<small> 元/吨</small></div><div class="c num up">+150 +0.51%</div></div>
+            <div class="pzb-card"><div class="n">华南地区</div><div class="p num">29,850<small> 元/吨</small></div><div class="c num up">+280 +0.95%</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 行2：资讯网评 + 价格行情资讯（价格动态+图表分析合并） -->
+<div class="section" style="padding-top:14px">
+  <div class="container">
+    <div class="grid-news">
+      <div class="blk">
+        <div class="b-head"><b>有机硅资讯网评</b><div class="sub-tabs"><a class="on" href="#">日评</a><a href="#">周评</a><a href="#">月评</a><a href="#">年度盘点</a></div></div>
+        <a class="li-row" href="#"><span class="t">有机硅市场高位盘整，成交重心小幅松动</span><time>09-22 14:01</time></a>
+        <a class="li-row" href="#"><span class="t">单体厂商挺价意愿明显，商谈重心有限上移</span><time>09-21 14:06</time></a>
+        <a class="li-row" href="#"><span class="t">秋季旺季临近，下游备货节奏有望加快</span><time>09-20 13:48</time></a>
+        <a class="li-row" href="#"><span class="t">成本端强势支撑，单体厂挺价心态延续</span><time>09-18 14:00</time></a>
+        <a class="li-row" href="#"><span class="t">下游接单积极性一般，按需采购为主</span><time>09-17 13:48</time></a>
+        <a class="li-row" href="#"><span class="t">有机硅市场盘整运行，刚需成交为主</span><time>09-16 15:02</time></a>
+        <a class="li-row" href="#"><span class="t">供应端给予支撑，有机硅产业链挺价延续</span><time>09-15 14:03</time></a>
+        <a class="li-row" href="#"><span class="t">供需博弈延续，市场观望情绪升温</span><time>09-14 13:55</time></a>
+        <a class="li-row" href="#"><span class="t">成本供需双弱，DMC 区间震荡运行</span><time>09-13 13:55</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+
+      <div class="blk">
+        <div class="b-head"><b>价格行情资讯</b><span style="font-size:11px;color:var(--ink-3)">10 大品种 · 每日更新 · 点击品种切换</span></div>
+        <div class="chips" id="pnChips"></div>
+        <div id="pnList"></div>
+        <button class="collapse-btn" id="pnToggle">展开更多 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 行3：产能产量 + 进出口 + 研究报告 -->
+<div class="section" style="padding-top:0">
+  <div class="container">
+    <div class="grid3">
+      <div class="blk">
+        <div class="b-head"><b>产能产量</b><div class="sub-tabs"><a href="#">产能</a><a class="on" href="#">开工率</a></div></div>
+        <a class="li-row" href="#"><span class="t">表：2026年第37周有机硅单体厂装置动态</span><time>09-17 17:55</time></a>
+        <a class="li-row" href="#"><span class="t">表：2026年第36周有机硅单体厂装置动态</span><time>09-10 17:16</time></a>
+        <a class="li-row" href="#"><span class="t">表：2026年第35周有机硅单体厂装置动态</span><time>09-03 17:19</time></a>
+        <a class="li-row" href="#"><span class="t">表：2026年第34周有机硅单体厂装置动态</span><time>08-27 17:10</time></a>
+        <a class="li-row" href="#"><span class="t">表：2026年第33周有机硅单体厂装置动态</span><time>08-20 17:13</time></a>
+        <a class="li-row" href="#"><span class="t">表：2026年8月国内有机硅开工率统计</span><time>08-07 17:26</time></a>
+        <a class="li-row" href="#"><span class="t">表：2026年第30周有机硅单体厂装置动态</span><time>07-30 17:28</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+      <div class="blk">
+        <div class="b-head"><b>进出口</b></div>
+        <a class="li-row" href="#"><span class="t">【初级形状聚硅氧烷】2026年8月进口数据简析</span><time>09-20 15:01</time></a>
+        <a class="li-row" href="#"><span class="t">【初级形状聚硅氧烷】2026年8月出口数据简析</span><time>09-20 14:56</time></a>
+        <a class="li-row" href="#"><span class="t">【聚硅氧烷】2026年7月初级形状聚硅氧烷进口数据</span><time>09-20 14:56</time></a>
+        <a class="li-row" href="#"><span class="t">【聚硅氧烷】2026年7月初级形状聚硅氧烷出口数据</span><time>09-20 14:54</time></a>
+        <a class="li-row" href="#"><span class="t">【硅橡胶】2026年8月硅橡胶进出口数据跟踪</span><time>09-12 14:56</time></a>
+        <a class="li-row" href="#"><span class="t">【硅烷】2026年8月硅烷偶联剂进出口数据</span><time>09-12 14:56</time></a>
+        <a class="li-row" href="#"><span class="t">【聚硅氧烷】2026年1-7月初级形状聚硅氧烷累计进出口</span><time>08-21 12:15</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+      <div class="blk">
+        <div class="b-head"><b>研究报告</b><div class="sub-tabs"><a class="on" href="#">周度报告</a><a href="#">月度报告</a></div></div>
+        <a class="li-row" href="#"><span class="t">有机硅产业链周报（2026年第38周）</span><time>09-17 17:49</time></a>
+        <a class="li-row" href="#"><span class="t">有机硅专刊：DMC 供需月度深度分析</span><time>09-10 17:06</time></a>
+        <a class="li-row" href="#"><span class="t">有机硅产业链周报（2026年第36周）</span><time>09-03 17:04</time></a>
+        <a class="li-row" href="#"><span class="t">有机硅下游景气度跟踪：密封胶与电子胶</span><time>09-03 17:04</time></a>
+        <a class="li-row" href="#"><span class="t">有机硅产业链周报（2026年第35周）</span><time>08-27 17:44</time></a>
+        <a class="li-row" href="#"><span class="t">白炭黑市场月度供需与价格展望</span><time>08-20 16:51</time></a>
+        <a class="li-row" href="#"><span class="t">有机硅产业链周报（2026年第33周）</span><time>08-20 16:50</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 行4：企业动态 + 对话大咖 + 企业活动 -->
+<div class="section" style="padding-top:0">
+  <div class="container">
+    <div class="grid3">
+      <div class="blk">
+        <div class="b-head"><b>企业动态</b></div>
+        <a class="li-row" href="#"><span class="t">合盛、新安装置动态跟踪</span><time>09-04</time></a>
+        <a class="li-row" href="#"><span class="t">有机硅行业供需简析：头部企业开工情况</span><time>09-03</time></a>
+        <a class="li-row" href="#"><span class="t">多家单体厂宣布检修计划，供应端边际收紧</span><time>09-01</time></a>
+        <a class="li-row" href="#"><span class="t">下游密封胶龙头企业发布涨价函</span><time>08-28</time></a>
+        <a class="li-row" href="#"><span class="t">新产能落地：西北某单体项目进入试车阶段</span><time>08-25</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+      <div class="blk">
+        <div class="b-head"><b>对话大咖</b></div>
+        <a class="li-row" href="#"><span class="t">对话行业专家：有机硅 DMC 四季度走势研判</span><time>09-18</time></a>
+        <a class="li-row" href="#"><span class="t">大咖访谈：密封胶龙头企业的出海之道</span><time>09-12</time></a>
+        <a class="li-row" href="#"><span class="t">技术大咖说：加成型硅胶催化剂应用难点</span><time>09-05</time></a>
+        <a class="li-row" href="#"><span class="t">对话硅烷偶联剂头部企业研发总监</span><time>08-30</time></a>
+        <a class="li-row" href="#"><span class="t">协会大咖观点：规范市场秩序，抵制低价倾销</span><time>08-22</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+      <div class="blk">
+        <div class="b-head"><b>企业活动</b></div>
+        <a class="li-row" href="#"><span class="t">2026 华南橡塑与有机硅专题论坛（4月9-11日 · 深圳）</span><time>报名中</time></a>
+        <a class="li-row" href="#"><span class="t">有机硅行情月度解读直播：DMC 走势研判</span><time>09-28 直播</time></a>
+        <a class="li-row" href="#"><span class="t">平台开放日：免费入驻名额限时开放</span><time>进行中</time></a>
+        <a class="li-row" href="#"><span class="t">硅橡胶技术交流会：混炼胶加工难点解析</span><time>10月中旬</time></a>
+        <a class="li-row" href="#"><span class="t">VIP 企业采供对接会（线上专场）</span><time>10月下旬</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 行5：新品推荐 + 技术分享 + 新规解析 -->
+<div class="section" style="padding-top:0;padding-bottom:24px">
+  <div class="container">
+    <div class="grid3">
+      <div class="blk">
+        <div class="b-head"><b>新品推荐</b></div>
+        <a class="li-row" href="#"><span class="t">新品上市：低挥发 DMC，杂质含量再降 30%</span><time>09-22</time></a>
+        <a class="li-row" href="#"><span class="t">食品级液体硅橡胶新品通过 FDA 认证</span><time>09-19</time></a>
+        <a class="li-row" href="#"><span class="t">高导热灌封胶新品：导热系数达 3.5W</span><time>09-16</time></a>
+        <a class="li-row" href="#"><span class="t">自润滑改性硅油新品，耐磨寿命提升 50%</span><time>09-12</time></a>
+        <a class="li-row" href="#"><span class="t">高透明模具硅胶新品：翻模次数显著提升</span><time>09-08</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+      <div class="blk">
+        <div class="b-head"><b>技术分享</b></div>
+        <a class="li-row" href="#"><span class="t">混炼胶加工常见问题与对策</span><time>09-21</time></a>
+        <a class="li-row" href="#"><span class="t">加成型硅胶催化剂活性检测方法</span><time>09-17</time></a>
+        <a class="li-row" href="#"><span class="t">液体硅胶注塑起泡的 5 大原因分析</span><time>09-13</time></a>
+        <a class="li-row" href="#"><span class="t">硅烷偶联剂使用要点与常见误区</span><time>09-09</time></a>
+        <a class="li-row" href="#"><span class="t">模具硅胶翻模次数提升的实用技巧</span><time>09-05</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+      <div class="blk">
+        <div class="b-head"><b>展会动态</b></div>
+        <a class="li-row" href="#"><span class="t">2026 华南橡塑与有机硅专题论坛 · 展商报名启动</span><time>09-20</time></a>
+        <a class="li-row" href="#"><span class="t">上海国际硅材料产业展：有机硅馆展位图公布</span><time>09-16</time></a>
+        <a class="li-row" href="#"><span class="t">中国国际橡胶技术展 · 硅橡胶专区亮点抢先看</span><time>09-12</time></a>
+        <a class="li-row" href="#"><span class="t">CHINACOAT 涂料展：硅树脂/硅烷企业参展名录</span><time>09-08</time></a>
+        <a class="li-row" href="#"><span class="t">线上展会：有机硅新品云展厅 24 小时开放</span><time>09-03</time></a>
+        <div class="b-foot"><a href="#">更多 ››</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 右侧客服悬浮栏 -->
+<div class="service-bar">
+  <a class="sv-item" href="#">帮助中心</a>
+  <a class="sv-item" href="#">在线客服</a>
+  <a class="sv-item" href="#">微信客服</a>
+  <a class="sv-item" href="#">投诉建议</a>
+  <a class="sv-item" href="javascript:scrollTo({top:0,behavior:'smooth'})">顶部</a>
+  <a class="sv-consult" href="#">在线咨询</a>
+</div>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="container">
+    <div class="t"><img class="fmark" src="assets/logo-yjg.png" alt="有机硅商城"><span class="fx">×</span><img class="fmark" src="assets/logo-silink.png" alt="硅源智链">联合运营</div>
+    <p>领先的有机硅电商综合服务平台，专注有机硅产业链的价格行情、供应采购与行业资讯。</p>
+    <div class="bottom"><span>© 2026 有机硅商城 · 爱菲丽网络科技有限公司</span><span><a href="#">用户协议</a> · <a href="#">隐私政策</a> · <a href="#">免责声明</a></span></div>
+  </div>
+</footer>
+
+<script>
+// ===== 价格行情资讯：10 大品种文章（可切换 + 折叠） =====
+const PN_ITEMS = 8, PN_VISIBLE = 6;
+const pnData = {
+  'DMC':[['【DMC】华东地区DMC价格动态','09-23 08:52'],['【DMC】山东地区DMC价格动态','09-23 08:52'],['【DMC】华北地区DMC价格动态','09-22 08:52'],['【DMC】西北地区DMC价格动态','09-22 08:52'],['【DMC】华南地区DMC价格动态','09-21 08:52'],['【DMC】本周DMC市场报价汇总','09-21 08:52'],['【DMC】部分单体厂DMC出厂价上调','09-20 08:52'],['【DMC】下游需求观察：DMC采购节奏','09-19 08:52']],
+  '生胶':[['【生胶】生胶出厂价格动态','09-23 08:52'],['【生胶】华东生胶市场评述','09-22 08:52'],['【生胶】山东地区生胶价格动态','09-21 08:52'],['【生胶】下游观望情绪升温，成交按需','09-20 08:52'],['【生胶】本周生胶报价与成交简析','09-19 08:52'],['【生胶】单体成本抬升，生胶重心上移','09-18 08:52'],['【生胶】华南地区生胶市场动态','09-17 08:52'],['【生胶】生胶周度评述','09-16 08:52']],
+  '107胶':[['【107胶】华东107胶市场动态','09-23 08:52'],['【107胶】107胶本周报价与成交简析','09-22 08:52'],['【107胶】山东地区107胶出厂价格','09-21 08:52'],['【107胶】华南107胶市场动态','09-20 08:52'],['【107胶】需求回暖，107胶重心企稳','09-19 08:52'],['【107胶】华北地区107胶价格动态','09-18 08:52'],['【107胶】107胶出厂价上调动态','09-17 08:52'],['【107胶】107胶周度评述','09-16 08:52']],
+  '甲基硅油':[['【硅油】甲基硅油市场报价动态','09-23 08:52'],['【硅油】二甲基硅油100cSt价格动态','09-22 08:52'],['【硅油】华东甲基硅油市场评述','09-21 08:52'],['【硅油】山东甲基硅油出厂价格','09-20 08:52'],['【硅油】本周硅油市场报价汇总','09-19 08:52'],['【硅油】甲基硅油刚需成交为主','09-18 08:52'],['【硅油】华南甲基硅油价格动态','09-17 08:52'],['【硅油】甲基硅油周度评述','09-16 08:52']],
+  '乙烯基硅油':[['【硅油】乙烯基硅油市场报价动态','09-23 08:52'],['【硅油】乙烯基硅油出厂价格动态','09-22 08:52'],['【硅油】华东乙烯基硅油市场评述','09-21 08:52'],['【硅油】乙烯基硅油需求平稳，按需走货','09-20 08:52'],['【硅油】本周乙烯基硅油报价汇总','09-19 08:52'],['【硅油】乙烯基硅油价格持稳运行','09-18 08:52'],['【硅油】乙烯基硅油下游应用跟踪','09-17 08:52'],['【硅油】乙烯基硅油周度评述','09-16 08:52']],
+  '混炼胶':[['【混炼胶】混炼胶市场动态','09-23 08:52'],['【混炼胶】沉淀混炼胶重心小幅上行','09-22 08:52'],['【混炼胶】华东混炼胶出厂价格','09-21 08:52'],['【混炼胶】气相混炼胶市场评述','09-20 08:52'],['【混炼胶】本周混炼胶报价汇总','09-19 08:52'],['【混炼胶】混炼胶加工费跟踪','09-18 08:52'],['【混炼胶】下游制品厂备货节奏观察','09-17 08:52'],['【混炼胶】混炼胶周度评述','09-16 08:52']],
+  '气相二氧化硅':[['【白炭黑】气相二氧化硅价格动态','09-23 08:52'],['【白炭黑】气相二氧化硅市场评述','09-22 08:52'],['【白炭黑】华东气相二氧化硅出厂价','09-21 08:52'],['【白炭黑】气相二氧化硅供需简析','09-20 08:52'],['【白炭黑】本周气相二氧化硅报价汇总','09-19 08:52'],['【白炭黑】气相法白炭黑价格持稳','09-18 08:52'],['【白炭黑】下游硅胶需求跟踪','09-17 08:52'],['【白炭黑】气相二氧化硅周度评述','09-16 08:52']],
+  '沉淀二氧化硅':[['【白炭黑】沉淀二氧化硅价格动态','09-23 08:52'],['【白炭黑】沉淀二氧化硅市场评述','09-22 08:52'],['【白炭黑】沉淀二氧化硅出厂价格','09-21 08:52'],['【白炭黑】沉淀二氧化硅供需简析','09-20 08:52'],['【白炭黑】本周沉淀二氧化硅报价汇总','09-19 08:52'],['【白炭黑】沉淀法白炭黑成本跟踪','09-18 08:52'],['【白炭黑】轮胎及鞋材需求观察','09-17 08:52'],['【白炭黑】沉淀二氧化硅周度评述','09-16 08:52']],
+  '工业硅':[['【工业硅】工业硅市场价格动态','09-23 08:52'],['【工业硅】工业硅震荡回落，成本抬升','09-22 08:52'],['【工业硅】华东工业硅市场评述','09-21 08:52'],['【工业硅】新疆地区工业硅出厂价格','09-20 08:52'],['【工业硅】本周工业硅报价汇总','09-19 08:52'],['【工业硅】供需博弈延续，去库进行中','09-18 08:52'],['【工业硅】西南地区开工与电价跟踪','09-17 08:52'],['【工业硅】工业硅周度评述','09-16 08:52']],
+  '有机硅助剂':[['【助剂】有机硅助剂市场价格动态','09-23 08:52'],['【助剂】铂金催化剂市场评述','09-22 08:52'],['【助剂】农用有机硅助剂出厂价格','09-21 08:52'],['【助剂】有机硅助剂供需简析','09-20 08:52'],['【助剂】本周有机硅助剂报价汇总','09-19 08:52'],['【助剂】偶联剂类助剂价格持稳','09-18 08:52'],['【助剂】下游农药、涂料需求观察','09-17 08:52'],['【助剂】有机硅助剂周度评述','09-16 08:52']]
+};
+const pnChips=document.getElementById('pnChips'),pnList=document.getElementById('pnList'),pnToggle=document.getElementById('pnToggle');
+let pnCur='DMC',pnOpen=false;
+Object.keys(pnData).forEach((k,i)=>{
+  const c=document.createElement('span');c.className='chip'+(i===0?' active':'');c.textContent=k;
+  c.onclick=()=>{pnCur=k;pnOpen=false;pnToggle.classList.remove('open');pnToggle.firstChild.textContent='展开更多 ';document.querySelectorAll('#pnChips .chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');renderPN();};
+  pnChips.appendChild(c);
+});
+function renderPN(){
+  pnList.innerHTML='';
+  pnData[pnCur].forEach((it,idx)=>{
+    const a=document.createElement('a');a.className='li-row'+(idx>=PN_VISIBLE?' li-hidden':'');a.href='#';
+    a.innerHTML='<span class="t">'+it[0]+'</span><time>'+it[1]+'</time>';
+    pnList.appendChild(a);
+  });
+  pnToggle.style.display = pnData[pnCur].length>PN_VISIBLE ? 'inline-flex' : 'none';
+}
+pnToggle.onclick=()=>{pnOpen=!pnOpen;pnToggle.classList.toggle('open',pnOpen);pnToggle.firstChild.textContent=pnOpen?'收起 ':'展开更多 ';document.querySelectorAll('#pnList .li-hidden').forEach(x=>x.classList.toggle('open',pnOpen));};
+renderPN();
+
+// 月份 Tab 视觉切换
+document.querySelectorAll('.month-tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.month-tabs button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+  });
+});
+</script>
+
+</body>
+</html>

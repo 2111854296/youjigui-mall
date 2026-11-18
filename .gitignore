@@ -1,0 +1,76 @@
+# secrets
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+**/.example.env
+
+# dependencies
+**/node_modules/
+**/vendor/
+**/.pnpm-store/
+
+# build / cache
+**/dist/
+**/.nuxt/
+**/.output/
+**/unpackage/
+**/runtime/cache/
+**/runtime/temp/
+**/runtime/log/
+**/storage/logs/
+**/storage/framework/cache/
+**/storage/framework/sessions/
+**/storage/framework/views/
+**/bootstrap/cache/*.php
+
+# local toolchains / IDE
+.tools/
+.cursor/
+**/.git.bak_upload/
+**/.git.bak-upload/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+debug-*.log
+
+# local dumps / screenshots / temp
+_ocr_crops/
+_*.png
+_*.jpg
+_*.html
+_*.txt
+*.tgz
+*.zip
+pending-articles-*.png
+pending-articles-*.jpg
+_shot-*.png
+_vision.png
+_q*.png
+_tmp_*
+
+# deploy helpers with embedded server credentials (keep local only)
+yjgmall-mobile/scripts/ssh_*.js
+yjgmall-mobile/scripts/_*.js
+yjgmall-mobile/scripts/_*.cjs
+yjgmall-mobile/scripts/run_*.js
+yjgmall-mobile/scripts/deploy_*.js
+yjgmall-mobile/scripts/probe_*.js
+yjgmall-mobile/scripts/inspect_*.js
+yjgmall-mobile/scripts/check_*.js
+yjgmall-mobile/scripts/dump_*.js
+yjgmall-mobile/scripts/find_*.js
+yjgmall-mobile/scripts/mark_*.js
+yjgmall-mobile/scripts/ocr_*.js
+yjgmall-mobile/scripts/patch_*.js
+yjgmall-mobile/scripts/verify_*.js
+yjgmall-mobile/scripts/verify_*.cjs
+yjgmall-web/_*.cjs
+
+# deploy packages / mirrors
+yjgmall-think-deploy.tgz
+DESTOON_6.0_UTF8/

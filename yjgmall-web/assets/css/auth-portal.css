@@ -1,0 +1,295 @@
+/* 登录 / 注册 / 找回密码 · 与门户统一 */
+.auth-page {
+  max-width: var(--maxw, 1280px);
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+  box-sizing: border-box;
+}
+.auth-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  gap: 0;
+  min-height: 480px;
+  border-radius: var(--r-xl, 20px);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow-card, 0 4px 16px rgba(19, 41, 75, 0.08));
+  border: 1px solid var(--line, #e9eef6);
+}
+.auth-shell.auth-shell--wide {
+  grid-template-columns: minmax(0, 0.9fr) minmax(380px, 1.1fr);
+}
+.auth-brand {
+  background: var(--grad-blue, linear-gradient(135deg, #1d4fd7 0%, #2f6fe8 55%, #3f86f9 100%));
+  color: #fff;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.auth-brand::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 70%);
+  pointer-events: none;
+}
+.auth-brand .brand-kicker {
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.85;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+.auth-brand h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #fff;
+}
+.auth-brand > p {
+  margin: 12px 0 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  opacity: 0.9;
+  max-width: 36ch;
+}
+.auth-brand .brand-points {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.auth-brand .brand-points li {
+  font-size: 13.5px;
+  line-height: 1.45;
+  padding-left: 18px;
+  position: relative;
+  opacity: 0.95;
+}
+.auth-brand .brand-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+}
+.auth-brand .brand-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+.auth-brand .brand-links a {
+  color: #fff !important;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+.auth-brand .brand-links a:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+.auth-card {
+  padding: 36px 34px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #fff;
+  min-width: 0;
+}
+.auth-card.auth-card--scroll {
+  justify-content: flex-start;
+  max-height: min(78vh, 760px);
+  overflow: auto;
+}
+.auth-head h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--ink, #13294b);
+}
+.auth-head p {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  color: var(--ink-3, #98a5bc);
+  line-height: 1.5;
+}
+.auth-hint {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #eef4ff;
+  border: 1px solid #d7e4ff;
+  color: var(--blue-ink, #123c8f);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+.auth-ok {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  color: #389e0d;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.auth-error {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  color: #cf1322;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.auth-form {
+  margin-top: 20px;
+  display: grid;
+  gap: 14px;
+}
+.auth-form .sec-title {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink, #13294b);
+  padding-top: 6px;
+  border-top: 1px dashed var(--line, #e9eef6);
+}
+.auth-form .sec-title:first-child {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+.auth-form .field {
+  display: grid;
+  gap: 6px;
+}
+.auth-form .field span,
+.auth-form .field > label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2, #5a6b85);
+}
+.auth-form .field input,
+.auth-form .field select {
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid var(--line, #e9eef6);
+  border-radius: 12px;
+  background: #f7f9fc;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--ink, #13294b);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.auth-form .field input:focus,
+.auth-form .field select:focus {
+  border-color: var(--blue, #2468f2);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(36, 104, 242, 0.12);
+}
+.auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+.auth-submit {
+  height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--grad-blue, linear-gradient(135deg, #1d4fd7, #2f6fe8));
+  color: #fff !important;
+  font-size: 15.5px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: var(--shadow-pop, 0 10px 30px -8px rgba(36, 104, 242, 0.22));
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 140px;
+}
+.auth-submit:hover {
+  filter: brightness(1.04);
+}
+.auth-submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+.auth-ghost {
+  height: 46px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line, #e9eef6);
+  background: #fff;
+  color: var(--ink-2, #5a6b85) !important;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-ghost:hover {
+  border-color: #c9daf5;
+  color: var(--blue, #2468f2) !important;
+  background: #f7faff;
+}
+.auth-foot {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.auth-foot a {
+  color: var(--blue, #2468f2);
+  text-decoration: none;
+}
+.auth-foot a:hover {
+  color: var(--blue-deep, #1443b8);
+}
+@media (max-width: 900px) {
+  .auth-shell,
+  .auth-shell.auth-shell--wide {
+    grid-template-columns: 1fr;
+  }
+  .auth-brand {
+    padding: 28px 24px;
+  }
+  .auth-brand h1 {
+    font-size: 26px;
+  }
+  .auth-card,
+  .auth-card.auth-card--scroll {
+    padding: 28px 22px 26px;
+    max-height: none;
+  }
+}

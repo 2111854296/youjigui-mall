@@ -1,0 +1,14 @@
+-- Companion DDL for upgrade_company_admin_parity.php (reference only; use the PHP script)
+-- companies
+-- ALTER TABLE companies ADD COLUMN reg_year SMALLINT UNSIGNED NULL;
+-- ALTER TABLE companies ADD COLUMN zip VARCHAR(16) NULL;
+-- ALTER TABLE companies ADD COLUMN fax VARCHAR(64) NULL;
+-- ALTER TABLE companies ADD COLUMN email VARCHAR(120) NULL;
+-- ALTER TABLE companies ADD COLUMN sell_products VARCHAR(500) NULL;
+-- ALTER TABLE companies ADD COLUMN buy_products VARCHAR(500) NULL;
+-- ALTER TABLE companies ADD COLUMN capital_unit VARCHAR(16) NOT NULL DEFAULT '人民币';
+-- ALTER TABLE companies ADD COLUMN vip_theory TINYINT NOT NULL DEFAULT 0;
+-- ALTER TABLE companies ADD COLUMN vip_correct TINYINT NOT NULL DEFAULT 0;
+-- ALTER TABLE companies ADD COLUMN vip_from DATETIME NULL;
+-- ALTER TABLE companies ADD COLUMN views INT UNSIGNED NOT NULL DEFAULT 0;
+-- company_honors: expires_at, status

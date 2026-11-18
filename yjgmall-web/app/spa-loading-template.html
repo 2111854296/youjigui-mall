@@ -1,0 +1,74 @@
+<div class="spa-boot">
+  <div class="spa-boot-mark">硅</div>
+  <div class="spa-boot-name">有机硅商城</div>
+</div>
+<script>
+(function () {
+  try {
+    var path = location.pathname || '/'
+    if (path.indexOf('/h5') === 0 || path.indexOf('/admin') === 0 || path.indexOf('/api') === 0) return
+    var qs = new URLSearchParams(location.search || '')
+    if (qs.get('pc') === '1' || qs.get('desktop') === '1') {
+      localStorage.setItem('yjg_prefer_pc', '1')
+      return
+    }
+    if (qs.get('mobile') === '1') localStorage.removeItem('yjg_prefer_pc')
+    if (localStorage.getItem('yjg_prefer_pc') === '1') return
+    var ua = navigator.userAgent || ''
+    var mobileUA = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Huawei|HarmonyOS|MicroMessenger/i.test(ua)
+    var w = Math.min(screen.width || 9999, window.innerWidth || 9999)
+    if (!mobileUA && w >= 768) return
+
+    function map(p, search) {
+      p = (p || '/').replace(/\/+$/, '') || '/'
+      var q = new URLSearchParams((search || '').replace(/^\?/, ''))
+      if (p === '/' || p === '/index' || p === '/index.html') return '/pages/index/index'
+      if (p === '/sell') return '/pages/sell/index'
+      if (p === '/buy') return '/pages/buy/index'
+      if (p === '/mall') return '/pages/mall/index'
+      if (p === '/companies') return '/pages/companies/index'
+      if (p === '/news') return '/pages/news/index'
+      if (p === '/quotes') return '/pages/quotes/index'
+      if (p === '/member' || p === '/member/index') return '/pages/member/index'
+      if (p === '/member/grade') return '/pages/member/grade'
+      if (p === '/member/cart') return '/pages/member/cart'
+      if (p === '/member/fund-pay') return '/pages/member/fund-pay'
+      if (p === '/member/finance') return '/pages/member/finance'
+      if (p === '/login') return '/pages/login/index'
+      if (p === '/register') return '/pages/register/index'
+      if (p === '/search') {
+        var kw = q.get('q') || q.get('kw') || ''
+        return '/pages/search/index' + (kw ? '?q=' + encodeURIComponent(kw) : '')
+      }
+      var m
+      m = p.match(/^\/sell\/([^/]+)$/); if (m) return '/pages/sell/detail?id=' + encodeURIComponent(m[1])
+      m = p.match(/^\/buy\/([^/]+)$/); if (m) return '/pages/buy/detail?id=' + encodeURIComponent(m[1])
+      m = p.match(/^\/mall\/([^/]+)$/); if (m) return '/pages/mall/detail?id=' + encodeURIComponent(m[1])
+      m = p.match(/^\/news\/([^/]+)$/); if (m) return '/pages/news/detail?id=' + encodeURIComponent(m[1])
+      m = p.match(/^\/quotes\/([^/]+)$/); if (m) return '/pages/quotes/detail?id=' + encodeURIComponent(m[1])
+      m = p.match(/^\/companies\/([^/]+)$/); if (m) return '/pages/companies/shop?slug=' + encodeURIComponent(m[1])
+      m = p.match(/^\/job\/([^/]+)$/); if (m) return '/pages/job/detail?id=' + encodeURIComponent(m[1])
+      m = p.match(/^\/member\/fund-pay\/([^/]+)$/); if (m) return '/pages/member/fund-pay-detail?id=' + encodeURIComponent(m[1])
+      return '/pages/index/index'
+    }
+    var hash = map(path, location.search)
+    location.replace('/h5/#' + hash)
+  } catch (e) {}
+})()
+</script>
+<style>
+  .spa-boot {
+    position: fixed; inset: 0; z-index: 9999;
+    display: grid; place-content: center; justify-items: center; gap: 10px;
+    margin: 0; background: #f3f5f9;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #262626;
+  }
+  .spa-boot-mark {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: #2769dc; color: #fff;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 18px; letter-spacing: 0;
+  }
+  .spa-boot-name { font-size: 15px; font-weight: 600; color: #595959; }
+</style>

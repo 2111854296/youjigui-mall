@@ -1,0 +1,8 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="360" height="96" viewBox="0 0 360 96">
+  <rect width="360" height="96" fill="#fff"/>
+  <circle cx="48" cy="48" r="32" fill="#2769dc"/>
+  <path d="M32 54c8-16 24-16 32 0" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="48" cy="36" r="8" fill="#fff"/>
+  <text x="96" y="46" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="800" fill="#1a1a1a">有机硅商城</text>
+  <text x="96" y="72" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="14" fill="#8c8c8c">g.aifeili.cn</text>
+</svg>

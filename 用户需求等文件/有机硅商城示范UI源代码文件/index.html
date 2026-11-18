@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有机硅商城 · 领先的有机硅电商综合服务平台</title>
+<style>
+/* ============================================================
+   设计系统 · 对齐「硅源智链」小程序 V5
+   ============================================================ */
+:root{
+  --blue:#2468F2; --blue-deep:#1443B8; --blue-ink:#123C8F;
+  --grad-blue:linear-gradient(135deg,#1D4FD7 0%,#2F6FE8 55%,#3F86F9 100%);
+  --grad-navy:linear-gradient(180deg,#1746C0,#12379A);
+  --bg:#F3F6FB; --surface:#FFFFFF;
+  --ink:#13294B; --ink-2:#5A6B85; --ink-3:#98A5BC;
+  --up:#F04B3E; --down:#14B968; --flat:#98A5BC;
+  --line:#E9EEF6;
+  --font-sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px; --s-8:32px; --s-10:40px; --s-12:48px;
+  --r-md:12px; --r-lg:16px; --r-xl:20px;
+  --shadow-card:0 2px 14px rgba(19,41,75,.06);
+  --shadow-pop:0 10px 30px -8px rgba(36,104,242,.22);
+  --maxw:1280px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 var(--s-5)}
+.section{padding:var(--s-10) 0}
+.up{color:var(--up)}.down{color:var(--down)}
+.more-link{color:var(--blue);font-size:13.5px;font-weight:600}
+
+/* 区块标题 */
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:var(--s-5);gap:var(--s-4);flex-wrap:wrap}
+.sec-head h2{font-size:21px;font-weight:800;display:flex;align-items:center;gap:10px}
+.sec-head h2::before{content:"";width:5px;height:19px;border-radius:3px;background:var(--grad-blue)}
+.sec-head p.sub{color:var(--ink-2);font-size:13px;margin-top:3px}
+
+/* chip */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;color:var(--ink-2);background:var(--surface);padding:5px 15px;border-radius:100px;transition:all .18s;font-weight:500}
+.chip:hover{color:var(--blue)}
+.chip.active{color:#fff;background:var(--blue);font-weight:600}
+
+/* 按钮 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:600;border-radius:10px;transition:all .18s;white-space:nowrap}
+.btn:active{transform:scale(.98)}
+.btn--primary{padding:9px 18px;font-size:13.5px;color:#fff;background:var(--blue);box-shadow:var(--shadow-pop)}
+.btn--primary:hover{background:var(--blue-deep)}
+.btn--ghost{padding:9px 16px;font-size:13.5px;color:var(--ink);background:#EFF3F9}
+.btn--ghost:hover{color:var(--blue)}
+.btn--light{padding:9px 16px;font-size:13.5px;color:var(--blue-deep);background:#fff}
+.btn--outline{padding:9px 16px;font-size:13.5px;color:#fff;border:1.5px solid rgba(255,255,255,.55)}
+.btn--outline:hover{border-color:#fff}
+
+/* ============================================================
+   三段式头部：工具条 / 搜索主行 / 菜单行
+   ============================================================ */
+.topbar{background:#fff;color:var(--ink-2);font-size:12.5px;border-bottom:1px solid var(--line)}
+.topbar .container{display:flex;align-items:center;justify-content:space-between;height:34px;gap:var(--s-5)}
+.topbar .tb-l,.topbar .tb-r{display:flex;align-items:center;gap:16px}
+.topbar a{transition:color .15s;white-space:nowrap}
+.topbar a:hover{color:var(--blue)}
+.topbar .vip{color:var(--up);font-weight:600}
+.topbar .tel{color:var(--up);font-weight:800;display:inline-flex;align-items:center;gap:4px}
+.head-main{background:#fff;padding:16px 0 8px}
+.head-main .container{display:flex;align-items:center;gap:var(--s-8)}
+.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.lg-yjg{height:48px;width:auto;display:block}
+.lg-x{font-size:15px;color:var(--ink-3);font-weight:600;margin:0 2px}
+.lg-silink{height:56px;width:auto;display:block;border-radius:9px;border:1px solid var(--line);background:#fff}
+.h-search{flex:1;max-width:620px;margin:0 auto;display:flex;flex-direction:column}
+.h-search .bar{display:flex;align-items:stretch;border:2px solid var(--blue);border-radius:9px;overflow:hidden;height:46px;background:#fff}
+.h-search .cat{display:flex;align-items:center;gap:5px;padding:0 15px;font-size:13.5px;color:var(--ink);border-right:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+.h-search .cat svg{width:12px;height:12px;color:var(--ink-3)}
+.h-search input{flex:1;border:none;outline:none;padding:0 14px;font-size:13.5px;color:var(--ink);min-width:0}
+.h-search input::placeholder{color:var(--ink-3)}
+.h-search .go{background:var(--blue);color:#fff;font-weight:700;padding:0 32px;font-size:15px;letter-spacing:2px;transition:background .18s}
+.h-search .go:hover{background:var(--blue-deep)}
+.h-hot{display:flex;gap:14px;margin-top:7px;font-size:12px;flex-wrap:wrap;align-items:center}
+.h-hot span{color:var(--ink-3)}
+.h-hot a{color:var(--ink-2)}
+.h-hot a:hover{color:var(--blue)}
+.h-hot a.red{color:var(--up);font-weight:600}
+.h-actions{display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+.h-actions .btn{padding:11px 22px}
+.menu-bar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100;transition:box-shadow .3s}
+.menu-bar.scrolled{box-shadow:0 4px 18px rgba(19,41,75,.1)}
+.menu-bar .container{display:flex;align-items:center;height:46px;gap:var(--s-6)}
+.menu-bar .menu{display:flex;align-items:center;gap:var(--s-5)}
+.menu-bar .menu a{font-size:14px;font-weight:500;color:var(--ink-2);position:relative;padding:5px 0;transition:color .2s}
+.menu-bar .menu a:hover{color:var(--blue)}
+.menu-bar .menu a.active{color:var(--blue);font-weight:700}
+.menu-bar .menu a.active::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:1px;width:20px;height:3px;border-radius:3px;background:var(--blue)}
+.menu-bar .hamburger{display:none;margin-left:auto}
+
+/* ============================================================
+   首屏三栏：分类面板 + 广告轮播 + 公告/登录
+   ============================================================ */
+.portal{display:grid;grid-template-columns:248px 1fr 264px;gap:var(--s-4);padding:var(--s-5) 0 var(--s-6)}
+
+/* 左：深蓝全部分类竖栏 */
+.cat-side{background:var(--grad-navy);border-radius:var(--r-lg);overflow:hidden;color:#fff;display:flex;flex-direction:column}
+.cat-side .cs-head{display:flex;align-items:center;gap:9px;padding:14px 18px;font-size:15px;font-weight:800;background:rgba(255,255,255,.08)}
+.cat-side .cs-head svg{width:17px;height:17px}
+.cat-side button{display:flex;align-items:center;gap:10px;padding:12px 18px;font-size:13.5px;font-weight:600;color:#DCE6FB;text-align:left;transition:all .15s;position:relative;flex:1}
+.cat-side button svg{width:16px;height:16px;opacity:.85;flex-shrink:0}
+.cat-side button:hover{background:rgba(255,255,255,.1);color:#fff}
+.cat-side button.active{background:#fff;color:var(--blue-deep)}
+.cat-side button.active svg{opacity:1}
+
+/* 中：广告轮播 + 分类详情 */
+.portal-mid{display:flex;flex-direction:column;gap:var(--s-4);min-width:0}
+.banner-carousel{position:relative;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-pop);height:330px;background:var(--blue-deep);flex-shrink:0}
+.banner-carousel .slide{position:absolute;inset:0;opacity:0;transition:opacity .7s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;padding:0 var(--s-8);color:#fff}
+.banner-carousel .slide.on{opacity:1}
+.banner-carousel .ad-tag{position:absolute;top:14px;right:16px;font-size:11px;font-weight:600;letter-spacing:.1em;background:rgba(255,255,255,.2);padding:2px 10px;border-radius:100px;z-index:2}
+.slide .big{font-size:clamp(20px,2.2vw,28px);font-weight:800;line-height:1.4}
+.slide .sub{margin-top:5px;font-size:13.5px;opacity:.9}
+.slide .go{margin-top:14px;display:inline-flex;padding:9px 22px;border-radius:100px;background:#fff;font-weight:700;font-size:13.5px}
+.slide.s1{background:radial-gradient(400px 180px at 88% 20%,rgba(255,255,255,.22),transparent 60%),var(--grad-blue)}
+.slide.s1 .go{color:var(--blue)}
+.slide.s2{background:radial-gradient(400px 180px at 12% 90%,rgba(255,255,255,.15),transparent 60%),linear-gradient(135deg,#0F3BA8,#2468F2)}
+.slide.s2 .go{color:var(--blue-deep)}
+.slide.s3{background:linear-gradient(135deg,#F04B3E,#FF7A45)}
+.slide.s3 .go{color:#E8452F}
+.banner-carousel .dots{position:absolute;bottom:10px;right:16px;display:flex;gap:5px;z-index:2}
+.banner-carousel .dots button{width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.3);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center}
+.banner-carousel .dots button.on{background:#fff;color:var(--blue-deep)}
+
+/* 分类详情（凯茵式平铺） */
+.cat-detail{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-5) var(--s-6);box-shadow:var(--shadow-card);flex:1;overflow:hidden}
+.cat-detail .cd-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s-3)}
+.cat-detail .cd-title b{font-size:16.5px;font-weight:800;display:flex;align-items:center;gap:8px}
+.cat-detail .cd-title b::before{content:"";width:4px;height:15px;border-radius:2px;background:var(--blue)}
+.cat-group{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.cat-group:last-child{border-bottom:none}
+.cat-group .g-t{font-size:13.5px;font-weight:700;color:var(--blue-deep);white-space:nowrap;display:flex;align-items:center;gap:3px;flex-shrink:0}
+.cat-group .g-t::after{content:"›";color:var(--blue);font-weight:700}
+.cat-group .g-l{display:flex;flex-wrap:wrap;gap:2px 14px}
+.cat-group .g-l a{font-size:12.5px;color:var(--ink-2);white-space:nowrap;transition:color .15s}
+.cat-group .g-l a:hover{color:var(--blue)}
+.cat-panel{display:none}
+.cat-panel.on{display:block;animation:fadeIn .3s}
+/* 产品展示卡 + 折叠 */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.prod-card{background:#F8FAFD;border-radius:12px;padding:9px;display:flex;flex-direction:column;transition:all .2s}
+.prod-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-pop)}
+.prod-card .p-img{aspect-ratio:16/9;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;position:relative;text-align:center;padding:4px;line-height:1.35;overflow:hidden}
+.prod-card .p-img i{position:absolute;bottom:0;left:0;right:0;font-size:9px;font-style:normal;font-weight:500;background:rgba(0,0,0,.25);padding:1px 0;letter-spacing:.05em}
+.prod-card b{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.35;margin-top:5px}
+.prod-card .p-s{font-size:10.5px;color:var(--blue);font-weight:500}
+.prod-card .p-go{font-size:10.5px;color:var(--up);font-weight:600}
+.prod-card:hover .p-go{color:var(--blue)}
+.collapse-btn{margin-top:10px;font-size:12.5px;font-weight:600;color:var(--blue);display:inline-flex;align-items:center;gap:4px}
+.collapse-btn svg{transition:transform .25s}
+.collapse-btn.open svg{transform:rotate(180deg)}
+.collapse-more{display:none}
+.collapse-more.open{display:grid;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* 右：登录注册 + 公告 */
+.side-col{display:flex;flex-direction:column;gap:var(--s-4);min-width:0}
+.login-card{background:var(--grad-blue);border-radius:var(--r-lg);padding:var(--s-5);color:#fff;position:relative;overflow:hidden}
+.login-card::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
+.login-card .lc-t{font-size:15.5px;font-weight:800;position:relative;z-index:1}
+.login-card .lc-s{font-size:12px;color:#D6E4FF;margin-top:2px;position:relative;z-index:1}
+.login-card .lc-btns{display:flex;gap:8px;margin-top:var(--s-4);position:relative;z-index:1}
+.login-card .lc-btns .btn{flex:1}
+.notice-card{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-4) var(--s-5);box-shadow:var(--shadow-card);flex:1}
+.notice-card .n-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.notice-card .n-head b{font-size:14.5px;font-weight:800;display:flex;align-items:center;gap:7px}
+.notice-card .n-head b svg{color:var(--up)}
+.notice-card li{padding:7px 0;border-bottom:1px dashed var(--line)}
+.notice-card li:last-child{border-bottom:none}
+.notice-card li a{font-size:12.5px;color:var(--ink-2);display:flex;gap:7px;transition:color .15s}
+.notice-card li a:hover{color:var(--blue)}
+.notice-card li a::before{content:"•";color:var(--blue);font-weight:800}
+.stat-card{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-4) var(--s-5);box-shadow:var(--shadow-card);display:flex;justify-content:space-between}
+.stat-card .st b{font-size:17px;font-weight:800;color:var(--blue-ink)}
+.stat-card .st span{display:block;font-size:11px;color:var(--ink-3)}
+
+/* ============================================================
+   价格行情（一屏版）
+   ============================================================ */
+.quote-block{display:flex;flex-direction:column;gap:var(--s-4)}
+.quote-top{display:grid;grid-template-columns:340px 1fr;gap:var(--s-4)}
+/* 蓝色渐变行情卡（紧凑） */
+.quote-card{background:var(--grad-blue);border-radius:var(--r-lg);padding:var(--s-5);color:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.quote-card::after{content:"";position:absolute;right:-50px;top:-50px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%)}
+.quote-card .qc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s-3);position:relative;z-index:1}
+.quote-card .qc-name{font-size:16.5px;font-weight:800;line-height:1.35;max-width:20ch}
+.quote-card .qc-btns{display:flex;gap:6px;flex-shrink:0}
+.quote-card .qc-btns span{font-size:11.5px;background:rgba(255,255,255,.18);padding:3px 12px;border-radius:100px}
+.quote-card .qc-tags{display:flex;gap:7px;margin-top:10px;position:relative;z-index:1}
+.quote-card .qc-tags .tg{font-size:11.5px;background:rgba(255,255,255,.16);padding:2px 11px;border-radius:100px}
+.quote-card .qc-price{display:flex;align-items:baseline;gap:10px;margin-top:10px;position:relative;z-index:1}
+.quote-card .qc-price b{font-size:clamp(34px,3.6vw,44px);font-weight:800;line-height:1}
+.quote-card .qc-price small{font-size:13px;opacity:.85}
+.quote-card .qc-chg{display:flex;gap:12px;margin-top:6px;font-weight:700;position:relative;z-index:1}
+.quote-card .qc-chg span{font-size:15px;color:#FF6A5E}
+.quote-card .qc-time{margin-top:5px;font-size:11.5px;opacity:.75;position:relative;z-index:1}
+.quote-card .qc-data{margin-top:auto;background:#fff;border-radius:11px;padding:10px 4px;display:grid;grid-template-columns:repeat(6,1fr);position:relative;z-index:1}
+.quote-card .qc-data .d{text-align:center;position:relative}
+.quote-card .qc-data .d:not(:last-child)::after{content:"";position:absolute;right:0;top:14%;height:72%;width:1px;background:var(--line)}
+.quote-card .qc-data .k{font-size:11px;color:var(--ink-3)}
+.quote-card .qc-data .v{font-size:14px;font-weight:800;color:var(--blue-ink);margin-top:1px}
+
+/* 走势卡 */
+.trend-card{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-5);box-shadow:var(--shadow-card);display:flex;flex-direction:column}
+.trend-card .tc-head{display:flex;align-items:center;justify-content:space-between}
+.trend-card .tc-head b{font-size:16px;font-weight:800}
+.trend-card .tc-head .yr{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--blue);background:#EAF1FE;padding:3px 11px;border-radius:100px;font-weight:600}
+.month-tabs{display:flex;gap:5px;margin:12px 0;overflow-x:auto}
+.month-tabs button{font-size:12.5px;color:var(--ink-2);padding:5px 14px;border-radius:8px;white-space:nowrap}
+.month-tabs button.on{background:var(--blue);color:#fff;font-weight:700}
+.trend-card svg{width:100%;height:auto;flex:1}
+
+/* 关联品种 + 区域价格 同行 */
+.quote-mid{display:grid;grid-template-columns:1.05fr 1.35fr;gap:var(--s-4)}
+.related{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-4) var(--s-5);box-shadow:var(--shadow-card)}
+.related .r-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.related .r-head b{font-size:14.5px;font-weight:800}
+.r-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.r-item{border:1.5px solid transparent;background:#F6F9FE;border-radius:11px;padding:10px 12px;transition:all .18s}
+.r-item.on{border-color:var(--blue);background:#EEF4FF}
+.r-item .n{font-size:11.5px;color:var(--ink-2);font-weight:600;line-height:1.35}
+.r-item .p{font-size:17px;font-weight:800;color:var(--blue-ink);margin-top:2px}
+.r-item .c{font-size:10.5px;margin-top:1px}
+.region{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-4) var(--s-5);box-shadow:var(--shadow-card)}
+.region .r-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.region .r-head b{font-size:14.5px;font-weight:800}
+.rg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.rg{background:#F6F9FE;border-radius:11px;padding:10px 14px}
+.rg .n{font-size:12px;color:var(--ink-2);font-weight:600}
+.rg .p{font-size:18px;font-weight:800;color:var(--blue-ink);margin-top:1px}
+.rg .p small{font-size:10.5px;color:var(--ink-3);font-weight:500;margin-left:2px}
+.rg .c{font-size:11.5px;margin-top:1px}
+
+/* 工具宫格 */
+.tools{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.tool{background:var(--surface);border-radius:var(--r-md);padding:14px var(--s-3);display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-card);transition:all .2s}
+.tool:hover{transform:translateY(-3px);box-shadow:var(--shadow-pop)}
+.tool .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#fff;flex-shrink:0}
+.tool .ic svg{width:21px;height:21px}
+.tool b{font-size:13.5px;font-weight:700;display:block;line-height:1.3}
+.tool span{font-size:11px;color:var(--ink-3)}
+
+/* ============================================================
+   名企推荐（4列整齐 + 1:1实景图）
+   ============================================================ */
+.company-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:var(--s-4)}
+.company{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-4);display:flex;flex-direction:column;transition:all .2s;box-shadow:var(--shadow-card);height:100%}
+.company:hover{transform:translateY(-4px);box-shadow:var(--shadow-pop)}
+.company .c-top{display:flex;gap:var(--s-3)}
+.company .photo{width:92px;height:92px;border-radius:12px;flex-shrink:0;display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px;text-align:center;line-height:1.4;padding:6px;position:relative;overflow:hidden}
+.company .photo i{position:absolute;bottom:0;left:0;right:0;font-size:9.5px;font-weight:500;background:rgba(0,0,0,.28);padding:2px 0;font-style:normal;letter-spacing:.05em}
+.company .c-info{min-width:0;flex:1}
+.company .c-info b{font-size:14.5px;font-weight:700;line-height:1.35;display:block}
+.company .c-info .vip{display:inline-flex;font-size:10px;font-weight:700;color:var(--up);background:#FEECEA;padding:1px 8px;border-radius:100px;margin-left:5px;vertical-align:2px}
+.company .c-info .sub{font-size:11.5px;color:var(--ink-3);margin-top:3px}
+.company .c-info .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.company .c-info .tags span{font-size:10.5px;color:var(--blue);background:#EEF4FF;padding:2px 8px;border-radius:5px;font-weight:500}
+.company .desc{font-size:12px;color:var(--ink-2);margin-top:10px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.company .shop{margin-top:auto;display:flex;justify-content:center;align-items:center;gap:6px;background:#F0F5FE;color:var(--blue);font-weight:700;font-size:12.5px;border-radius:9px;padding:8px 0;margin-top:12px;transition:all .18s}
+.company .shop::after{content:"→";font-weight:700;transition:transform .18s}
+.company:hover .shop{background:var(--blue);color:#fff}
+.company:hover .shop::after{transform:translateX(3px)}
+
+/* 材料产品（凯茵式大类横条） */
+.mat-list{display:flex;flex-direction:column;gap:32px}
+.mat-row{display:grid;grid-template-columns:170px 1fr;border-radius:var(--r-lg);overflow:hidden;background:var(--surface);box-shadow:var(--shadow-card)}
+.mat-side{color:#fff;padding:var(--s-5) var(--s-4);display:flex;flex-direction:column}
+.mat-side b{font-size:19px;font-weight:800;line-height:1.4}
+.mat-side .m-tags{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:10px}
+.mat-side .m-tags a{font-size:12.5px;color:rgba(255,255,255,.88);white-space:nowrap}
+.mat-side .m-tags a:hover{color:#fff;text-decoration:underline}
+.mat-side .more-btn{display:inline-block;align-self:flex-start;border:1px solid rgba(255,255,255,.65);font-size:12px;padding:4px 16px;border-radius:100px;color:#fff;margin-top:14px}
+.mat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;padding:var(--s-5)}
+.mat-card{border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:7px;transition:all .18s;background:#fff}
+.mat-card:hover{border-color:var(--blue);box-shadow:var(--shadow-pop)}
+.mat-card .m-img{width:74%;margin:0 auto;aspect-ratio:1;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12.5px;position:relative;text-align:center;padding:6px;line-height:1.4;overflow:hidden}
+.mat-card .m-img i{position:absolute;bottom:0;left:0;right:0;font-size:9px;font-style:normal;font-weight:500;background:rgba(0,0,0,.25);padding:1px 0;letter-spacing:.05em}
+.mat-card .m-name{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.4;text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:41px}
+.mat-card .m-price{font-size:15px;font-weight:800;color:var(--up)}
+.mat-card .m-price small{font-size:10.5px;font-weight:500;color:var(--up)}
+.mat-card .m-meta{display:flex;justify-content:space-between;gap:4px;padding:7px 2px;border-top:1px dashed var(--line)}
+.mat-card .m-meta span{display:flex;flex-direction:column;font-size:11.5px;font-weight:600;color:var(--ink);line-height:1.35;min-width:0}
+.mat-card .m-meta i{font-style:normal;font-size:10px;color:var(--ink-3);font-weight:400}
+.mat-card .m-ops{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:2px}
+.mat-card .op-fav{font-size:11.5px;color:var(--ink);border:1px solid var(--line);border-radius:100px;padding:4px 0;flex:1;text-align:center;white-space:nowrap}
+.mat-card .op-fav:hover{color:var(--blue);border-color:var(--blue)}
+.mat-card .op-msg{font-size:11.5px;color:var(--ink);border:1px solid var(--line);border-radius:100px;padding:4px 0;flex:1;text-align:center;white-space:nowrap}
+.mat-card .op-msg:hover{color:var(--blue);border-color:var(--blue)}
+.mat-card .op-tel{font-size:11.5px;color:#fff;background:var(--up);border-radius:100px;padding:4px 0;font-weight:600;flex:1;text-align:center;white-space:nowrap}
+.mat-card .op-tel:hover{background:#C9372B}
+
+/* 右侧客服悬浮栏 */
+.service-bar{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px;align-items:center}
+.sv-item{width:54px;background:#fff;border-radius:10px;box-shadow:var(--shadow-card);padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--ink-2);cursor:pointer;transition:all .18s;border:1px solid var(--line)}
+.sv-item svg{width:17px;height:17px}
+.sv-item:hover{color:var(--blue);border-color:var(--blue)}
+.sv-consult{width:54px;background:var(--grad-blue);color:#fff;border-radius:10px;padding:14px 2px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;font-weight:700;box-shadow:var(--shadow-pop);cursor:pointer}
+.sv-consult span{writing-mode:vertical-rl;letter-spacing:5px}
+.sv-consult svg{width:18px;height:18px}
+/* 招租卡 */
+.company.hire{border:1.5px dashed #B9CDF6;background:#F8FAFF;align-items:center;justify-content:center;text-align:center;gap:10px}
+.company.hire .hi{width:52px;height:52px;border-radius:50%;background:#EAF1FE;display:grid;place-items:center;color:var(--blue)}
+.company.hire b{font-size:15px;font-weight:800;color:var(--ink)}
+.company.hire p{font-size:12px;color:var(--ink-2)}
+.company.hire a{font-size:13px;font-weight:700;color:#fff;background:var(--blue);padding:8px 22px;border-radius:100px;margin-top:4px}
+
+/* ============================================================
+   供求（双栏平铺，不折叠）
+   ============================================================ */
+.supply-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4)}
+.supply-box{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-5);box-shadow:var(--shadow-card)}
+.supply-box .s-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.supply-box .s-head b{font-size:15.5px;font-weight:800;display:flex;align-items:center;gap:8px}
+.supply-box .s-head b::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--blue)}
+.supply-box.buy .s-head b::before{background:var(--up)}
+.supply-box li{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);padding:10px 4px;border-bottom:1px dashed var(--line)}
+.supply-box li:last-child{border-bottom:none}
+.supply-box li .t{font-size:13.5px;font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.supply-box li .t:hover{color:var(--blue)}
+.supply-box li .tag{font-size:10.5px;font-weight:700;color:var(--blue);background:#EEF4FF;padding:2px 10px;border-radius:100px;flex-shrink:0}
+.supply-box.buy li .tag{color:var(--up);background:#FEECEA}
+
+/* ============================================================
+   资讯
+   ============================================================ */
+.news-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:var(--s-4)}
+.news-main{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-5);box-shadow:var(--shadow-card)}
+.news-cats{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:var(--s-3)}
+.news-item{display:flex;align-items:center;gap:var(--s-3);padding:10px 0;border-bottom:1px solid var(--line)}
+.news-item:last-child{border-bottom:none}
+.news-item .cate{font-size:11px;font-weight:700;color:var(--blue);background:#EEF4FF;padding:2px 9px;border-radius:6px;flex-shrink:0;white-space:nowrap}
+.news-item .t{font-size:13.5px;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.news-item .t:hover{color:var(--blue)}
+.news-item time{font-size:12px;color:var(--ink-3);flex-shrink:0}
+.news-rank{background:var(--surface);border-radius:var(--r-lg);padding:var(--s-5);box-shadow:var(--shadow-card)}
+.news-rank .rk-title{font-size:15.5px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.news-rank .rk-title svg{color:var(--up)}
+.rank-item{display:flex;align-items:center;gap:var(--s-3);padding:9px 0;border-bottom:1px solid var(--line)}
+.rank-item:last-child{border-bottom:none}
+.rank-item .no{width:21px;height:21px;border-radius:7px;display:grid;place-items:center;font-size:11.5px;font-weight:800;flex-shrink:0;color:var(--ink-3);background:#F3F6FB}
+.rank-item:nth-child(1) .no,.rank-item:nth-child(2) .no,.rank-item:nth-child(3) .no{background:var(--up);color:#fff}
+.rank-item .t{font-size:13px;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-item .t:hover{color:var(--blue)}
+.rank-item .h{font-size:11px;color:var(--ink-3);flex-shrink:0}
+
+/* ============================================================
+   CTA / 页脚
+   ============================================================ */
+.cta{background:var(--grad-blue);border-radius:var(--r-xl);padding:var(--s-8) var(--s-10);color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-pop)}
+.cta::after{content:"";position:absolute;right:-40px;bottom:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%)}
+.cta .cta-in{display:flex;align-items:center;justify-content:space-between;gap:var(--s-6);position:relative;z-index:1;flex-wrap:wrap}
+.cta h3{font-size:clamp(19px,2.4vw,24px);font-weight:800}
+.cta p{color:#D6E4FF;font-size:13.5px;margin-top:5px}
+.cta .btns{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn--accent{padding:12px 24px;font-size:14px;color:var(--blue-deep);background:#fff;border-radius:11px;font-weight:700}
+.cta .btn--ghost{padding:12px 24px;font-size:14px;color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:11px}
+.footer{background:#0E2A5C;color:#8FA6CC;margin-top:var(--s-10)}
+.footer .cols{display:grid;grid-template-columns:1.6fr repeat(4,1fr);gap:var(--s-8);padding:var(--s-10) 0 var(--s-8)}
+.footer .brand .t{color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.footer .brand .t .fmark{height:30px;width:auto;border-radius:6px;object-fit:cover;display:block;background:#fff;padding:2px}
+.footer .brand .t .fx{color:#8FA6CC;font-size:13px;font-weight:600}
+.footer .brand p{font-size:12.5px;margin-top:var(--s-3);max-width:30ch;line-height:1.7}
+.footer h4{color:#fff;font-size:13.5px;font-weight:700;margin-bottom:var(--s-3)}
+.footer ul li{margin-bottom:8px}
+.footer ul a{font-size:12.5px;color:#8FA6CC;transition:color .2s}
+.footer ul a:hover{color:#fff}
+.footer .bottom{border-top:1px solid rgba(255,255,255,.1);padding:var(--s-4) 0;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);flex-wrap:wrap}
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width:1150px){
+  .portal{grid-template-columns:220px 1fr}
+  .side-col{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}
+  .side-col>*{flex:1;min-width:220px}
+  .quote-top{grid-template-columns:1fr}
+  .quote-mid{grid-template-columns:1fr}
+  .company-grid{grid-template-columns:repeat(2,1fr)}
+  .tools{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:1024px){
+  .news-grid{grid-template-columns:1fr}
+  .footer .cols{grid-template-columns:repeat(3,1fr)}
+  .supply-grid{grid-template-columns:1fr}
+  .mat-grid{grid-template-columns:repeat(3,1fr)}
+  .mat-side{padding:14px 16px}
+  .mat-side .more-btn{margin-top:8px}
+}
+@media (max-width:760px){
+  .section{padding:var(--s-6) 0}
+  .topbar .tb-r{display:none}
+  .mat-grid{grid-template-columns:repeat(2,1fr)}
+  .mat-row{grid-template-columns:1fr}
+  .mat-side{padding:14px 18px}
+  .mat-side .more-btn{margin-top:8px}
+  .head-main .container{flex-wrap:wrap;gap:var(--s-3)}
+  .h-search{order:3;flex-basis:100%;max-width:100%}
+  .h-actions{margin-left:auto}
+  .h-search .go{padding:0 20px}
+  .menu-bar .menu{display:none}
+  .menu-bar .hamburger{display:block}
+  .portal{grid-template-columns:1fr}
+  .cat-side{flex-direction:row;overflow-x:auto}
+  .cat-side button{white-space:nowrap;flex:none}
+  .banner-carousel{height:120px}
+  .slide{padding:0 var(--s-6)!important}
+  .company-grid{grid-template-columns:1fr}
+  .tools{grid-template-columns:repeat(2,1fr)}
+  .rg-grid{grid-template-columns:repeat(2,1fr)}
+  .footer .cols{grid-template-columns:1fr 1fr}
+  .cat-group{flex-direction:column;gap:4px}
+}
+
+/* 滚动显现 */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- 工具条 -->
+<div class="topbar">
+  <div class="container">
+    <div class="tb-l">
+      <a href="#">请登录</a>
+      <a href="#">免费注册</a>
+    </div>
+    <div class="tb-r">
+      <a href="#">用户中心 ▾</a>
+      <a href="#">客服中心 ▾</a>
+      <a href="#">帮助中心</a>
+      <a class="vip" href="#">★ VIP会员 · 尊享推广权益</a>
+      <a class="tel" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.8a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.3-1.2a2 2 0 012.1-.5c.9.3 1.9.6 2.8.7a2 2 0 011.7 2z"/></svg>400-800-7283</a>
+    </div>
+  </div>
+</div>
+
+<!-- 搜索主行 -->
+<div class="head-main">
+  <div class="container">
+    <a class="logo" href="#" title="有机硅商城 × 硅源智链 · 联合运营"><img class="lg-yjg" src="assets/logo-yjg.png" alt="有机硅商城"><span class="lg-x">×</span><img class="lg-silink" src="assets/logo-silink.png" alt="硅源智链 SILINK TECH"></a>
+    <div class="h-search">
+      <div class="bar">
+        <span class="cat">产品 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+        <input type="text" placeholder="请输入产品名、型号、牌号、品牌等，如：DMC、107胶、白炭黑">
+        <button class="go">搜全站</button>
+      </div>
+      <div class="h-hot">
+        <span>热门搜索：</span>
+        <a class="red" href="#">DMC</a><a href="#">生胶</a><a href="#">二甲基硅油</a><a href="#">甲基硅油</a><a href="#">混炼胶</a><a href="#">气相白炭黑</a>
+      </div>
+    </div>
+    <div class="h-actions">
+      <a class="btn btn--primary" href="#">免费发布</a>
+      <a class="btn" style="padding:11px 22px;font-size:13.5px;color:var(--blue);background:#EEF4FF" href="#">企业入驻</a>
+    </div>
+  </div>
+</div>
+
+<!-- 菜单行（吸顶） -->
+<header class="menu-bar" id="nav">
+  <div class="container">
+    <nav class="menu">
+      <a href="#" class="active">首页</a>
+      <a href="#quote">价格行情</a>
+      <a href="#products">产品分类</a>
+      <a href="#company">名企推荐</a>
+      <a href="#supply">供求信息</a>
+      <a href="news.html">信息资讯</a>
+    </nav>
+    <button class="hamburger" aria-label="菜单"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+</header>
+
+<!-- 首屏三栏：全部分类 + 广告轮播 + 登录/公告 -->
+<section class="container">
+  <div class="portal">
+    <!-- 左：全部分类 -->
+    <div class="cat-side" id="catSide">
+      <div class="cs-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>全部产品分类</div>
+      <button class="active" data-id="c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>有机硅单体/中间体</button>
+      <button data-id="c2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c-4 3-4 9 0 12 4-3 4-9 0-12z"/></svg>硅油</button>
+      <button data-id="c3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7a5 5 0 010 10"/></svg>硅橡胶</button>
+      <button data-id="c4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>助剂/填料</button>
+      <button data-id="c5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 9h8M8 13h5"/></svg>机械设备</button>
+      <button data-id="c6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>硅烷</button>
+      <button data-id="c7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12c3-5 11-5 14 0-3 5-11 5-14 0z"/><path d="M12 3v3M12 18v3"/></svg>胶粘剂</button>
+      <button data-id="c8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/></svg>硅树脂</button>
+    </div>
+
+    <!-- 中：广告轮播 + 分类详情 -->
+    <div class="portal-mid">
+      <div class="banner-carousel" id="banner" aria-label="广告推荐位">
+        <div class="slide s1 on">
+          <span class="ad-tag">广告</span>
+          <div><div class="big">强力纯硅油 · 更高技术 更好硅油</div><div class="sub">二甲基硅油 · 107胶 · 甲基硅油 · 厂家直供</div><a class="go" href="#">进入店铺 →</a></div>
+        </div>
+        <div class="slide s2">
+          <span class="ad-tag">广告</span>
+          <div><div class="big">VIP 会员 · 首页推荐位优先展示</div><div class="sub">黄金广告位招租，日均曝光 100,000+</div><a class="go" href="#">立即咨询 →</a></div>
+        </div>
+        <div class="slide s3">
+          <span class="ad-tag">广告</span>
+          <div><div class="big">免费发布供应 / 求购</div><div class="sub">信息直达数万有机硅行业买家，撮合成交更高效</div><a class="go" href="#">立即发布 →</a></div>
+        </div>
+        <div class="dots"><button class="on" aria-label="第1张">1</button><button aria-label="第2张">2</button><button aria-label="第3张">3</button></div>
+      </div>
+
+      <div class="cat-detail">
+        <div class="cd-title"><b id="cdName">有机硅单体 / 中间体</b><a class="more-link" href="#">进入分类频道 ›</a></div>
+
+        <div class="cat-panel on" id="c1">
+          <div class="cat-group"><span class="g-t">品牌推荐</span><div class="g-l"><a href="#">MA-5232 有机硅中间体 · 厂家直供 现货可询</a></div></div>
+          <div class="prod-grid">
+            <a class="prod-card" href="#"><span class="p-img" style="background:var(--grad-blue)">MA-5232<i>产品图</i></span><b>MA-5232 有机硅中间体</b><span class="p-s">厂家直供，现货可询</span><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#F59E0B,#F97316)">DMC<i>产品图</i></span><b>DMC</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#10B981,#34D399)">D4<i>产品图</i></span><b>D4</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <div class="collapse-more prod-grid" id="c1p">
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">甲基单体<i>产品图</i></span><b>甲基单体</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#06B6D4,#3B82F6)">苯基单体<i>产品图</i></span><b>苯基单体</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <button class="collapse-btn" data-target="c1p">展开更多产品 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="cat-group"><span class="g-t">子分类</span><div class="g-l"><a href="#">DMC</a><a href="#">D4</a><a href="#">甲基单体</a><a href="#">苯基单体</a></div></div>
+          <div class="cat-group"><span class="g-t">热门供应</span><div class="g-l"><a href="#">MA-5232 有机硅中间体</a><a href="#">DMC</a><a href="#">D4</a><a href="#">甲基单体</a><a href="#">苯基单体</a></div></div>
+        </div>
+        <div class="cat-panel" id="c2">
+          <div class="cat-group"><span class="g-t">品牌推荐</span><div class="g-l"><a href="#">STMMA（消失模铸造树脂）· 厂家直供</a></div></div>
+          <div class="prod-grid">
+            <a class="prod-card" href="#"><span class="p-img" style="background:var(--grad-blue)">STMMA<i>产品图</i></span><b>STMMA（消失模铸造树脂）</b><span class="p-s">厂家直供，现货可询</span><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#F59E0B,#F97316)">甲基硅油<i>产品图</i></span><b>甲基硅油</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#10B981,#34D399)">羟基硅油<i>产品图</i></span><b>羟基硅油</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <div class="collapse-more prod-grid" id="c2p">
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">含氢硅油<i>产品图</i></span><b>含氢硅油</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#06B6D4,#3B82F6)">改性硅油<i>产品图</i></span><b>改性硅油</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <button class="collapse-btn" data-target="c2p">展开更多产品 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="cat-group"><span class="g-t">子分类</span><div class="g-l"><a href="#">甲基硅油</a><a href="#">羟基硅油</a><a href="#">含氢硅油</a><a href="#">改性硅油</a></div></div>
+          <div class="cat-group"><span class="g-t">热门供应</span><div class="g-l"><a href="#">STMMA（消失模铸造树脂）</a><a href="#">长纤维增强聚丙烯</a><a href="#">CS-401 环氧高温固化剂</a><a href="#">RI-925 水性聚酰胺-酰亚胺树脂</a><a href="#">压敏胶锚固剂</a><a href="#">有机硅改性树脂系列</a><a href="#">高剥离有机硅压敏胶</a><a href="#">医用环保压敏硅胶</a></div></div>
+        </div>
+        <div class="cat-panel" id="c3">
+          <div class="cat-group"><span class="g-t">品牌推荐</span><div class="g-l"><a href="#">GD-480 导热粘接单组份室温硫化硅橡胶 · 厂家直供</a></div></div>
+          <div class="prod-grid">
+            <a class="prod-card" href="#"><span class="p-img" style="background:var(--grad-blue)">GD-480<i>产品图</i></span><b>GD-480 导热粘接单组份室温硫化硅橡胶</b><span class="p-s">厂家直供，现货可询</span><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#F59E0B,#F97316)">混炼胶<i>产品图</i></span><b>混炼胶</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#10B981,#34D399)">液体硅橡胶<i>产品图</i></span><b>液体硅橡胶</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <div class="collapse-more prod-grid" id="c3p">
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">模具硅橡胶<i>产品图</i></span><b>模具硅橡胶</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <button class="collapse-btn" data-target="c3p">展开更多产品 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="cat-group"><span class="g-t">子分类</span><div class="g-l"><a href="#">混炼胶</a><a href="#">液体硅橡胶</a><a href="#">模具硅橡胶</a></div></div>
+          <div class="cat-group"><span class="g-t">热门供应</span><div class="g-l"><a href="#">GD-480 导热粘接单组份室温硫化硅橡胶</a><a href="#">混炼胶</a><a href="#">液体硅橡胶</a><a href="#">模具硅橡胶</a></div></div>
+        </div>
+        <div class="cat-panel" id="c4">
+          <div class="cat-group"><span class="g-t">品牌推荐</span><div class="g-l"><a href="#">硅胶低温铂金硫化（液体硅胶）真阶级 · 厂家直供</a></div></div>
+          <div class="prod-grid">
+            <a class="prod-card" href="#"><span class="p-img" style="background:var(--grad-blue)">铂金硫化<i>产品图</i></span><b>硅胶低温铂金硫化（液体硅胶）真阶级</b><span class="p-s">厂家直供，现货可询</span><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#F59E0B,#F97316)">铂金催化剂<i>产品图</i></span><b>铂金催化剂</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#10B981,#34D399)">白炭黑<i>产品图</i></span><b>白炭黑</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <div class="collapse-more prod-grid" id="c4p">
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">色母<i>产品图</i></span><b>色母</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <button class="collapse-btn" data-target="c4p">展开更多产品 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="cat-group"><span class="g-t">子分类</span><div class="g-l"><a href="#">铂金催化剂</a><a href="#">白炭黑</a><a href="#">色母</a></div></div>
+          <div class="cat-group"><span class="g-t">热门供应</span><div class="g-l"><a href="#">硅胶低温铂金硫化（液体硅胶）真阶级</a><a href="#">铂金催化剂</a><a href="#">白炭黑</a><a href="#">色母</a></div></div>
+        </div>
+        <div class="cat-panel" id="c5">
+          <div class="prod-grid">
+            <a class="prod-card" href="#"><span class="p-img" style="background:var(--grad-blue)">真空捏合机<i>产品图</i></span><b>真空捏合机</b><span class="p-s">厂家直供，现货可询</span><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#F59E0B,#F97316)">行星搅拌机<i>产品图</i></span><b>行星分散搅拌机</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#10B981,#34D399)">注射成型机<i>产品图</i></span><b>液态硅胶注射成型机</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <div class="collapse-more prod-grid" id="c5p">
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">反应釜<i>产品图</i></span><b>不锈钢反应釜</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <button class="collapse-btn" data-target="c5p">展开更多产品 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="cat-group" style="margin-top:12px"><span class="g-t">硅橡胶设备</span><div class="g-l"><a href="#">真空捏合机</a><a href="#">行星分散搅拌机</a><a href="#">液态硅胶注射成型机</a><a href="#">硅橡胶挤出机</a><a href="#">液压式压料机</a><a href="#">三辊研磨机</a></div></div>
+          <div class="cat-group"><span class="g-t">有机硅全套设备</span><div class="g-l"><a href="#">不锈钢反应锅</a><a href="#">不锈钢反应釜</a><a href="#">列管冷凝器</a><a href="#">高效酒精回收塔</a><a href="#">实验设备</a></div></div>
+          <div class="cat-group"><span class="g-t">设备品牌</span><div class="g-l"><a href="#">太仓豪达</a><a href="#">强盛捏合机</a><a href="#">无锡华宸</a><a href="#">荣兴</a></div></div>
+        </div>
+        <div class="cat-panel" id="c6">
+          <div class="prod-grid">
+            <a class="prod-card" href="#"><span class="p-img" style="background:var(--grad-blue)">硅烷偶联剂<i>产品图</i></span><b>硅烷偶联剂 KH-550</b><span class="p-s">厂家直供，现货可询</span><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#F59E0B,#F97316)">硅烷交联剂<i>产品图</i></span><b>硅烷交联剂</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#10B981,#34D399)">氨丙基硅烷<i>产品图</i></span><b>氨丙基三乙氧基硅烷</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <div class="collapse-more prod-grid" id="c6p">
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">甲基三甲氧基<i>产品图</i></span><b>甲基三甲氧基硅烷</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <button class="collapse-btn" data-target="c6p">展开更多产品 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="cat-group" style="margin-top:12px"><span class="g-t">硅烷偶联剂</span><div class="g-l"><a href="#">氨丙基三乙氧基硅烷</a><a href="#">氨丙基三甲氧基硅烷</a><a href="#">三乙氧基丙基硅烷</a><a href="#">苯基三甲氧基硅烷</a><a href="#">二苯基二甲氧基硅烷</a><a href="#">辛基三乙氧基硅烷</a><a href="#">氯丙基三乙氧基硅烷</a><a href="#">氯丙基三甲氧基硅烷</a></div></div>
+          <div class="cat-group"><span class="g-t">硅烷交联剂</span><div class="g-l"><a href="#">甲基三丁酮肟基硅烷</a><a href="#">甲基混合酮肟交联剂</a><a href="#">乙烯基三丁酮肟基硅烷</a><a href="#">甲基三甲氧基硅烷</a><a href="#">乙基三乙酰氧基硅烷</a><a href="#">乙烯基混合酮肟交联剂</a><a href="#">甲基三乙酰氧基硅烷</a></div></div>
+          <div class="cat-group"><span class="g-t">品牌</span><div class="g-l"><a href="#">莱宝硅材料</a><a href="#">晨光</a><a href="#">拓格</a></div></div>
+        </div>
+        <div class="cat-panel" id="c7">
+          <div class="cat-group"><span class="g-t">品牌推荐</span><div class="g-l"><a href="#">新安NE 中性工程结构密封胶 · 厂家直供</a></div></div>
+          <div class="prod-grid">
+            <a class="prod-card" href="#"><span class="p-img" style="background:var(--grad-blue)">新安NE<i>产品图</i></span><b>新安NE 中性工程结构密封胶</b><span class="p-s">厂家直供，现货可询</span><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#F59E0B,#F97316)">新安ES<i>产品图</i></span><b>新安ES 幕墙工程结构胶</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#10B981,#34D399)">电子灌封胶<i>产品图</i></span><b>电子灌封胶</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <div class="collapse-more prod-grid" id="c7p">
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">硅酮密封胶<i>产品图</i></span><b>硅酮密封胶</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <button class="collapse-btn" data-target="c7p">展开更多产品 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="cat-group"><span class="g-t">子分类</span><div class="g-l"><a href="#">硅酮密封胶</a><a href="#">电子灌封胶</a></div></div>
+          <div class="cat-group"><span class="g-t">热门供应</span><div class="g-l"><a href="#">新安NE 中性工程结构密封胶</a><a href="#">新安ES 幕墙工程结构胶</a><a href="#">新安728 门窗工程专用密封胶</a><a href="#">长鹿793 耐候密封胶</a><a href="#">密封胶树脂 STP</a><a href="#">JH-3680 铝塑板幕墙填缝密封胶</a><a href="#">WSD-9077 中性透明结构胶</a><a href="#">WSD-8077 酸性玻璃胶</a></div></div>
+        </div>
+        <div class="cat-panel" id="c8">
+          <div class="cat-group"><span class="g-t">品牌推荐</span><div class="g-l"><a href="#">乙烯基 MQ 树脂 · 厂家直供</a></div></div>
+          <div class="prod-grid">
+            <a class="prod-card" href="#"><span class="p-img" style="background:var(--grad-blue)">乙烯基MQ<i>产品图</i></span><b>乙烯基 MQ 树脂</b><span class="p-s">厂家直供，现货可询</span><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#F59E0B,#F97316)">甲基MQ<i>产品图</i></span><b>甲基 MQ 树脂</b><span class="p-go">进入分类查看 ›</span></a>
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#10B981,#34D399)">MQ硅树脂<i>产品图</i></span><b>MQ 硅树脂</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <div class="collapse-more prod-grid" id="c8p">
+            <a class="prod-card" href="#"><span class="p-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">甲基苯基<i>产品图</i></span><b>甲基苯基硅树脂</b><span class="p-go">进入分类查看 ›</span></a>
+          </div>
+          <button class="collapse-btn" data-target="c8p">展开更多产品 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="cat-group"><span class="g-t">子分类</span><div class="g-l"><a href="#">MQ 硅树脂</a><a href="#">甲基苯基硅树脂</a></div></div>
+          <div class="cat-group"><span class="g-t">热门供应</span><div class="g-l"><a href="#">乙烯基 MQ 树脂</a><a href="#">甲基 MQ 树脂</a><a href="#">甲基 MQ 型硅树脂</a><a href="#">乙烯基 MQ 硅树脂</a><a href="#">液体/粉体乙烯基 MQ 硅树脂</a><a href="#">甲基 MQ 硅树脂</a><a href="#">苯基含氢硅树脂</a><a href="#">乙烯基 MQ 硅树脂</a></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右：登录注册 + 公告 + 数据 -->
+    <div class="side-col">
+      <div class="login-card">
+        <div class="lc-t">您好，欢迎来到有机硅商城</div>
+        <div class="lc-s">登录后发布信息、查看企业与联系供应商</div>
+        <div class="lc-btns">
+          <a class="btn btn--light" href="#">登录</a>
+          <a class="btn btn--outline" href="#">注册</a>
+        </div>
+        <div class="lc-btns"><a class="btn btn--light" href="#" style="flex-direction:column;gap:0"><b style="font-size:13.5px">免费发布供应 / 求购</b><span style="font-size:10.5px;font-weight:400;opacity:.8">直达数万行业买家</span></a></div>
+      </div>
+      <div class="notice-card">
+        <div class="n-head"><b><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>网站公告</b><a class="more-link" href="#" style="font-size:12px">更多 ›</a></div>
+        <ul>
+          <li><a href="#">如何让您发布的信息排名提前</a></li>
+          <li><a href="#">忘记了登录名密码该如何找回</a></li>
+          <li><a href="#">联系方式变更怎么办？</a></li>
+          <li><a href="#">VIP会员可享首页推荐位优先展示</a></li>
+        </ul>
+      </div>
+      <div class="stat-card">
+        <div class="st"><b class="num">12,600+</b><span>入驻企业</span></div>
+        <div class="st"><b class="num">48,000+</b><span>挂牌产品</span></div>
+        <div class="st"><b class="num">8</b><span>大产品品类</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 价格行情（一屏版） -->
+<section class="section" id="quote" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head"><div><h2>价格行情</h2><p class="sub">每日更新的有机硅主流产品报价与走势</p></div><a class="more-link" href="#">查看全部行情 ›</a></div>
+
+    <div class="quote-block reveal">
+      <div class="quote-top">
+        <div class="quote-card">
+          <div class="qc-top">
+            <div class="qc-name">二甲基环硅氧烷混合物（DMC）</div>
+            <div class="qc-btns"><span>收藏</span><span>分享</span></div>
+          </div>
+          <div class="qc-tags"><span class="tg">市场报价</span><span class="tg">⇄ 切换品种</span></div>
+          <div class="qc-price"><b class="num">29,800</b><small>元/吨</small></div>
+          <div class="qc-chg"><span class="num">+263.17</span><span class="num">+0.89%</span></div>
+          <div class="qc-time">更新于 2026-09-07 · 华东</div>
+          <div class="qc-data">
+            <div class="d"><div class="k">今开</div><div class="v num">29,500</div></div>
+            <div class="d"><div class="k">最高</div><div class="v num up">30,100</div></div>
+            <div class="d"><div class="k">最低</div><div class="v num down">29,300</div></div>
+            <div class="d"><div class="k">昨收</div><div class="v num">29,537</div></div>
+            <div class="d"><div class="k">成交量</div><div class="v">--</div></div>
+            <div class="d"><div class="k">成交额</div><div class="v">--</div></div>
+          </div>
+        </div>
+
+        <div class="trend-card">
+          <div class="tc-head"><b>价格走势</b><span class="yr">2026年 ▾</span></div>
+          <div class="month-tabs">
+            <button class="on">9月</button><button>8月</button><button>7月</button><button>6月</button><button>5月</button><button>4月</button><button>3月</button><button>2月</button>
+          </div>
+          <svg viewBox="0 0 760 150" preserveAspectRatio="none" style="height:150px" aria-hidden="true">
+            <g font-size="10.5" text-anchor="start">
+              <text x="6" y="24" fill="#F04B3E">30,400</text><text x="6" y="60" fill="#F04B3E">30,150</text><text x="6" y="96" fill="#13294B">29,900</text><text x="6" y="132" fill="#14B968">29,650</text>
+            </g>
+            <g font-size="10.5" text-anchor="end">
+              <text x="754" y="24" fill="#F04B3E">+6.47%</text><text x="754" y="60" fill="#F04B3E">+3.24%</text><text x="754" y="96" fill="#98A5BC">+0.00%</text><text x="754" y="132" fill="#14B968">-3.24%</text>
+            </g>
+            <g stroke="#EDF1F8"><line x1="66" y1="20" x2="700" y2="20"/><line x1="66" y1="56" x2="700" y2="56"/><line x1="66" y1="92" x2="700" y2="92"/><line x1="66" y1="128" x2="700" y2="128"/></g>
+            <path fill="rgba(36,104,242,.08)" d="M66,126 L170,110 L274,90 L378,64 L482,36 L586,30 L676,32 L700,26 L700,140 L66,140 Z"/>
+            <path fill="none" stroke="#2468F2" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M66,126 L170,110 L274,90 L378,64 L482,36 L586,30 L676,32 L700,26"/>
+            <circle cx="700" cy="26" r="4.5" fill="#2468F2" stroke="#fff" stroke-width="2"/>
+            <g font-size="10.5" fill="#98A5BC" text-anchor="middle">
+              <text x="80" y="148">09-01</text><text x="270" y="148">09-08</text><text x="480" y="148">09-16</text><text x="690" y="148">09-22</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="quote-mid">
+        <div class="related">
+          <div class="r-head"><b>关联品种</b><a class="more-link" href="#" style="font-size:12.5px">更多 ›</a></div>
+          <div class="r-grid">
+            <a class="r-item on" href="#"><div class="n">二甲基环硅氧烷混合物（DMC）</div><div class="p num">29,800</div><div class="c num up">+263.17 +0.89%</div></a>
+            <a class="r-item" href="#"><div class="n">八甲基环四硅氧烷（D4）</div><div class="p num">29,500</div><div class="c num up">+0.8%</div></a>
+            <a class="r-item" href="#"><div class="n">甲基乙烯基硅橡胶（生胶）</div><div class="p num">30,800</div><div class="c num down">-0.3%</div></a>
+          </div>
+        </div>
+        <div class="region">
+          <div class="r-head"><b>区域价格</b><a class="more-link" href="#" style="font-size:12.5px">更多 ›</a></div>
+          <div class="rg-grid">
+            <div class="rg"><div class="n">华东地区</div><div class="p num">29,800<small>元/吨</small></div><div class="c num up">+263 +0.89%</div></div>
+            <div class="rg"><div class="n">山东地区</div><div class="p num">29,650<small>元/吨</small></div><div class="c num up">+212 +0.72%</div></div>
+            <div class="rg"><div class="n">华北地区</div><div class="p num">29,700<small>元/吨</small></div><div class="c num up">+150 +0.51%</div></div>
+            <div class="rg"><div class="n">华南地区</div><div class="p num">29,850<small>元/吨</small></div><div class="c num up">+280 +0.95%</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tools">
+        <a class="tool" href="#"><span class="ic" style="background:var(--grad-blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span><span><b>价格提醒</b><span>涨跌推送</span></span></a>
+        <a class="tool" href="#"><span class="ic" style="background:linear-gradient(135deg,#F59E0B,#F97316)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l5-5 4 4 7-7"/><path d="M14 9h5v5"/></svg></span><span><b>价格走势</b><span>日内趋势</span></span></a>
+        <a class="tool" href="#"><span class="ic" style="background:linear-gradient(135deg,#06B6D4,#3B82F6)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 5v14M16 5v14M8 9h8M8 15h8"/></svg></span><span><b>K线图</b><span>技术分析</span></span></a>
+        <a class="tool" href="#"><span class="ic" style="background:linear-gradient(135deg,#10B981,#34D399)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span><b>区域价格</b><span>地区对比</span></span></a>
+        <a class="tool" href="#"><span class="ic" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.7-1.7"/></svg></span><span><b>关联品种</b><span>相关行情</span></span></a>
+        <a class="tool" href="#"><span class="ic" style="background:linear-gradient(135deg,#F04B3E,#FB7185)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span><span><b>历史价格</b><span>价格查询</span></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 名企推荐（4列整齐 + 1:1 实景图） -->
+<section class="section" id="company">
+  <div class="container">
+    <div class="sec-head"><div><h2>名企推荐</h2><p class="sub">精选优质供应商，按经营领域分区展示，品质有保障</p></div><a class="more-link" href="#">更多企业 ›</a></div>
+    <div class="chips" style="margin-bottom:var(--s-4)">
+      <a class="chip active" href="#">原料区</a><a class="chip" href="#">硅油区</a><a class="chip" href="#">制品区</a><a class="chip" href="#">助剂区</a><a class="chip" href="#">设备展示</a><a class="chip" href="#">硅烷区</a><a class="chip" href="#">胶粘剂</a><a class="chip" href="#">树脂区</a>
+    </div>
+    <div class="company-grid">
+      <a class="company reveal" href="#">
+        <div class="c-top">
+          <span class="photo" style="background:var(--grad-blue)">双键<i>企业实景图</i></span>
+          <div class="c-info"><b>深圳双键有机硅科技<span class="vip">名企</span></b><div class="sub">贸易商 · 50-100人</div><div class="tags"><span>地区不限</span><span>硅胶制品</span><span>研发生产</span><span>进出口</span></div></div>
+        </div>
+        <p class="desc">硅胶产品的研发、生产与销售；国内贸易；货物及技术进出口。</p>
+        <span class="shop">进入店铺</span>
+      </a>
+      <a class="company reveal" href="#">
+        <div class="c-top">
+          <span class="photo" style="background:linear-gradient(135deg,#F59E0B,#F97316)">博寒<i>企业实景图</i></span>
+          <div class="c-info"><b>博寒展览（上海）<span class="vip">名企</span></b><div class="sub">有机硅单体/中间体 · 500人以上</div><div class="tags"><span>上海</span><span>展览展示</span><span>特装搭建</span><span>展会招展</span></div></div>
+        </div>
+        <p class="desc">展览展示、特装搭建、会议承办、展会招展一站式服务。</p>
+        <span class="shop">进入店铺</span>
+      </a>
+      <a class="company reveal" href="#">
+        <div class="c-top">
+          <span class="photo" style="background:linear-gradient(135deg,#10B981,#34D399)">硅达<i>企业实景图</i></span>
+          <div class="c-info"><b>中山市硅达有机硅材料<span class="vip">名企</span></b><div class="sub">有机硅单体/中间体 · 50-100人</div><div class="tags"><span>广东</span><span>硫化剂</span><span>食品级</span><span>生产销售</span></div></div>
+        </div>
+        <p class="desc">生产、销售硅胶食品级硫化剂，型号有 FA-14、FB-1…</p>
+        <span class="shop">进入店铺</span>
+      </a>
+      <a class="company reveal" href="#">
+        <div class="c-top">
+          <span class="photo" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">凝聚<i>企业实景图</i></span>
+          <div class="c-info"><b>广州凝聚力新材料<span class="vip">名企</span></b><div class="sub">有机硅单体/中间体 · 20-50人</div><div class="tags"><span>地区不限</span><span>电子电器</span><span>新能源汽车</span><span>LED照明</span></div></div>
+        </div>
+        <p class="desc">电子电器、消费电子、新能源汽车、家电、LED照明领域材料。</p>
+        <span class="shop">进入店铺</span>
+      </a>
+      <a class="company reveal" href="#">
+        <div class="c-top">
+          <span class="photo" style="background:linear-gradient(135deg,#06B6D4,#3B82F6)">新纶<i>企业实景图</i></span>
+          <div class="c-info"><b>新纶光电材料（深圳）<span class="vip">名企</span></b><div class="sub">有机硅单体/中间体 · 10-20人</div><div class="tags"><span>地区不限</span><span>光学填充胶</span><span>导热凝胶</span><span>围坝补强胶</span></div></div>
+        </div>
+        <p class="desc">有机硅光学填充胶、导热凝胶、围坝补强胶、有机硅液体光学胶。</p>
+        <span class="shop">进入店铺</span>
+      </a>
+      <a class="company reveal" href="#">
+        <div class="c-top">
+          <span class="photo" style="background:linear-gradient(135deg,#F04B3E,#FB7185)">乐迪<i>企业实景图</i></span>
+          <div class="c-info"><b>江西乐迪雅节能科技<span class="vip">名企</span></b><div class="sub">有机硅单体/中间体 · 10-20人</div><div class="tags"><span>江西</span><span>中空辅材</span><span>节能领域</span></div></div>
+        </div>
+        <p class="desc">中空辅材产品的开发、生产、加工、销售等节能领域。</p>
+        <span class="shop">进入店铺</span>
+      </a>
+      <div class="company hire reveal">
+        <span class="hi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        <b>广告位 · 虚位以待</b>
+        <p>首页名企推荐位招租<br>VIP 会员优先展示</p>
+        <a href="#">立即咨询 →</a>
+      </div>
+      <div class="company hire reveal">
+        <span class="hi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        <b>广告位 · 虚位以待</b>
+        <p>名企推荐黄金展位招租<br>日均曝光 100,000+</p>
+        <a href="#">立即咨询 →</a>
+      </div>
+      <div class="company hire reveal">
+        <span class="hi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        <b>广告位 · 虚位以待</b>
+        <p>名企推荐位 · 按 VIP 等级排序<br>先到先得</p>
+        <a href="#">立即咨询 →</a>
+      </div>
+      <div class="company hire reveal">
+        <span class="hi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        <b>广告位 · 虚位以待</b>
+        <p>入驻即享名企标识<br>店铺直通行业买家</p>
+        <a href="#">立即咨询 →</a>
+      </div>
+      <div class="company hire reveal">
+        <span class="hi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        <b>广告位 · 虚位以待</b>
+        <p>首页推荐位 · 招租中<br>精准触达采购商</p>
+        <a href="#">立即咨询 →</a>
+      </div>
+      <div class="company hire reveal">
+        <span class="hi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        <b>广告位 · 虚位以待</b>
+        <p>名企推荐 · 黄金展位<br>日均曝光 100,000+</p>
+        <a href="#">立即咨询 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 材料产品 -->
+<section class="section" id="materials">
+  <div class="container">
+    <div class="sec-head"><div><h2>材料产品</h2><p class="sub">八大品类材料产品一站式展示，点击查看详情与更多</p></div><a class="more-link" href="#">查看更多 ›</a></div>
+    <div class="mat-list reveal">
+      <div class="mat-row">
+        <div class="mat-side" style="background:var(--grad-blue)"><b>有机硅单体<br>/ 中间体</b><div class="m-tags"><a href="#">DMC</a><a href="#">D4</a><a href="#">甲基单体</a><a href="#">苯基单体</a></div><a class="more-btn" href="#">查看更多</a></div>
+        <div class="mat-grid">
+          <a class="mat-card" href="#"><span class="m-img" style="background:var(--grad-blue)">MA-5232<i>产品图</i></span><b class="m-name">MA-5232 有机硅中间体</b><span class="m-price num">32,500.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>101 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8)">DMC<i>产品图</i></span><b class="m-name">二甲基环硅氧烷混合物 DMC</b><span class="m-price num">29,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>86 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#10B981,#34D399)">D4<i>产品图</i></span><b class="m-name">八甲基环四硅氧烷 D4</b><span class="m-price num">29,500.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>山东</span><span><i>库存</i>64 吨</span><span><i>提货</i>自提</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">甲基单体<i>产品图</i></span><b class="m-name">甲基单体</b><span class="m-price num">30,200.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>120 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#6366F1,#818CF8)">苯基单体<i>产品图</i></span><b class="m-name">苯基单体</b><span class="m-price num">33,600.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>地区不限</span><span><i>库存</i>45 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+        </div>
+      </div>
+      <div class="mat-row">
+        <div class="mat-side" style="background:linear-gradient(160deg,#F59E0B,#F97316)"><b>硅油</b><div class="m-tags"><a href="#">甲基硅油</a><a href="#">羟基硅油</a><a href="#">含氢硅油</a><a href="#">改性硅油</a></div><a class="more-btn" href="#">查看更多</a></div>
+        <div class="mat-grid">
+          <a class="mat-card" href="#"><span class="m-img" style="background:var(--grad-blue)">STMMA<i>产品图</i></span><b class="m-name">STMMA 消失模铸造树脂</b><span class="m-price num">28,600.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>58 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8)">甲基硅油<i>产品图</i></span><b class="m-name">二甲基硅油 100cSt</b><span class="m-price num">27,200.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>230 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#10B981,#34D399)">羟基硅油<i>产品图</i></span><b class="m-name">羟基硅油</b><span class="m-price num">25,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>山东</span><span><i>库存</i>96 吨</span><span><i>提货</i>自提</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">含氢硅油<i>产品图</i></span><b class="m-name">含氢硅油</b><span class="m-price num">31,500.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>地区不限</span><span><i>库存</i>52 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#6366F1,#818CF8)">改性硅油<i>产品图</i></span><b class="m-name">改性硅油</b><span class="m-price num">29,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>77 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+        </div>
+      </div>
+      <div class="mat-row">
+        <div class="mat-side" style="background:linear-gradient(160deg,#10B981,#34D399)"><b>硅橡胶</b><div class="m-tags"><a href="#">混炼胶</a><a href="#">液体硅橡胶</a><a href="#">模具硅橡胶</a></div><a class="more-btn" href="#">查看更多</a></div>
+        <div class="mat-grid">
+          <a class="mat-card" href="#"><span class="m-img" style="background:var(--grad-blue)">GD-480<i>产品图</i></span><b class="m-name">GD-480 导热粘接室温硫化硅橡胶</b><span class="m-price num">45,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>广东</span><span><i>库存</i>30 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8)">混炼胶<i>产品图</i></span><b class="m-name">混炼胶 高温硫化型</b><span class="m-price num">24,300.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>210 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#10B981,#34D399)">液体硅胶<i>产品图</i></span><b class="m-name">液体硅橡胶</b><span class="m-price num">38,600.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>广东</span><span><i>库存</i>66 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">模具胶<i>产品图</i></span><b class="m-name">模具硅橡胶</b><span class="m-price num">36,200.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>地区不限</span><span><i>库存</i>44 吨</span><span><i>提货</i>自提</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#6366F1,#818CF8)">107胶<i>产品图</i></span><b class="m-name">107 室温硫化硅橡胶</b><span class="m-price num">31,500.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>150 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+        </div>
+      </div>
+      <div class="mat-row">
+        <div class="mat-side" style="background:linear-gradient(160deg,#8B5CF6,#A78BFA)"><b>有机硅助剂<br>/ 填料</b><div class="m-tags"><a href="#">铂金催化剂</a><a href="#">白炭黑</a><a href="#">色母</a></div><a class="more-btn" href="#">查看更多</a></div>
+        <div class="mat-grid">
+          <a class="mat-card" href="#"><span class="m-img" style="background:var(--grad-blue)">铂金硫化<i>产品图</i></span><b class="m-name">硅胶低温铂金硫化（液体硅胶）</b><span class="m-price num">58,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>25 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8)">铂金催化剂<i>产品图</i></span><b class="m-name">铂金催化剂</b><span class="m-price num">96,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>地区不限</span><span><i>库存</i>12 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#10B981,#34D399)">白炭黑<i>产品图</i></span><b class="m-name">气相白炭黑 工业级</b><span class="m-price num">33,900.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>山东</span><span><i>库存</i>180 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">色母<i>产品图</i></span><b class="m-name">色母</b><span class="m-price num">42,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>广东</span><span><i>库存</i>40 吨</span><span><i>提货</i>自提</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#6366F1,#818CF8)">锚固剂<i>产品图</i></span><b class="m-name">压敏胶锚固剂</b><span class="m-price num">36,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>36 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+        </div>
+      </div>
+      <div class="mat-row">
+        <div class="mat-side" style="background:linear-gradient(160deg,#06B6D4,#3B82F6)"><b>机械设备</b><div class="m-tags"><a href="#">捏合机</a><a href="#">反应釜</a><a href="#">挤出机</a><a href="#">注塑机</a></div><a class="more-btn" href="#">查看更多</a></div>
+        <div class="mat-grid">
+          <a class="mat-card" href="#"><span class="m-img" style="background:var(--grad-blue)">捏合机<i>产品图</i></span><b class="m-name">真空捏合机</b><span class="m-price num">186,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>江苏</span><span><i>库存</i>8 台</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8)">搅拌机<i>产品图</i></span><b class="m-name">行星分散搅拌机</b><span class="m-price num">96,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>江苏</span><span><i>库存</i>15 台</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#10B981,#34D399)">注塑机<i>产品图</i></span><b class="m-name">液态硅胶注射成型机</b><span class="m-price num">386,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>广东</span><span><i>库存</i>6 台</span><span><i>提货</i>自提</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">反应釜<i>产品图</i></span><b class="m-name">不锈钢反应釜</b><span class="m-price num">128,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>山东</span><span><i>库存</i>11 台</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#6366F1,#818CF8)">挤出机<i>产品图</i></span><b class="m-name">硅橡胶挤出机</b><span class="m-price num">158,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>地区不限</span><span><i>库存</i>9 台</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+        </div>
+      </div>
+      <div class="mat-row">
+        <div class="mat-side" style="background:linear-gradient(160deg,#F04B3E,#FB7185)"><b>硅烷</b><div class="m-tags"><a href="#">偶联剂</a><a href="#">交联剂</a></div><a class="more-btn" href="#">查看更多</a></div>
+        <div class="mat-grid">
+          <a class="mat-card" href="#"><span class="m-img" style="background:var(--grad-blue)">KH-550<i>产品图</i></span><b class="m-name">硅烷偶联剂 KH-550</b><span class="m-price num">26,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>95 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8)">氨丙基<i>产品图</i></span><b class="m-name">氨丙基三乙氧基硅烷</b><span class="m-price num">25,500.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>山东</span><span><i>库存</i>80 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#10B981,#34D399)">交联剂<i>产品图</i></span><b class="m-name">硅烷交联剂</b><span class="m-price num">32,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>47 吨</span><span><i>提货</i>自提</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">甲基三甲氧基<i>产品图</i></span><b class="m-name">甲基三甲氧基硅烷</b><span class="m-price num">21,600.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>山东</span><span><i>库存</i>110 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#6366F1,#818CF8)">乙烯基酮肟<i>产品图</i></span><b class="m-name">乙烯基三丁酮肟基硅烷</b><span class="m-price num">28,900.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>地区不限</span><span><i>库存</i>55 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+        </div>
+      </div>
+      <div class="mat-row">
+        <div class="mat-side" style="background:linear-gradient(160deg,#2952CC,#4A7BF7)"><b>胶粘剂</b><div class="m-tags"><a href="#">硅酮密封胶</a><a href="#">电子灌封胶</a></div><a class="more-btn" href="#">查看更多</a></div>
+        <div class="mat-grid">
+          <a class="mat-card" href="#"><span class="m-img" style="background:var(--grad-blue)">新安NE<i>产品图</i></span><b class="m-name">新安NE 中性工程结构密封胶</b><span class="m-price num">26,500.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>70 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8)">新安ES<i>产品图</i></span><b class="m-name">新安ES 幕墙工程结构胶</b><span class="m-price num">28,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>60 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#10B981,#34D399)">新安728<i>产品图</i></span><b class="m-name">新安728 门窗专用密封胶</b><span class="m-price num">24,600.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>浙江</span><span><i>库存</i>85 吨</span><span><i>提货</i>自提</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">长鹿793<i>产品图</i></span><b class="m-name">长鹿793 耐候密封胶</b><span class="m-price num">23,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>广东</span><span><i>库存</i>78 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#6366F1,#818CF8)">灌封胶<i>产品图</i></span><b class="m-name">电子灌封胶 导热型</b><span class="m-price num">42,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>33 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+        </div>
+      </div>
+      <div class="mat-row">
+        <div class="mat-side" style="background:linear-gradient(160deg,#DB2777,#F472B6)"><b>硅树脂</b><div class="m-tags"><a href="#">MQ硅树脂</a><a href="#">甲基苯基硅树脂</a></div><a class="more-btn" href="#">查看更多</a></div>
+        <div class="mat-grid">
+          <a class="mat-card" href="#"><span class="m-img" style="background:var(--grad-blue)">乙烯基MQ<i>产品图</i></span><b class="m-name">乙烯基 MQ 树脂</b><span class="m-price num">46,800.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>38 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8)">甲基MQ<i>产品图</i></span><b class="m-name">甲基 MQ 树脂</b><span class="m-price num">42,500.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>52 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#10B981,#34D399)">MQ型<i>产品图</i></span><b class="m-name">甲基 MQ 型硅树脂</b><span class="m-price num">44,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>山东</span><span><i>库存</i>29 吨</span><span><i>提货</i>自提</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">苯基含氢<i>产品图</i></span><b class="m-name">苯基含氢硅树脂</b><span class="m-price num">52,000.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>地区不限</span><span><i>库存</i>21 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+          <a class="mat-card" href="#"><span class="m-img" style="background:linear-gradient(135deg,#6366F1,#818CF8)">粉体MQ<i>产品图</i></span><b class="m-name">液体/粉体乙烯基 MQ 硅树脂</b><span class="m-price num">47,600.00<small> 元/吨（含税）</small></span><div class="m-meta"><span><i>发货地</i>华东</span><span><i>库存</i>34 吨</span><span><i>提货</i>配送</span></div><div class="m-ops"><span class="op-fav">关注</span><span class="op-msg">留言</span><span class="op-tel">联系方式</span></div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 供求（双栏平铺） -->
+<section class="section" id="supply">
+  <div class="container">
+    <div class="sec-head"><div><h2>供求信息</h2><p class="sub">最新供应与求购实时更新，供需对接更高效</p></div></div>
+    <div class="supply-grid reveal">
+      <div class="supply-box">
+        <div class="s-head"><b>最新供应</b><a class="more-link" href="#">更多供应 ›</a></div>
+        <ul>
+          <li><a class="t" href="#">乙烯基 MQ 树脂</a><span class="tag">供应</span></li>
+          <li><a class="t" href="#">甲基 MQ 树脂</a><span class="tag">供应</span></li>
+          <li><a class="t" href="#">甲基 MQ 型硅树脂</a><span class="tag">供应</span></li>
+          <li><a class="t" href="#">乙烯基 MQ 硅树脂</a><span class="tag">供应</span></li>
+          <li><a class="t" href="#">液体/粉体乙烯基 MQ 硅树脂</a><span class="tag">供应</span></li>
+          <li><a class="t" href="#">甲基 MQ 硅树脂</a><span class="tag">供应</span></li>
+        </ul>
+      </div>
+      <div class="supply-box buy">
+        <div class="s-head"><b>最新求购</b><a class="more-link" href="#">更多求购 ›</a></div>
+        <ul>
+          <li><a class="t" href="#">求购模具硅胶 · 软硬度可调</a><span class="tag">求购</span></li>
+          <li><a class="t" href="#">求购真空捏合机 · 二手/全新</a><span class="tag">求购</span></li>
+          <li><a class="t" href="#">采购农用有机硅助剂</a><span class="tag">求购</span></li>
+          <li><a class="t" href="#">急需气相白炭黑 · 工业级</a><span class="tag">求购</span></li>
+          <li><a class="t" href="#">采购电子灌封胶 · 导热型</a><span class="tag">求购</span></li>
+          <li><a class="t" href="#">采购硅烷偶联剂 KH-550</a><span class="tag">求购</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 行业资讯 -->
+<section class="section" id="news">
+  <div class="container">
+    <div class="sec-head"><div><h2>行业资讯</h2><p class="sub">有机硅市场动态、行情分析与技术解读</p></div><a class="more-link" href="#">更多资讯 ›</a></div>
+    <div class="news-grid">
+      <div class="news-main reveal">
+        <div class="news-cats">
+          <a class="chip active" href="#">全部</a><a class="chip" href="#">中间体报价</a><a class="chip" href="#">硅油·107胶报价</a><a class="chip" href="#">硅橡胶报价</a><a class="chip" href="#">市场综述</a>
+        </div>
+        <a class="news-item" href="#"><span class="cate">市场综述</span><span class="t">9月下旬有机硅市场综述：中间体坚挺 下游按需跟进</span><time>09-21</time></a>
+        <a class="news-item" href="#"><span class="cate">下游观察</span><span class="t">有机硅下游需求观察：密封胶与电子用胶采购节奏</span><time>09-19</time></a>
+        <a class="news-item" href="#"><span class="cate">中间体报价</span><span class="t">9月有机硅 DMC 价格动态汇总</span><time>09-07</time></a>
+        <a class="news-item" href="#"><span class="cate">硅油报价</span><span class="t">107 胶本周报价与成交简析</span><time>09-06</time></a>
+        <a class="news-item" href="#"><span class="cate">硅橡胶报价</span><span class="t">生胶价格波动：下游观望情绪升温</span><time>09-05</time></a>
+        <a class="news-item" href="#"><span class="cate">中间体报价</span><span class="t">9月4日有机硅 DMC 价格动态</span><time>09-04</time></a>
+        <a class="news-item" href="#"><span class="cate">装置动态</span><span class="t">合盛、新安装置动态跟踪</span><time>09-04</time></a>
+        <a class="news-item" href="#"><span class="cate">供需简析</span><span class="t">有机硅行业供需简析</span><time>09-03</time></a>
+      </div>
+      <div class="news-rank reveal">
+        <div class="rk-title"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v12M12 3v12M18 3v12"/><path d="M4 15h16v6H4z"/></svg>资讯排行榜</div>
+        <div class="rank-item"><span class="no">1</span><span class="t">展会预告：华南橡塑与有机硅专题论坛</span><span class="h num">22970</span></div>
+        <div class="rank-item"><span class="no">2</span><span class="t">加成型硅胶催化剂活性检测方法</span><span class="h num">19129</span></div>
+        <div class="rank-item"><span class="no">3</span><span class="t">混炼胶加工常见问题与对策</span><span class="h num">19050</span></div>
+        <div class="rank-item"><span class="no">4</span><span class="t">安全提示：谨防虚假供应商与定金诈骗</span><span class="h num">15433</span></div>
+        <div class="rank-item"><span class="no">5</span><span class="t">9月上旬密封胶原料成本跟踪</span><span class="h num">13890</span></div>
+        <div class="rank-item"><span class="no">6</span><span class="t">合盛、新安装置动态跟踪</span><span class="h num">12245</span></div>
+        <div class="rank-item"><span class="no">7</span><span class="t">9月有机硅 DMC 价格动态汇总</span><span class="h num">11596</span></div>
+        <div class="rank-item"><span class="no">8</span><span class="t">白炭黑涨跌互现，终端按需采购</span><span class="h num">11384</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta reveal">
+      <div class="cta-in">
+        <div><h3>入驻有机硅商城，让生意快一步</h3><p>免费发布供应/求购信息，精准触达数万有机硅行业买家</p></div>
+        <div class="btns"><a class="btn btn--accent" href="#">免费入驻 / 发布</a><a class="btn btn--ghost" href="#">升级 VIP 会员</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="container">
+    <div class="cols">
+      <div class="brand"><div class="t"><img class="fmark" src="assets/logo-yjg.png" alt="有机硅商城"><span class="fx">×</span><img class="fmark" src="assets/logo-silink.png" alt="硅源智链">联合运营</div><p>领先的有机硅电商综合服务平台，专注有机硅产业链的价格行情、供应采购与行业资讯。</p></div>
+      <div><h4>找产品</h4><ul><li><a href="#">有机硅单体</a></li><li><a href="#">硅油 · 硅橡胶</a></li><li><a href="#">硅烷 · 胶粘剂</a></li><li><a href="#">机械设备</a></li></ul></div>
+      <div><h4>看行情</h4><ul><li><a href="#">价格行情</a></li><li><a href="#">价格提醒</a></li><li><a href="#">区域价格</a></li><li><a href="#">历史价格</a></li></ul></div>
+      <div><h4>做生意</h4><ul><li><a href="#">发布供应</a></li><li><a href="#">发布求购</a></li><li><a href="#">商家入驻</a></li><li><a href="#">VIP 会员</a></li></ul></div>
+      <div><h4>帮助中心</h4><ul><li><a href="#">信息排名提升</a></li><li><a href="#">找回登录密码</a></li><li><a href="#">联系方式变更</a></li><li><a href="#">联系客服</a></li></ul></div>
+    </div>
+    <div class="bottom"><span>© 2026 有机硅商城 · 爱菲丽网络科技有限公司</span><span><a href="#">用户协议</a> · <a href="#">隐私政策</a> · <a href="#">免责声明</a></span></div>
+  </div>
+</footer>
+
+<!-- 右侧客服悬浮栏 -->
+<div class="service-bar">
+  <a class="sv-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2.5-3 4"/><path d="M12 17.5h.01"/></svg>帮助中心</a>
+  <a class="sv-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 01-8.5 8.3c-1.5 0-2.9-.4-4.1-1L3 20l1.3-4.1a8 8 0 01-1.3-4.4A8.4 8.4 0 0111.5 3.2 8.4 8.4 0 0121 11.5z"/></svg>在线客服</a>
+  <a class="sv-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h.01M15 9h.01M9 14c1 1 5 1 6 0"/></svg>微信客服</a>
+  <a class="sv-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/></svg>投诉建议</a>
+  <a class="sv-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 8H8L6 3H3"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>购物车</a>
+  <a class="sv-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>用户中心</a>
+  <a class="sv-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>APP</a>
+  <a class="sv-item" href="javascript:scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>顶部</a>
+  <a class="sv-consult" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 01-8.5 8.3c-1.5 0-2.9-.4-4.1-1L3 20l1.3-4.1a8 8 0 01-1.3-4.4A8.4 8.4 0 0111.5 3.2 8.4 8.4 0 0121 11.5z"/></svg><span>在线咨询</span></a>
+</div>
+
+<script>
+// 导航滚动阴影
+const nav=document.getElementById('nav');
+const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>8);
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// 滚动显现
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// 广告轮播
+(function(){
+  const banner=document.getElementById('banner');
+  const slides=[...banner.querySelectorAll('.slide')],dots=[...banner.querySelectorAll('.dots button')];
+  let idx=0,timer;
+  const show=i=>{slides[idx].classList.remove('on');dots[idx].classList.remove('on');idx=(i+slides.length)%slides.length;slides[idx].classList.add('on');dots[idx].classList.add('on');};
+  const play=()=>{clearInterval(timer);timer=setInterval(()=>show(idx+1),4200);};
+  dots.forEach((d,i)=>d.addEventListener('click',()=>{show(i);play();}));
+  banner.addEventListener('mouseenter',()=>clearInterval(timer));
+  banner.addEventListener('mouseleave',play);
+  play();
+})();
+
+// 全部分类切换
+const cdName=document.getElementById('cdName');
+const cdNames={'c1':'有机硅单体 / 中间体','c2':'硅油','c3':'硅橡胶','c4':'有机硅助剂 / 填料','c5':'机械设备','c6':'硅烷','c7':'胶粘剂','c8':'硅树脂'};
+document.querySelectorAll('#catSide button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#catSide button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.cat-panel').forEach(p=>p.classList.remove('on'));
+    document.getElementById(btn.dataset.id).classList.add('on');
+    cdName.textContent=cdNames[btn.dataset.id];
+  });
+});
+
+// 折叠展开（产品展示）
+document.querySelectorAll('.collapse-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=document.getElementById(btn.dataset.target);
+    btn.classList.toggle('open',t.classList.toggle('open'));
+  });
+});
+
+// 月份 Tab 视觉切换
+document.querySelectorAll('.month-tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.month-tabs button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+  });
+});
+</script>
+</body>
+</html>

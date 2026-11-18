@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# 仅排除 API（JSON），不排除 /quotes 等可收录页面
+Disallow: /api/
+
+Sitemap: https://g.aifeili.cn/sitemap.xml
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Googlebot
+Allow: /

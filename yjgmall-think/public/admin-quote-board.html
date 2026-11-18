@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>价格走势</title>
+<style>
+  :root { --blue:#2468f2; --ink:#13294b; --ink2:#5c6d88; --ink3:#8b9bb3; --line:#e7eef8; --bg:#eef3fb; --up:#0f9f6e; --down:#e23b32; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: radial-gradient(1200px 420px at 10% -10%, #d9e7ff 0%, transparent 55%), var(--bg); color: var(--ink); font: 14px/1.5 "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  a { color: var(--blue); text-decoration: none; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 22px 18px 56px; }
+  .top { display: flex; justify-content: space-between; gap: 18px; align-items: flex-end; margin-bottom: 16px; padding: 22px 24px; border-radius: 20px; color: #fff; background: linear-gradient(135deg, #1d4fd7 0%, #2f6fe8 58%, #3f86f9 100%); box-shadow: 0 16px 36px rgba(29, 79, 215, .22); }
+  .crumb { color: rgba(255,255,255,.75); font-size: 12px; margin-bottom: 8px; }
+  .crumb a { color: #fff; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: .01em; }
+  .sub { margin-top: 8px; color: rgba(255,255,255,.88); font-size: 13px; }
+  .sub b { color: #fff; font-size: 28px; letter-spacing: -.03em; }
+  .card { background: #fff; border: 1px solid rgba(215, 226, 245, .9); border-radius: 18px; box-shadow: 0 10px 28px rgba(20, 45, 90, .05); padding: 16px 18px 18px; margin-bottom: 14px; }
+  .ranges { display: grid; gap: 12px; }
+  .range-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .range-lab { flex: 0 0 auto; min-width: 72px; color: var(--ink3); font-size: 12px; font-weight: 800; letter-spacing: .02em; }
+  .year-pick {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 12px 8px 14px; border-radius: 14px;
+    background: linear-gradient(180deg, #f7faff, #eef4ff);
+    border: 1px solid #cfe0fa; box-shadow: 0 6px 16px rgba(36, 104, 242, .08);
+  }
+  .year-pick label { color: var(--ink2); font-size: 12.5px; font-weight: 800; white-space: nowrap; }
+  .year-pick select {
+    appearance: none; -webkit-appearance: none;
+    min-width: 112px; height: 36px; padding: 0 34px 0 12px; border-radius: 10px;
+    border: 1px solid #b9cef3; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235c6d88' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center;
+    color: var(--ink); font: inherit; font-size: 15px; font-weight: 800; cursor: pointer;
+  }
+  .year-pick select:focus { outline: 2px solid rgba(36, 104, 242, .2); border-color: #7aa4ef; }
+  .year-tip { color: var(--ink3); font-size: 12px; font-weight: 600; }
+  .year-tip b { color: var(--blue); }
+  .year-add {
+    height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid #b9cef3;
+    background: #fff; color: var(--blue); font: inherit; font-size: 13px; font-weight: 800; cursor: pointer;
+  }
+  .year-add:hover { background: #eef4ff; border-color: #7aa4ef; }
+  .ranges button { border: 1px solid transparent; background: #f3f7fd; color: var(--ink2); border-radius: 999px; padding: 7px 13px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .ranges button.on { background: var(--blue); color: #fff; box-shadow: 0 6px 14px rgba(36, 104, 242, .28); }
+  .src { display: grid; grid-template-columns: 1.35fr .85fr; gap: 14px; }
+  .src h3, .block h3 { margin: 0 0 8px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+  .src h3:before, .block h3:before { content: ""; width: 4px; height: 14px; border-radius: 4px; background: var(--blue); }
+  .hint { color: var(--ink2); font-size: 12.5px; margin: 0 0 12px; line-height: 1.65; }
+  .import-year {
+    display: inline-flex; align-items: center; gap: 6px; margin: 0 0 12px;
+    padding: 6px 10px; border-radius: 999px; background: #eef4ff; color: #1d4fd7;
+    font-size: 12.5px; font-weight: 800;
+  }
+  .import-year b { font-size: 14px; }
+  .file { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 12px; border-radius: 12px; background: #f7faff; border: 1px dashed #c5d6f3; }
+  .file-btn {
+    position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center;
+    height: 36px; padding: 0 14px; border-radius: 10px; border: 1px solid #b9cef3;
+    background: #fff; color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .file-name { color: var(--ink2); font-size: 13px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-name.empty { color: var(--ink3); }
+  .btn { border: 0; background: linear-gradient(180deg, #3b82f6, #2468f2); color: #fff; border-radius: 10px; padding: 9px 16px; font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 8px 16px rgba(36, 104, 242, .22); }
+  .btn.ghost { background: rgba(255,255,255,.16); color: #fff; box-shadow: none; border: 1px solid rgba(255,255,255,.35); }
+  .btn.danger { background: #fff; color: #e23b32; border: 1px solid #f3b4b0; box-shadow: none; }
+  .btn.danger:hover { background: #fff5f4; }
+  .qb-mask { position: fixed; inset: 0; background: rgba(15, 28, 52, .45); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 16px; }
+  .qb-dialog { width: min(420px, 100%); background: #fff; border-radius: 16px; padding: 20px 22px 18px; box-shadow: 0 24px 48px rgba(20, 45, 90, .22); }
+  .qb-dialog h3 { margin: 0 0 8px; font-size: 17px; }
+  .qb-dialog p { margin: 0 0 14px; color: var(--ink2); font-size: 13.5px; line-height: 1.65; }
+  .qb-dialog label { display: block; margin: 0 0 14px; color: var(--ink2); font-size: 13px; font-weight: 700; }
+  .qb-dialog input[type=password] { display: block; width: 100%; margin-top: 6px; height: 38px; border: 1px solid #d7e2f5; border-radius: 10px; padding: 0 12px; font: inherit; background: #f8fbff; }
+  .qb-dialog .ops { display: flex; justify-content: flex-end; gap: 8px; }
+  .qb-dialog .ops .ghost { background: #f3f7fd; color: var(--ink2); box-shadow: none; }
+  .note { margin-top: 8px; font-size: 12.5px; color: var(--ink2); min-height: 18px; }
+  .note.err { color: var(--down); }
+  .note.ok { color: var(--up); }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .stat { position: relative; background: #fff; border: 1px solid #e7eef8; border-radius: 16px; padding: 16px 16px 14px; overflow: hidden; box-shadow: 0 10px 24px rgba(20, 45, 90, .04); }
+  .stat:before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--blue); }
+  .stat:nth-child(2):before { background: #7c5cff; }
+  .stat:nth-child(3):before { background: #f5a524; }
+  .stat:nth-child(4):before { background: #14b968; }
+  .stat span { display: block; color: var(--ink3); font-size: 12px; font-weight: 700; }
+  .stat b { display: block; margin-top: 8px; font-size: 24px; letter-spacing: -.03em; color: var(--ink); }
+  .stat em { display: block; margin-top: 4px; font-style: normal; font-size: 12px; color: var(--ink3); font-weight: 600; }
+  .up { color: var(--up) !important; }
+  .down { color: var(--down) !important; }
+  .chart-box { min-height: 300px; border-radius: 14px; background: linear-gradient(180deg, #f8fbff, #fff 42%); }
+  svg.chart { width: 100%; height: 280px; display: block; }
+  .empty { min-height: 280px; display: flex; align-items: center; justify-content: center; color: var(--ink3); }
+  .tip { height: 22px; text-align: right; color: var(--ink3); font-size: 12px; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+  th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: inherit; }
+  th { color: #3d5278; font-weight: 800; background: #f4f8ff; position: sticky; top: 0; z-index: 1; }
+  tbody tr:nth-child(even) td { background: #fbfcfe; }
+  tbody tr:hover td { background: #f3f7ff; }
+  td:last-child { font-weight: 800; color: #1d4fd7; }
+  .table-wrap { overflow: auto; max-height: 480px; border: 1px solid var(--line); border-radius: 14px; }
+  .add { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .add input { height: 36px; border: 1px solid #d7e2f5; border-radius: 10px; padding: 0 10px; font: inherit; background: #f8fbff; }
+  .add input:focus { outline: 2px solid rgba(36, 104, 242, .18); border-color: #8eb0ef; }
+  @media (max-width: 900px) {
+    .stats { grid-template-columns: 1fr 1fr; }
+    .src { grid-template-columns: 1fr; }
+    .top { align-items: flex-start; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="crumb"><a href="/admin/r/quote-products">行情报价</a> / 价格图表</div>
+      <h1 id="title">加载中…</h1>
+      <div class="sub" id="subtitle"></div>
+    </div>
+    <a class="btn ghost" href="/admin/r/quote-products">返回列表</a>
+  </div>
+
+  <div class="card">
+    <div class="ranges" id="ranges"></div>
+  </div>
+
+  <div class="src">
+    <div class="card">
+      <h3>导入这个品种的报价表</h3>
+      <div class="import-year" id="importYearBadge">导入年份 <b>—</b></div>
+      <p class="hint">先选好上方「筛选 / 导入年份」，再导入整年表。系统会按所选年写入（表里即使写着别的年份或 Excel 日期序列号，也会改成这一年的月日）。「清除本年数据」也只清当前选中年份，不会动其它年。</p>
+      <div class="file">
+        <label class="file-btn">选择文件<input id="file" type="file" accept=".xlsx,.csv,.txt"></label>
+        <span class="file-name empty" id="fileName">未选择文件</span>
+        <button class="btn" id="upload" type="button">导入数据</button>
+        <button class="btn danger" id="clearData" type="button">清除本年数据</button>
+      </div>
+      <p class="note" id="importNote"></p>
+    </div>
+    <div class="card">
+      <h3>补录某一天</h3>
+      <p class="hint">只有一个均价时用这里。最低价和最高价可以空着。保存后最新一天会回到行情页和列表。</p>
+      <div class="add">
+        <input id="dDate" type="date">
+        <input id="dAvg" type="number" step="any" placeholder="均价">
+        <input id="dMin" type="number" step="any" placeholder="最低">
+        <input id="dMax" type="number" step="any" placeholder="最高">
+        <button class="btn" id="saveDay" type="button">保存这一天</button>
+      </div>
+      <p class="note" id="dayNote"></p>
+    </div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <div class="card block">
+    <h3>价格走势</h3>
+    <div class="chart-box" id="chart"></div>
+    <div class="tip" id="tip">有报价的日期才会出现在线上</div>
+  </div>
+  <div class="card block">
+    <h3 id="tableTitle">每日报价</h3>
+    <div class="table-wrap" id="table"></div>
+  </div>
+</div>
+<script>
+const params = new URLSearchParams(location.search)
+const id = params.get('id')
+let state = {
+  year: Number(params.get('year') || 0) || 0,
+  month: Number(params.get('month') || 0) || 0,
+  span: params.get('span') || 'month',
+}
+const YEAR_MIN = 2016
+const extraYearsKey = 'quote_board_extra_years_' + (id || '0')
+
+function loadExtraYears() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(extraYearsKey) || '[]')
+    return Array.isArray(raw) ? raw.map(Number).filter((y) => y >= YEAR_MIN && y <= 2100) : []
+  } catch (e) { return [] }
+}
+function saveExtraYears(list) {
+  const uniq = Array.from(new Set(list.map(Number).filter((y) => y >= YEAR_MIN && y <= 2100))).sort((a, b) => b - a)
+  localStorage.setItem(extraYearsKey, JSON.stringify(uniq))
+  return uniq
+}
+function addExtraYear(y) {
+  const year = Number(y)
+  if (!year || year < YEAR_MIN || year > 2100) return null
+  const list = saveExtraYears(loadExtraYears().concat(year))
+  return list.includes(year) ? year : null
+}
+
+function token() {
+  const m = document.cookie.match(/(?:^|; )yjgmall_admin_token=([^;]*)/)
+  if (!m) return ''
+  try { return decodeURIComponent(m[1]).replace(/^"|"$/g, '') } catch (e) { return m[1] }
+}
+async function api(path, opt) {
+  const headers = { Accept: 'application/json', Authorization: 'Bearer ' + token() }
+  if (opt && opt.headers) Object.assign(headers, opt.headers)
+  const res = await fetch(path, Object.assign({}, opt || {}, { headers }))
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) {
+    const err = new Error(data.message || '请求失败')
+    err.status = res.status
+    err.data = data
+    throw err
+  }
+  return data
+}
+function askDialog(opts) {
+  return new Promise((resolve) => {
+    const mask = document.createElement('div')
+    mask.className = 'qb-mask'
+    mask.innerHTML = '<div class="qb-dialog" role="dialog"><h3></h3><p></p><label class="pass">二级密码<input type="password" autocomplete="current-password" placeholder="请输入二级密码"></label><div class="ops"><button type="button" class="btn ghost cancel">取消</button><button type="button" class="btn ok">确认</button></div></div>'
+    mask.querySelector('h3').textContent = opts.title || ''
+    mask.querySelector('p').textContent = opts.message || ''
+    const pass = mask.querySelector('.pass')
+    const input = mask.querySelector('input')
+    if (!opts.password) pass.style.display = 'none'
+    const close = (v) => { mask.remove(); resolve(v) }
+    mask.querySelector('.cancel').onclick = () => close(null)
+    mask.addEventListener('click', (e) => { if (e.target === mask) close(null) })
+    mask.querySelector('.ok').onclick = () => close(opts.password ? input.value.trim() : true)
+    document.body.appendChild(mask)
+    if (opts.password) input.focus()
+  })
+}
+async function ensureDeleteAuth() {
+  const status = await api('/api/v1/admin/security')
+  const data = (status && status.data) || status || {}
+  if (!data.has_second_password) {
+    throw new Error('请先在「站点设置」中设置二级密码后再删除')
+  }
+  if (data.verified) return true
+  const password = await askDialog({
+    title: '验证二级密码',
+    message: '清除数据需要验证二级密码。验证通过后，24 小时内不用再填。',
+    password: true,
+  })
+  if (!password || password.length < 6) return false
+  await api('/api/v1/admin/security/verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  })
+  return true
+}
+function money(n) {
+  if (n == null || n === '' || Number(n) === 0 && n !== 0) return '—'
+  const v = Number(n)
+  if (!Number.isFinite(v)) return '—'
+  const abs = Math.abs(v)
+  const text = Math.abs(abs - Math.round(abs)) < 0.001 ? Math.round(abs).toLocaleString('zh-CN') : abs.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  return (v < 0 ? '-' : '') + text
+}
+function esc(s) { return String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])) }
+
+async function load() {
+  if (!token()) {
+    document.getElementById('title').textContent = '请先登录后台'
+    document.getElementById('subtitle').innerHTML = '<a href="/admin/login">去登录</a>'
+    return
+  }
+  const q = new URLSearchParams()
+  if (state.year) q.set('year', state.year)
+  if (state.month) q.set('month', state.month)
+  q.set('span', state.span)
+  const res = await api('/api/v1/admin/resources/quote-products/' + encodeURIComponent(id) + '/board?' + q.toString())
+  const d = res.data
+  state.year = d.year
+  state.month = d.month
+  state.span = d.span
+  // 把年份写进地址栏，离开再进还能停在同一年（避免看起来像「导入丢了」）
+  try {
+    const u = new URL(location.href)
+    u.searchParams.set('id', String(id || ''))
+    if (state.year) u.searchParams.set('year', String(state.year))
+    else u.searchParams.delete('year')
+    if (state.month) u.searchParams.set('month', String(state.month))
+    else u.searchParams.delete('month')
+    u.searchParams.set('span', state.span || 'month')
+    history.replaceState(null, '', u.pathname + u.search)
+  } catch (e) {}
+  const p = d.product
+  document.title = p.name + ' - 价格走势'
+  document.getElementById('title').textContent = p.name
+  const latest = d.summary.latest
+  document.getElementById('subtitle').innerHTML = (p.market ? esc(p.market) + ' · ' : '') + '当前价 <b>¥' + money(p.price_avg) + '</b> ' + esc(p.unit) + (p.quoted_on ? ' · 更新于 ' + esc(p.quoted_on) : '')
+  renderRanges(d)
+  renderStats(d)
+  renderChart(d)
+  renderTable(d)
+}
+
+function renderRanges(d) {
+  const box = document.getElementById('ranges')
+  const years = (d.years && d.years.length) ? d.years.slice() : [d.year]
+  const nowY = new Date().getFullYear()
+  // 默认 2016～当前年；不含未来年。手动添加的年份（如以后的 2027）单独合并进来
+  for (let y = YEAR_MIN; y <= nowY; y++) {
+    if (!years.includes(y)) years.push(y)
+  }
+  loadExtraYears().forEach((y) => { if (!years.includes(y)) years.push(y) })
+  if (d.year && !years.includes(d.year)) years.push(d.year)
+  years.sort((a, b) => b - a)
+
+  const opts = years.map((y) => '<option value="' + y + '"' + (y === d.year ? ' selected' : '') + '>' + y + ' 年</option>').join('')
+  box.innerHTML =
+    '<div class="range-row">'
+    + '<div class="year-pick">'
+    + '<label for="yearSelect">筛选 / 导入年份</label>'
+    + '<select id="yearSelect" aria-label="筛选或导入年份">' + opts + '</select>'
+    + '<button type="button" class="year-add" id="addYearBtn" title="添加尚未列出的年份">+ 添加年份</button>'
+    + '<span class="year-tip">当前 <b>' + d.year + '</b>，导入会强制按此年写入（表内其它年份也会改成这一年）</span>'
+    + '</div>'
+    + '</div>'
+    + '<div class="range-row">'
+    + '<span class="range-lab">查看区间</span>'
+    + '<button type="button" data-span="day"' + (d.span === 'day' ? ' class="on"' : '') + '>最近一天</button>'
+    + d.months.map((m) => '<button type="button" data-month="' + m.month + '"' + (d.span === 'month' && m.month === d.month ? ' class="on"' : '') + '>' + m.month + '月</button>').join('')
+    + '<button type="button" data-span="year"' + (d.span === 'year' ? ' class="on"' : '') + '>全年</button>'
+    + '</div>'
+
+  const badge = document.getElementById('importYearBadge')
+  if (badge) badge.innerHTML = '导入年份 <b>' + d.year + '</b>'
+
+  const sel = document.getElementById('yearSelect')
+  if (sel) {
+    sel.onchange = () => {
+      state.year = Number(sel.value)
+      state.span = 'year'
+      load().catch(showErr)
+    }
+  }
+  const addBtn = document.getElementById('addYearBtn')
+  if (addBtn) {
+    addBtn.onclick = () => {
+      const tip = '输入要添加的年份（如 ' + (nowY + 1) + '），添加后可用来筛选和导入'
+      const raw = window.prompt(tip, String(nowY + 1))
+      if (raw == null) return
+      const y = Number(String(raw).replace(/[^\d]/g, ''))
+      if (!y || y < YEAR_MIN || y > 2100) {
+        window.alert('请输入 ' + YEAR_MIN + '～2100 之间的年份')
+        return
+      }
+      addExtraYear(y)
+      state.year = y
+      state.span = 'year'
+      load().catch(showErr)
+    }
+  }
+  box.querySelectorAll('[data-month]').forEach((btn) => {
+    btn.onclick = () => { state.month = Number(btn.dataset.month); state.span = 'month'; load().catch(showErr) }
+  })
+  box.querySelector('[data-span="day"]').onclick = () => { state.span = 'day'; load().catch(showErr) }
+  box.querySelector('[data-span="year"]').onclick = () => { state.span = 'year'; load().catch(showErr) }
+}
+
+function renderStats(d) {
+  const s = d.summary
+  const ch = s.change
+  const cls = ch > 0 ? 'up' : (ch < 0 ? 'down' : '')
+  const sign = ch > 0 ? '+' : ''
+  document.getElementById('stats').innerHTML = [
+    ['最新价格', s.latest == null ? '—' : '¥' + money(s.latest), s.latest_on || ''],
+    ['区间均价', s.avg == null ? '—' : '¥' + money(s.avg), s.days ? s.days + ' 个有价日' : ''],
+    ['最低 / 最高', (s.min == null ? '—' : '¥' + money(s.min)) + ' / ' + (s.max == null ? '—' : '¥' + money(s.max)), ''],
+    ['区间涨跌', ch == null ? '—' : sign + money(ch) + (s.change_pct == null ? '' : ' (' + sign + s.change_pct + '%)'), '这一段首尾相比']
+  ].map((row, i) => '<div class="stat"><span>' + row[0] + '</span><b class="' + (i === 3 ? cls : '') + '">' + row[1] + '</b><em>' + esc(row[2]) + '</em></div>').join('')
+}
+
+function renderChart(d) {
+  const host = document.getElementById('chart')
+  const series = d.series || []
+  if (!series.length) {
+    host.innerHTML = '<div class="empty">这一段还没有报价</div>'
+    return
+  }
+  const w = 1040, h = 280, l = 72, r = 24, t = 18, b = 36
+  const xs = series.map(p => p.price)
+  let min = Math.min.apply(null, xs), max = Math.max.apply(null, xs)
+  const mid0 = (min + max) / 2
+  const rawSpan = Math.max(max - min, 0)
+  const flatThresh = Math.max(80, Math.abs(mid0) * 0.006)
+  if (rawSpan < flatThresh) {
+    const half = Math.max(100, Math.abs(mid0) * 0.008)
+    min = mid0 - half
+    max = mid0 + half
+  } else {
+    const pad = Math.max(rawSpan * 0.18, Math.abs(mid0) * 0.004, 1)
+    min -= pad
+    max += pad
+  }
+  const iw = w - l - r, ih = h - t - b
+  const spanY = Math.max(max - min, 1)
+  const X = i => series.length === 1 ? l + iw / 2 : l + iw * i / (series.length - 1)
+  const Y = v => t + (1 - (v - min) / spanY) * ih
+  const line = series.map((p, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ',' + Y(p.price).toFixed(1)).join(' ')
+  const area = line + ' L' + X(series.length - 1).toFixed(1) + ',' + (h - b) + ' L' + X(0).toFixed(1) + ',' + (h - b) + ' Z'
+  const ticks = 4
+  let grid = ''
+  for (let i = 0; i <= ticks; i++) {
+    const v = max - (max - min) * i / ticks
+    const y = Y(v)
+    grid += '<line x1="' + l + '" y1="' + y + '" x2="' + (w - r) + '" y2="' + y + '" stroke="#edf1f8"/>'
+    grid += '<text x="' + (l - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-size="12" fill="#5a6b85">' + money(v) + '</text>'
+  }
+  const dots = series.map((p, i) => '<circle cx="' + X(i) + '" cy="' + Y(p.price) + '" r="4.5" fill="#2468f2" stroke="#fff" stroke-width="2"><title>' + p.date + '  ' + money(p.price) + '</title></circle>').join('')
+  const marks = [0, Math.floor((series.length - 1) / 2), series.length - 1].filter((v, i, a) => a.indexOf(v) === i)
+  const labels = marks.map(i => {
+    const anchor = i === 0 ? 'start' : (i === series.length - 1 ? 'end' : 'middle')
+    return '<text x="' + X(i) + '" y="' + (h - 12) + '" text-anchor="' + anchor + '" font-size="12" fill="#5a6b85">' + series[i].date + '</text>'
+  }).join('')
+  host.innerHTML = '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="价格走势"><defs><linearGradient id="f" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(36,104,242,.28)"/><stop offset="100%" stop-color="rgba(36,104,242,0)"/></linearGradient></defs>' + grid + '<path d="' + area + '" fill="url(#f)"/><path d="' + line + '" fill="none" stroke="#2468f2" stroke-width="2.4"/>' + dots + labels + '</svg>'
+}
+
+function renderTable(d) {
+  const regions = d.regions || []
+  document.getElementById('tableTitle').textContent = '每日报价' + (d.summary.days ? ' · ' + d.summary.days + ' 天有价格' : '')
+  const head = '<tr><th>日期</th>' + regions.map(n => '<th>' + esc(n) + '</th>').join('') + '<th>最低</th><th>最高</th><th>均价</th></tr>'
+  const body = (d.rows || []).map(row => {
+    const regs = row.regions || {}
+    return '<tr><td>' + esc(row.date) + '</td>' + regions.map(n => '<td>' + (regs[n] == null ? '—' : money(regs[n])) + '</td>').join('') + '<td>' + money(row.min) + '</td><td>' + money(row.max) + '</td><td>' + money(row.avg) + '</td></tr>'
+  }).join('')
+  document.getElementById('table').innerHTML = '<table><thead>' + head + '</thead><tbody>' + (body || '<tr><td colspan="' + (regions.length + 4) + '">这一段没有报价</td></tr>') + '</tbody></table>'
+}
+
+function showErr(e) {
+  document.getElementById('importNote').textContent = e.message || '加载失败'
+  document.getElementById('importNote').className = 'note err'
+}
+
+const fileInput = document.getElementById('file')
+const fileNameEl = document.getElementById('fileName')
+fileInput.addEventListener('change', () => {
+  const f = fileInput.files && fileInput.files[0]
+  if (f) {
+    fileNameEl.textContent = f.name
+    fileNameEl.classList.remove('empty')
+  } else {
+    fileNameEl.textContent = '未选择文件'
+    fileNameEl.classList.add('empty')
+  }
+})
+
+document.getElementById('upload').onclick = async () => {
+  const file = fileInput.files[0]
+  const note = document.getElementById('importNote')
+  if (!file) { note.textContent = '请先选择表格'; note.className = 'note err'; return }
+  const year = Number(state.year || 0)
+  if (!year || year < YEAR_MIN || year > 2100) {
+    note.textContent = '请先在上方选择要导入的年份，再上传表格（防止误写其它年份）'
+    note.className = 'note err'
+    return
+  }
+  const body = new FormData()
+  body.append('file', file)
+  body.append('product_id', id)
+  body.append('year', String(year))
+  note.textContent = '正在导入（年份 ' + year + '）…'
+  note.className = 'note'
+  try {
+    const res = await api('/api/v1/admin/resources/quote-products/import', { method: 'POST', body })
+    const d = res.data || {}
+    const range = (d.date_from && d.date_to)
+      ? ('，覆盖 ' + d.date_from + ' ~ ' + d.date_to + (d.days ? '（' + d.days + ' 天）' : ''))
+      : ''
+    const forced = d.year_forced ? ('；已按所选年 <b>' + d.year_forced + '</b> 入库') : ''
+    note.innerHTML = '导入完成：新增 ' + (d.imported || 0) + '，覆盖 ' + (d.updated || 0) + '，跳过 ' + (d.skipped || 0) + range + forced + (d.regions ? '。地区：' + d.regions.join('、') : '') + ((d.errors && d.errors.length) ? '。' + d.errors.join('；') : '')
+    note.className = 'note ok'
+    if (d.year_forced) {
+      state.year = Number(d.year_forced)
+      state.span = 'year'
+    } else if (d.year) {
+      state.year = Number(d.year)
+      state.span = 'year'
+    } else if (state.year) {
+      state.span = 'year'
+    }
+    await load()
+  } catch (e) { note.textContent = e.message; note.className = 'note err' }
+}
+
+document.getElementById('clearData').onclick = async () => {
+  const note = document.getElementById('importNote')
+  const year = Number(state.year || 0)
+  if (!year) {
+    note.textContent = '请先在上方选择要清除的年份'
+    note.className = 'note err'
+    return
+  }
+  const ok = await askDialog({
+    title: '清除 ' + year + ' 年数据',
+    message: '确认只清除本品种 ' + year + ' 年的日价与地区价？其它年份不受影响。此操作需验证二级密码。',
+  })
+  if (!ok) return
+  note.textContent = '正在验证…'
+  note.className = 'note'
+  try {
+    const allowed = await ensureDeleteAuth()
+    if (!allowed) { note.textContent = '已取消'; note.className = 'note'; return }
+    note.textContent = '正在清除 ' + year + ' 年…'
+    const res = await api('/api/v1/admin/resources/quote-products/' + encodeURIComponent(id) + '/prices?year=' + encodeURIComponent(String(year)), { method: 'DELETE' })
+    const d = res.data || {}
+    note.textContent = '已清除 ' + (d.year || year) + ' 年：日价 ' + (d.days || 0) + ' 条，地区价 ' + (d.region_rows || 0) + ' 条'
+    note.className = 'note ok'
+    await load()
+  } catch (e) {
+    note.textContent = e.message || '清除失败'
+    note.className = 'note err'
+  }
+}
+
+document.getElementById('saveDay').onclick = async () => {
+  const note = document.getElementById('dayNote')
+  const quoted_on = document.getElementById('dDate').value
+  const price_avg = document.getElementById('dAvg').value
+  if (!quoted_on || price_avg === '') { note.textContent = '日期和均价都要填'; note.className = 'note err'; return }
+  try {
+    const form = new URLSearchParams()
+    form.set('quoted_on', quoted_on)
+    form.set('price_avg', price_avg)
+    form.set('price_min', document.getElementById('dMin').value)
+    form.set('price_max', document.getElementById('dMax').value)
+    await api('/api/v1/admin/resources/quote-products/' + encodeURIComponent(id) + '/prices', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json', Authorization: 'Bearer ' + token() },
+      body: form.toString()
+    })
+    note.textContent = '已保存'
+    note.className = 'note ok'
+    const day = quoted_on.split('-')
+    state.year = Number(day[0]); state.month = Number(day[1]); state.span = 'month'
+    await load()
+  } catch (e) { note.textContent = e.message; note.className = 'note err' }
+}
+
+if (!id) {
+  document.getElementById('title').textContent = '没有指定品种'
+} else {
+  load().catch(showErr)
+}
+</script>
+</body>
+</html>

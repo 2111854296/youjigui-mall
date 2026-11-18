@@ -1,0 +1,3 @@
+/* 有机硅商城品牌字体：仅加载 400/700，避免 4 字重中文包抢占主线程（实测解码约 4.5MB） */
+@import "@fontsource/noto-sans-sc/chinese-simplified-400.css";
+@import "@fontsource/noto-sans-sc/chinese-simplified-700.css";

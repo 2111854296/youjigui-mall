@@ -1,0 +1,15 @@
+from pathlib import Path
+import re
+p = Path("/www/wwwroot/g.aifeili.cn/public/index.html")
+t = p.read_text(encoding="utf-8")
+t2 = re.sub(r"quote-chart-expand\.js\?v=\d+", "quote-chart-expand.js?v=7", t)
+p.write_text(t2, encoding="utf-8")
+js = Path("/www/wwwroot/g.aifeili.cn/public/quote-chart-expand.js")
+txt = js.read_text(encoding="utf-8")
+fit = Path("/www/wwwroot/g.aifeili.cn/public/_nuxt/C-jR4i7n.fit9.js").read_text(encoding="utf-8")
+print("size", js.stat().st_size)
+print("v7", "__quoteChartExpandV7" in txt)
+print("mount createApp", "vue.b7" in txt or "createApp" in txt)
+print("mode line", "mode: 'line'" in txt or 'mode:"line"' in txt)
+print("expanded prop", "expanded:{type:Boolean" in fit)
+print("index", "v=7" in p.read_text(encoding="utf-8"))

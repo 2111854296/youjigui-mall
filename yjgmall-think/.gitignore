@@ -1,0 +1,17 @@
+*.log
+.env
+.env.*
+!.env.example
+!.example.env
+composer.phar
+composer.lock
+.DS_Store
+Thumbs.db
+/.idea
+/.vscode
+/vendor
+/runtime
+*.tgz
+/.settings
+/.buildpath
+/.project

@@ -1,0 +1,20 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -1,4 +1,5 @@
+ import { createRequire } from "node:module";
++import { parseSync as oxcParseSync } from "oxc-parser";
+ //#region src/utils.ts
+ function isNode(v) {
+ 	return v !== null && typeof v === "object" && typeof v.type === "string";
+@@ -163,6 +164,10 @@
+ let cachedParseSync;
+ function resolveParseSync() {
+ 	if (cachedParseSync) return cachedParseSync;
++	if (typeof oxcParseSync === "function") {
++		cachedParseSync = oxcParseSync;
++		return cachedParseSync;
++	}
+ 	const require = createRequire(import.meta.url);
+ 	for (const id of ["oxc-parser", "rolldown/utils"]) try {
+ 		const mod = require(id);

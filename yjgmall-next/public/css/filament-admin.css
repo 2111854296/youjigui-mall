@@ -1,0 +1,108 @@
+/* 有机硅商城 · Filament 后台视觉（登录页 + 轻量面板） */
+
+html, body, .fi-body, .fi-simple-layout {
+  font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif !important;
+}
+
+.fi-simple-layout {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(1200px 600px at 12% -10%, rgba(232, 93, 4, 0.28), transparent 55%),
+    radial-gradient(900px 500px at 95% 10%, rgba(37, 93, 154, 0.45), transparent 50%),
+    linear-gradient(155deg, #0f2744 0%, #1a3f6b 42%, #163556 72%, #0d1f33 100%) !important;
+  min-height: 100vh;
+}
+
+.fi-simple-layout::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+}
+
+.fi-simple-layout::after {
+  content: "有机硅商城 · 运营后台";
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  color: rgba(220, 232, 245, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.fi-simple-main {
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow:
+    0 24px 60px rgba(8, 24, 48, 0.35),
+    0 2px 0 rgba(255, 255, 255, 0.6) inset !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(8px);
+}
+
+.fi-simple-main .fi-logo,
+.fi-simple-main .text-2xl {
+  color: #12355c !important;
+}
+
+.fi-simple-header {
+  margin-bottom: 0.25rem;
+}
+
+.yjg-login-lead {
+  margin: 0 0 1.25rem;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #fff7ed, #eff6ff);
+  border: 1px solid #fde6c8;
+  color: #5b6472;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.yjg-login-lead b {
+  color: #e85d04;
+  font-weight: 700;
+}
+
+/* 已登录面板侧栏略加深，减少「一片白」 */
+.fi-sidebar {
+  background: linear-gradient(180deg, #12355c 0%, #0f2744 100%) !important;
+}
+
+.fi-sidebar .fi-sidebar-item-button,
+.fi-sidebar .fi-sidebar-group-label,
+.fi-sidebar .fi-sidebar-item-label,
+.fi-sidebar .fi-logo,
+.fi-sidebar a {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.fi-sidebar .fi-sidebar-item-button:hover,
+.fi-sidebar .fi-active .fi-sidebar-item-button {
+  background: rgba(232, 93, 4, 0.22) !important;
+}
+
+.fi-topbar {
+  background: #fff !important;
+  border-bottom: 1px solid #e8eef5 !important;
+  box-shadow: 0 1px 0 rgba(18, 53, 92, 0.04);
+}
+
+.fi-main {
+  background: #eef2f7 !important;
+}
+
+.fi-page > section,
+.fi-wi-widget {
+  /* keep Filament cards readable on tinted main */
+}

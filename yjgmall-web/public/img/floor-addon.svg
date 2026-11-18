@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="160" viewBox="0 0 220 160">
+  <rect width="220" height="160" fill="#eefaf3"/>
+  <circle cx="70" cy="80" r="28" fill="#2a9d8f"/>
+  <circle cx="120" cy="70" r="22" fill="#40b5a6"/>
+  <circle cx="155" cy="95" r="18" fill="#1d7a6f"/>
+  <text x="110" y="145" text-anchor="middle" fill="#1d7a6f" font-size="13" font-family="Microsoft YaHei,sans-serif">�B/k�</text>
+</svg>

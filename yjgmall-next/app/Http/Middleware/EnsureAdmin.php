@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class EnsureAdmin
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        $user = $request->user();
+        abort_unless($user && (bool) $user->is_admin, 403, '需要管理员权限');
+
+        return $next($request);
+    }
+}

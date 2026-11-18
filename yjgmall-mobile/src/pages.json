@@ -1,0 +1,1005 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^ImageUpload$": "@/components/ImageUpload/ImageUpload.vue",
+      "^PriceTrendChart$": "@/components/PriceTrendChart/PriceTrendChart.vue",
+      "^SlideCaptcha$": "@/components/SlideCaptcha/SlideCaptcha.vue",
+      "^SlideCaptchaModal$": "@/components/SlideCaptchaModal/SlideCaptchaModal.vue",
+      "^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      "^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      "^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "有机硅商城",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/sell/index",
+      "style": {
+        "navigationBarTitleText": "供应大厅",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/buy/index",
+      "style": {
+        "navigationBarTitleText": "采购信息",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/companies/index",
+      "style": {
+        "navigationBarTitleText": "企业库",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/index",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/sell/detail",
+      "style": {
+        "navigationBarTitleText": "供应详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/buy/detail",
+      "style": {
+        "navigationBarTitleText": "采购详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/companies/shop",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "企业主页"
+      }
+    },
+    {
+      "path": "pages/mall/index",
+      "style": {
+        "navigationBarTitleText": "商城",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/sample/index",
+      "style": {
+        "navigationBarTitleText": "样品专区",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/mall/detail",
+      "style": {
+        "navigationBarTitleText": "商品详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/news/index",
+      "style": {
+        "navigationBarTitleText": "信息资讯",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/news/detail",
+      "style": {
+        "navigationBarTitleText": "资讯详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/quotes/index",
+      "style": {
+        "navigationBarTitleText": "行情报价",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/quotes/detail",
+      "style": {
+        "navigationBarTitleText": "行情详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/search/index",
+      "style": {
+        "navigationBarTitleText": "搜索",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/category/index",
+      "style": {
+        "navigationBarTitleText": "分类",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/inquiry/index",
+      "style": {
+        "navigationBarTitleText": "在线询盘",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/publish/index",
+      "style": {
+        "navigationBarTitleText": "发布信息",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/publish/supply",
+      "style": {
+        "navigationBarTitleText": "发布供应",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/publish/purchase",
+      "style": {
+        "navigationBarTitleText": "发布采购",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/register/index",
+      "style": {
+        "navigationBarTitleText": "注册",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/supplies",
+      "style": {
+        "navigationBarTitleText": "我的供应",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/purchases",
+      "style": {
+        "navigationBarTitleText": "我的采购",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/favorites",
+      "style": {
+        "navigationBarTitleText": "我的收藏",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/inquiries",
+      "style": {
+        "navigationBarTitleText": "询盘管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/messages",
+      "style": {
+        "navigationBarTitleText": "站内消息",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/orders",
+      "style": {
+        "navigationBarTitleText": "我的订单",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/quotes",
+      "style": {
+        "navigationBarTitleText": "收到的报价",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/profile",
+      "style": {
+        "navigationBarTitleText": "资料设置",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/cart",
+      "style": {
+        "navigationBarTitleText": "购物车",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/addresses",
+      "style": {
+        "navigationBarTitleText": "收货地址",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/seller-orders",
+      "style": {
+        "navigationBarTitleText": "售出订单",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/products",
+      "style": {
+        "navigationBarTitleText": "商品管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/product-edit",
+      "style": {
+        "navigationBarTitleText": "发布商品",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/articles",
+      "style": {
+        "navigationBarTitleText": "资讯管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/article-edit",
+      "style": {
+        "navigationBarTitleText": "发布资讯",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/shop",
+      "style": {
+        "navigationBarTitleText": "旺铺设置",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/shop-news",
+      "style": {
+        "navigationBarTitleText": "公司新闻",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/shop-honors",
+      "style": {
+        "navigationBarTitleText": "荣誉资质",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/shop-pages",
+      "style": {
+        "navigationBarTitleText": "公司单页",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/shop-links",
+      "style": {
+        "navigationBarTitleText": "友情链接",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/password",
+      "style": {
+        "navigationBarTitleText": "密码管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/grade",
+      "style": {
+        "navigationBarTitleText": "会员升级",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/seats",
+      "style": {
+        "navigationBarTitleText": "企业席位",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/invite",
+      "style": {
+        "navigationBarTitleText": "拉新邀请",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/contact-packs",
+      "style": {
+        "navigationBarTitleText": "联系方式次数包",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/finance",
+      "style": {
+        "navigationBarTitleText": "资金流水",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/fund-pay",
+      "style": {
+        "navigationBarTitleText": "对公付款",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/fund-pay-detail",
+      "style": {
+        "navigationBarTitleText": "对公付款",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/cash",
+      "style": {
+        "navigationBarTitleText": "申请提现",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/deposit",
+      "style": {
+        "navigationBarTitleText": "保证金",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/credit",
+      "style": {
+        "navigationBarTitleText": "购买积分",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/chat",
+      "style": {
+        "navigationBarTitleText": "站内交谈",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/friends",
+      "style": {
+        "navigationBarTitleText": "我的商友",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/alerts",
+      "style": {
+        "navigationBarTitleText": "贸易提醒",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/mail",
+      "style": {
+        "navigationBarTitleText": "邮件订阅",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/spread",
+      "style": {
+        "navigationBarTitleText": "排名推广",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/oauth",
+      "style": {
+        "navigationBarTitleText": "一键登录",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/validate",
+      "style": {
+        "navigationBarTitleText": "会员认证",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/ask",
+      "style": {
+        "navigationBarTitleText": "客服中心",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/jobs",
+      "style": {
+        "navigationBarTitleText": "招聘管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/job-edit",
+      "style": {
+        "navigationBarTitleText": "发布招聘",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/resumes",
+      "style": {
+        "navigationBarTitleText": "简历管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/resume-edit",
+      "style": {
+        "navigationBarTitleText": "编辑简历",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/job-applications",
+      "style": {
+        "navigationBarTitleText": "我的投递",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/job-received",
+      "style": {
+        "navigationBarTitleText": "收到的投递",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/know",
+      "style": {
+        "navigationBarTitleText": "知道管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/know-edit",
+      "style": {
+        "navigationBarTitleText": "我要提问",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/club",
+      "style": {
+        "navigationBarTitleText": "商圈管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/club-edit",
+      "style": {
+        "navigationBarTitleText": "商圈发帖",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/reviews",
+      "style": {
+        "navigationBarTitleText": "评价管理",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/member/avatar",
+      "style": {
+        "navigationBarTitleText": "头像设置",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/member/ads",
+      "style": {
+        "navigationBarTitleText": "广告预定",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/job/index",
+      "style": {
+        "navigationBarTitleText": "招聘",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/job/detail",
+      "style": {
+        "navigationBarTitleText": "招聘详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/know/index",
+      "style": {
+        "navigationBarTitleText": "知道",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/know/detail",
+      "style": {
+        "navigationBarTitleText": "问题详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/club/index",
+      "style": {
+        "navigationBarTitleText": "商圈",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/club/detail",
+      "style": {
+        "navigationBarTitleText": "商圈详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/download/index",
+      "style": {
+        "navigationBarTitleText": "下载中心",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/download/detail",
+      "style": {
+        "navigationBarTitleText": "下载详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/exhibit/index",
+      "style": {
+        "navigationBarTitleText": "展会",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/exhibit/detail",
+      "style": {
+        "navigationBarTitleText": "展会详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/brand/index",
+      "style": {
+        "navigationBarTitleText": "品牌馆",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/brand/detail",
+      "style": {
+        "navigationBarTitleText": "品牌详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/gift/index",
+      "style": {
+        "navigationBarTitleText": "积分换礼",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/gift/detail",
+      "style": {
+        "navigationBarTitleText": "礼品详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/invest/index",
+      "style": {
+        "navigationBarTitleText": "招商合作",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/invest/detail",
+      "style": {
+        "navigationBarTitleText": "招商详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/photo/index",
+      "style": {
+        "navigationBarTitleText": "图库",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/photo/detail",
+      "style": {
+        "navigationBarTitleText": "图库详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/video/index",
+      "style": {
+        "navigationBarTitleText": "视频",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/video/detail",
+      "style": {
+        "navigationBarTitleText": "视频详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/group/index",
+      "style": {
+        "navigationBarTitleText": "团购",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/group/detail",
+      "style": {
+        "navigationBarTitleText": "团购详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/special/index",
+      "style": {
+        "navigationBarTitleText": "专题",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/special/detail",
+      "style": {
+        "navigationBarTitleText": "专题详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/announce/index",
+      "style": {
+        "navigationBarTitleText": "网站公告",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/link/index",
+      "style": {
+        "navigationBarTitleText": "友情链接",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/guestbook/index",
+      "style": {
+        "navigationBarTitleText": "留言反馈",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/ask/index",
+      "style": {
+        "navigationBarTitleText": "客服中心",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/ads/index",
+      "style": {
+        "navigationBarTitleText": "广告中心",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/forgot-password/index",
+      "style": {
+        "navigationBarTitleText": "忘记密码",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/sell/compare",
+      "style": {
+        "navigationBarTitleText": "供应对比",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/news/rank",
+      "style": {
+        "navigationBarTitleText": "资讯排行",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/news/topics",
+      "style": {
+        "navigationBarTitleText": "资讯专题",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/news/topic",
+      "style": {
+        "navigationBarTitleText": "专题详情",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cms/page",
+      "style": {
+        "navigationBarTitleText": "单页",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/sitemap/index",
+      "style": {
+        "navigationBarTitleText": "网站地图",
+        "navigationBarBackgroundColor": "#2769dc",
+        "navigationBarTextStyle": "white"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "有机硅商城",
+    "navigationBarBackgroundColor": "#2769dc",
+    "backgroundColor": "#f3f5f9"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#2769dc",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tab/home-v2.png",
+        "selectedIconPath": "static/tab/home-v2-active.png"
+      },
+      {
+        "pagePath": "pages/sell/index",
+        "text": "供应",
+        "iconPath": "static/tab/sell-v2.png",
+        "selectedIconPath": "static/tab/sell-v2-active.png"
+      },
+      {
+        "pagePath": "pages/buy/index",
+        "text": "求购",
+        "iconPath": "static/tab/buy-v2.png",
+        "selectedIconPath": "static/tab/buy-v2-active.png"
+      },
+      {
+        "pagePath": "pages/companies/index",
+        "text": "企业",
+        "iconPath": "static/tab/company-v2.png",
+        "selectedIconPath": "static/tab/company-v2-active.png"
+      },
+      {
+        "pagePath": "pages/member/index",
+        "text": "我的",
+        "iconPath": "static/tab/mine-v2.png",
+        "selectedIconPath": "static/tab/mine-v2-active.png"
+      }
+    ]
+  }
+}
