@@ -300,15 +300,41 @@ class Home extends BaseController
             $ids[] = (int) $p->id;
         }
         $byProduct = [];
+        $seriesFrom = date('Y-m-d', strtotime('-14 days'));
         if ($ids) {
-            $rows = QuoteProductPrice::whereIn('product_id', $ids)->order('quoted_on', 'asc')->select();
+            // 只取各品种「最新有价日」再回看 14 天；禁止全表历史进内存（会 OOM 导致首页全空）
+            $latestByPid = [];
+            foreach ($ids as $pid) {
+                $maxOn = QuoteProductPrice::where('product_id', $pid)
+                    ->whereNotNull('price_avg')
+                    ->max('quoted_on');
+                if ($maxOn) {
+                    $latestByPid[$pid] = substr((string) $maxOn, 0, 10);
+                }
+            }
+            $fromDates = [];
+            foreach ($latestByPid as $pid => $lastDate) {
+                $fromDates[$pid] = date('Y-m-d', strtotime($lastDate . ' -14 days'));
+            }
+            $seriesFrom = $fromDates ? min($fromDates) : $seriesFrom;
+
+            $rows = QuoteProductPrice::whereIn('product_id', $ids)
+                ->where('quoted_on', '>=', $seriesFrom)
+                ->field('product_id,quoted_on,price_avg,price_min,price_max')
+                ->order('quoted_on', 'asc')
+                ->select();
             foreach ($rows as $row) {
                 $avg = $row->price_avg !== null ? (float) $row->price_avg : null;
                 if ($avg === null) {
                     continue;
                 }
+                $pid = (int) $row->product_id;
                 $date = substr((string) $row->quoted_on, 0, 10);
-                $byProduct[(int) $row->product_id][] = [
+                $pidFrom = $fromDates[$pid] ?? $seriesFrom;
+                if ($date < $pidFrom) {
+                    continue;
+                }
+                $byProduct[$pid][] = [
                     'date' => $date,
                     'label' => substr($date, 5),
                     'price_avg' => round($avg, 2),
@@ -317,9 +343,8 @@ class Home extends BaseController
                 ];
             }
         }
-        // 公开首页截断走势深度：以「最新有价日」为终点取近 7 天，避免报价停更后 series 被日历窗口掏空。
-        // 现价/地区价照常返回，游客打码由前端登录态决定。
-        $regionBriefs = $this->regionBriefsFor($ids, '1970-01-01');
+        // 公开首页截断走势深度：以「最新有价日」为终点取近 7 天
+        $regionBriefs = $this->regionBriefsFor($ids, $seriesFrom);
         $out = [];
         foreach ($products as $p) {
             $item = $p->toArray();
@@ -331,7 +356,6 @@ class Home extends BaseController
             }
             $item['series'] = $series;
             $item['regions'] = $regionBriefs[(int) $p->id] ?? [];
-            // 首页卡片展示的是品种均价，勿把库里写死的「华东」当地价标签
             $item['market'] = '均价';
             $out[] = $item;
         }
@@ -346,27 +370,37 @@ class Home extends BaseController
             return [];
         }
         try {
-            $rows = QuoteRegionPrice::whereIn('product_id', $ids)->order('quoted_on', 'asc')->select();
+            // 只拉窗口内数据，避免地区价全历史撑爆内存
+            $rows = QuoteRegionPrice::whereIn('product_id', $ids)
+                ->where('quoted_on', '>=', $from)
+                ->field('product_id,region,price,quoted_on')
+                ->order('quoted_on', 'asc')
+                ->select();
         } catch (\Throwable $e) {
             return [];
         }
         $by = [];
         foreach ($rows as $row) {
-            $by[(int) $row->product_id][(string) $row->region][] = $row;
+            $pid = (int) $row->product_id;
+            $name = (string) $row->region;
+            $by[$pid][$name][] = [
+                'price' => (float) $row->price,
+                'quoted_on' => substr((string) $row->quoted_on, 0, 10),
+            ];
         }
         $out = [];
         foreach ($by as $pid => $regions) {
             foreach ($regions as $name => $list) {
                 $last = $list[count($list) - 1];
-                $on = substr((string) $last->quoted_on, 0, 10);
+                $on = (string) ($last['quoted_on'] ?? '');
                 if ($on < $from) {
                     continue;
                 }
                 $prev = count($list) >= 2 ? $list[count($list) - 2] : $last;
                 $out[$pid][] = [
                     'name' => $name,
-                    'price' => round((float) $last->price, 2),
-                    'prev' => round((float) $prev->price, 2),
+                    'price' => round((float) $last['price'], 2),
+                    'prev' => round((float) $prev['price'], 2),
                     'quoted_on' => $on,
                 ];
             }
@@ -377,10 +411,10 @@ class Home extends BaseController
 
     public function index(): Response
     {
-        $payload = Cache::get('api:home:v33');
+        $payload = Cache::get('api:home:v34');
         if (!$payload) {
             $payload = $this->build();
-            Cache::set('api:home:v33', $payload, 300);
+            Cache::set('api:home:v34', $payload, 300);
         }
 
         return json_data($payload);

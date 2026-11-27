@@ -254,6 +254,26 @@ const catPanel = computed(() => {
     return s ? { ...c, ...supplyCompany(s) } : c
   })
 
+  // 没广告/没供应时也占满 3 格；用干净渐变底，不用楼层旧图（油桶图观感差）
+  const catTo = categoryNavTo(cat.id, cat)
+  const slotGrad = FLOOR_SIDE_GRAD[String(cat.name || '')] || 'var(--brand-grad)'
+  while (cards.length < 3) {
+    const i = cards.length
+    cards.push({
+      id: `slot-${cat.id || 'x'}-${i}`,
+      label: '品牌展位招商',
+      thumb: '',
+      link: '/ads?place=home_portal',
+      isAd: false,
+      fromAd: false,
+      isPlaceholder: true,
+      slotStyle: { background: slotGrad },
+      company: '了解展位 →',
+      companyTo: '',
+      fallbackTo: catTo,
+    })
+  }
+
   const subItems = (children.length
     ? children.map((c: any) => ({ name: c.name as string, to: categoryNavTo(c.id, c) }))
     : groups.map((g: any) => ({ name: g.title as string, to: g.to }))
@@ -265,7 +285,7 @@ const catPanel = computed(() => {
           name: String(s.title || s.name || ''),
           to: floorCardTo(s),
         }))
-      : cards.map((n) => ({ name: n.label, to: n.link }))
+      : cards.filter((n: any) => !n.isPlaceholder).map((n) => ({ name: n.label, to: n.link }))
   ).filter((x: any) => x.name).slice(0, 8)
 
   return {
@@ -1355,13 +1375,15 @@ watch([supplyRows, buyRows, newsList, rankRows, listCarouselOn], () => nextTick(
               <div class="prod-grid">
                 <template v-for="(c, i) in catPanel.primary" :key="'p' + (c.id || i)">
                   <NuxtLink
-                    v-if="isInternalAdLink(c.link)"
+                    v-if="c.isPlaceholder || isInternalAdLink(c.link)"
                     class="prod-card is-ad"
-                    :to="c.link"
+                    :class="{ 'is-slot': c.isPlaceholder }"
+                    :to="c.link || c.fallbackTo || '/ads?place=home_portal'"
                     :title="c.label || undefined"
                   >
-                    <span class="p-img">
-                      <img :src="c.thumb" :alt="c.label || '广告'" loading="lazy" @error="onImgError">
+                    <span class="p-img" :style="c.isPlaceholder ? c.slotStyle : undefined">
+                      <img v-if="!c.isPlaceholder && c.thumb" :src="c.thumb" :alt="c.label || '展位'" loading="lazy" @error="onImgError">
+                      <span v-else-if="c.isPlaceholder" class="slot-caption">{{ activeCat?.name || '品牌' }}</span>
                       <em v-if="c.fromAd" class="ad-mark">广告</em>
                     </span>
                     <b>{{ c.label }}</b>
@@ -1979,6 +2001,26 @@ watch([supplyRows, buyRows, newsList, rankRows, listCarouselOn], () => nextTick(
   line-height: 1;
   padding: 3px 6px;
   border-radius: 4px;
+}
+.prod-card.is-slot {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #e7eef8;
+}
+.prod-card.is-slot .p-img {
+  display: grid;
+  place-items: center;
+}
+.prod-card.is-slot .slot-caption {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.18);
+  padding: 0 10px;
+  text-align: center;
+}
+.prod-card.is-slot .p-co {
+  color: #2468f2;
 }
 .portal-buy-row {
   display: flex;

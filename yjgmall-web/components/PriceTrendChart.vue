@@ -19,7 +19,7 @@ const props = defineProps<{
   }>
 }>()
 
-import { memberHistoryDays, monthInsideHistory, yearInsideHistory } from '~/utils/memberTier'
+import { memberHistoryDays, monthInsideHistory, quoteYearOptions, yearInsideHistory } from '~/utils/memberTier'
 
 const { actionTip, favBusy, shareQuote, favoriteQuote } = useQuoteCardActions()
 const { user, token, fetchMe } = useAuth()
@@ -44,11 +44,6 @@ const months = computed(() => {
 watch(months, (list) => {
   if (monthTab.value > list.length - 1) monthTab.value = 0
 })
-const yearOptions = computed(() => {
-  const y = new Date().getFullYear()
-  return [y, y - 1, y - 2, y - 3]
-})
-
 const list = computed(() => (props.products || []).filter((p) => p?.name).slice(0, 15))
 const liveById = ref<Record<string, any>>({})
 const { quoteApi } = useQuoteApi()
@@ -56,6 +51,17 @@ const historyDays = computed(() => {
   if (!token.value) return 0
   const sample = Object.values(liveById.value)[0] as { history_days_limit?: number } | undefined
   return memberHistoryDays(user.value, Number(sample?.history_days_limit || 0)) || 7
+})
+/** 前台：2022～今年（不必对齐后台 2016） */
+const yearOptions = computed(() => {
+  const extra: number[] = []
+  const cur = list.value[active.value]
+  const src = cur ? (liveById.value[String(cur.id)] || cur) : null
+  for (const row of (Array.isArray(src?.series) ? src.series : [])) {
+    const y = Number(String(row?.date || '').slice(0, 4))
+    if (y > 0) extra.push(y)
+  }
+  return quoteYearOptions(extra)
 })
 
 function sourceOf(p: any) {
@@ -183,9 +189,28 @@ const series = computed(() => {
   return candlesFrom(rows)
 })
 
-watch([current, chartYear, months, liveById, historyDays], () => {
+/** 落到指定年里有数据的最近月份；不改年份（避免和用户点选抢状态） */
+function syncMonthForYear(year = chartYear.value) {
+  const priced = storedSeries(current.value)
+  const rows = priced.filter((row) => Number(String(row.date).slice(0, 4)) === year)
+  if (!rows.length) return
+  const month = Number(String(rows[rows.length - 1].date).slice(5, 7))
+  const idx = months.value.findIndex((label) => parseInt(label, 10) === month)
+  if (idx >= 0 && monthFromTab(monthTab.value) !== month) monthTab.value = idx
+}
+
+/** 换品种（含首屏等到数据）时跟到最新有价年；之后刷新/用户点选年份不再抢回 */
+let syncedProductKey = ''
+let pendingYearSnap = true
+watch([current, liveById, historyDays], () => {
+  const key = String(current.value?.id ?? current.value?.name ?? '')
+  if (key !== syncedProductKey) {
+    syncedProductKey = key
+    pendingYearSnap = true
+  }
   const priced = storedSeries(current.value)
   if (!priced.length) {
+    if (!pendingYearSnap) return
     const qon = String(sourceOf(current.value)?.quoted_on || '').slice(0, 10)
     if (/^\d{4}-\d{2}-\d{2}$/.test(qon)) {
       const y = Number(qon.slice(0, 4))
@@ -196,14 +221,13 @@ watch([current, chartYear, months, liveById, historyDays], () => {
     }
     return
   }
-  const last = String(priced[priced.length - 1].date || '')
-  const y = Number(last.slice(0, 4))
-  if (y && y !== chartYear.value && y <= currentYear.value) chartYear.value = y
-  const rows = priced.filter((row) => Number(String(row.date).slice(0, 4)) === chartYear.value)
-  if (!rows.length) return
-  const month = Number(String(rows[rows.length - 1].date).slice(5, 7))
-  const idx = months.value.findIndex((label) => parseInt(label, 10) === month)
-  if (idx >= 0 && monthFromTab(monthTab.value) !== month) monthTab.value = idx
+  if (pendingYearSnap) {
+    const last = String(priced[priced.length - 1].date || '')
+    const y = Number(last.slice(0, 4))
+    if (y && y !== chartYear.value && y <= currentYear.value) chartYear.value = y
+    syncMonthForYear(chartYear.value)
+    pendingYearSnap = false
+  }
 }, { immediate: true })
 
 const latestRow = computed(() => {
@@ -359,9 +383,37 @@ function onQuotePickerKey(e: KeyboardEvent) {
 }
 function onQuotePickerScroll() {
   if (quotePickerOpen.value) placeDrop()
+  if (yearOpen.value) placeYearDrop()
+}
+const yearBtn = ref<HTMLElement | null>(null)
+const yearDropStyle = ref<Record<string, string>>({})
+function placeYearDrop() {
+  if (!import.meta.client || !yearBtn.value) return
+  const r = yearBtn.value.getBoundingClientRect()
+  const w = 112
+  const maxH = 320
+  let left = r.right - w
+  if (left < 8) left = 8
+  if (left + w > window.innerWidth - 8) left = Math.max(8, window.innerWidth - w - 8)
+  const below = window.innerHeight - r.bottom - 12
+  const above = r.top - 12
+  const openUp = below < 200 && above > below
+  const h = Math.min(maxH, Math.max(140, openUp ? above : below))
+  yearDropStyle.value = {
+    position: 'fixed',
+    top: openUp ? `${Math.round(r.top - 8 - h)}px` : `${Math.round(r.bottom + 8)}px`,
+    left: `${Math.round(left)}px`,
+    width: `${w}px`,
+    maxHeight: `${h}px`,
+    zIndex: '90',
+  }
 }
 function toggleYear() {
   yearOpen.value = !yearOpen.value
+  if (yearOpen.value) {
+    quotePickerOpen.value = false
+    nextTick(() => placeYearDrop())
+  }
 }
 function pickMonth(index: number) {
   monthTab.value = index
@@ -378,6 +430,7 @@ function pickYear(y: number) {
     return
   }
   chartYear.value = y
+  syncMonthForYear(y)
 }
 function goRecharge() {
   if (!user.value) {
@@ -389,7 +442,11 @@ function goRecharge() {
 function onYearDocClick(e: MouseEvent) {
   if (!yearOpen.value) return
   const el = yearWrap.value
-  if (el && !el.contains(e.target as Node)) yearOpen.value = false
+  const t = e.target as Node
+  if (el && el.contains(t)) return
+  const drop = document.getElementById('yr-drop-portal-home')
+  if (drop && drop.contains(t)) return
+  yearOpen.value = false
 }
 
 watch(token, () => {
@@ -530,28 +587,33 @@ onBeforeUnmount(() => {
             </div>
             <div ref="yearWrap" class="yr-switch">
               <button
+                ref="yearBtn"
                 type="button"
                 class="yr"
                 :aria-expanded="yearOpen"
                 aria-haspopup="listbox"
                 @click.stop="toggleYear"
               >{{ chartYear }}年 <span class="chev" :class="{ open: yearOpen }" aria-hidden="true">▾</span></button>
-              <div
-                v-show="yearOpen"
-                class="yr-drop"
-                role="listbox"
-                aria-label="选择年份"
-              >
-                <button
-                  v-for="y in yearOptions"
-                  :key="y"
-                  type="button"
-                  role="option"
-                  :aria-selected="y === chartYear"
-                  :class="{ on: y === chartYear }"
-                  @click.stop="pickYear(y)"
-                >{{ y }}年</button>
-              </div>
+              <Teleport to="body">
+                <div
+                  v-show="yearOpen"
+                  id="yr-drop-portal-home"
+                  class="yr-drop"
+                  role="listbox"
+                  aria-label="选择年份"
+                  :style="yearDropStyle"
+                >
+                  <button
+                    v-for="y in yearOptions"
+                    :key="y"
+                    type="button"
+                    role="option"
+                    :aria-selected="y === chartYear"
+                    :class="{ on: y === chartYear }"
+                    @click.stop="pickYear(y)"
+                  >{{ y }}年</button>
+                </div>
+              </Teleport>
             </div>
           </div>
         </div>
@@ -763,16 +825,16 @@ onBeforeUnmount(() => {
   transform: rotate(180deg);
 }
 .yr-drop {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
   min-width: 96px;
   background: #fff;
   border: 1.5px solid #d7e2f5;
   border-radius: 10px;
   box-shadow: 0 12px 28px rgba(20, 45, 90, 0.16);
   padding: 4px;
-  z-index: 20;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .yr-drop button {
   display: block;

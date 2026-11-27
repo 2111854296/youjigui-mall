@@ -91,6 +91,10 @@ class Quote extends BaseController
             }
         }
 
+        $sort = strtolower(trim((string) $this->request->get('sort', 'asc')));
+        if ($sort !== 'desc') {
+            $sort = 'asc';
+        }
         if ($needLogin) {
             $days = 0;
             $series = [];
@@ -103,7 +107,7 @@ class Quote extends BaseController
             }
             $days = $reqDays > 0 ? $reqDays : min(7, $maxDays);
             $days = max(1, min($days, $maxDays));
-            $series = $this->seriesFor($p, $days);
+            $series = $this->seriesFor($p, $days, $sort);
         }
         $regionName = trim((string) $this->request->get('region', ''));
         $regions = $this->regionBriefs((int) $p->id, $maxDays);
@@ -115,7 +119,7 @@ class Quote extends BaseController
             }
         }
         if ($activeRegion !== '' && !$needLogin) {
-            $series = $this->regionSeries($p, $activeRegion, $days);
+            $series = $this->regionSeries($p, $activeRegion, $days, $sort);
         }
         $diff = $this->diffFromSeries($series);
         $regionPrice = null;
@@ -167,6 +171,7 @@ class Quote extends BaseController
             'month_pct' => $diff['month_pct'],
             'series' => $series,
             'series_days' => $days,
+            'series_sort' => $sort,
             'history_days_limit' => $maxDays,
             'need_login' => $needLogin,
             'is_vip' => $isVip,
@@ -238,19 +243,23 @@ class Quote extends BaseController
         return false;
     }
 
-    /** 只返回会员档日历窗口内的报价，按日期从旧到新。窗口锚定「最新有价日」，避免当天未报价时少一天。 */
-    private function seriesFor(QuoteProduct $p, int $days = 30): array
+    /**
+     * 只返回会员档日历窗口内的报价。窗口锚定「最新有价日」，避免当天未报价时少一天。
+     * @param 'asc'|'desc' $sort 历史表排序：asc 旧→新，desc 新→旧（由 SQL order 返回，非前端翻转）
+     */
+    private function seriesFor(QuoteProduct $p, int $days = 30, string $sort = 'asc'): array
     {
         if ($days < 1) {
             return [];
         }
+        $dir = $sort === 'desc' ? 'desc' : 'asc';
         $end = $this->latestQuotedOn((int) $p->id) ?: date('Y-m-d');
         $start = $this->windowStartBefore($days, $end);
         $rows = QuoteProductPrice::where('product_id', (int) $p->id)
             ->whereNotNull('price_avg')
             ->where('quoted_on', '>=', $start)
             ->where('quoted_on', '<=', $end)
-            ->order('quoted_on', 'asc')
+            ->order('quoted_on', $dir)
             ->select();
 
         $series = [];
@@ -354,11 +363,12 @@ class Quote extends BaseController
     }
 
     /** @return list<array{date:string,label:string,price_avg:float,price_min:?float,price_max:?float}> */
-    private function regionSeries(QuoteProduct $p, string $region, int $days): array
+    private function regionSeries(QuoteProduct $p, string $region, int $days, string $sort = 'asc'): array
     {
         if ($days < 1) {
             return [];
         }
+        $dir = $sort === 'desc' ? 'desc' : 'asc';
         $endRow = QuoteRegionPrice::where('product_id', (int) $p->id)
             ->where('region', $region)
             ->order('quoted_on', 'desc')
@@ -369,7 +379,7 @@ class Quote extends BaseController
             ->where('region', $region)
             ->where('quoted_on', '>=', $start)
             ->where('quoted_on', '<=', $end)
-            ->order('quoted_on', 'asc')
+            ->order('quoted_on', $dir)
             ->select();
         $series = [];
         foreach ($rows as $row) {

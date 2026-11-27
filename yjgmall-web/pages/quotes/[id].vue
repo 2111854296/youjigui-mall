@@ -11,7 +11,7 @@ const id = computed(() => String(route.params.id || ''))
 const regionName = computed(() => String(route.query.region || ''))
 
 type RangeKey = '7d' | '1m' | '3m' | '6m' | '1y' | '2y' | '5y'
-type Candle = { label: string; open: number; high: number; low: number; close: number }
+type Candle = { label: string; date?: string; open: number; high: number; low: number; close: number }
 const RANGE_OPTS: Array<{ key: RangeKey; label: string; days: number; title: string }> = [
   { key: '7d', label: '7日', days: 7, title: '近 7 日' },
   { key: '1m', label: '1月', days: 30, title: '近 1 月' },
@@ -79,17 +79,24 @@ const fetchDays = computed(() => {
   return Math.max(allowance.value || 0, selectedDays.value, 7)
 })
 
+/** 历史报价日期排序：由接口 SQL order 返回（desc 新→旧 / asc 旧→新），前端不再自行翻转 */
+const histSort = ref<'desc' | 'asc'>('desc')
+
 const { data, error, pending } = await useAsyncData(
-  () => `quote-${id.value}-${regionName.value}-${fetchDays.value}-${token.value ? 'u' : 'g'}`,
+  () => `quote-${id.value}-${regionName.value}-${fetchDays.value}-${histSort.value}-${token.value ? 'u' : 'g'}`,
   async () => {
     await fetchMe()
     const days = token.value ? fetchDays.value : 7
     return quoteApi<any>(`/quotes/${id.value}`, {
-      query: { days, region: regionName.value || undefined },
+      query: {
+        days,
+        region: regionName.value || undefined,
+        sort: histSort.value,
+      },
       auth: Boolean(token.value),
     })
   },
-  { watch: [id, regionName, fetchDays, token], server: false },
+  { watch: [id, regionName, fetchDays, histSort, token], server: false },
 )
 
 const { data: listRes } = await useAsyncData(
@@ -266,10 +273,19 @@ const earliestAllowedDate = computed(() => {
   return quoteWindowStart(limit, end)
 })
 
-const latestSeriesDate = computed(() => {
-  const rows = rawSeries.value
-  return rows.length ? String(rows[rows.length - 1]?.date || '') : ''
-})
+function seriesDateBounds(rows: Array<{ date?: string }>) {
+  let min = ''
+  let max = ''
+  for (const row of rows) {
+    const d = String(row?.date || '').slice(0, 10)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) continue
+    if (!min || d < min) min = d
+    if (!max || d > max) max = d
+  }
+  return { min, max }
+}
+
+const latestSeriesDate = computed(() => seriesDateBounds(rawSeries.value).max)
 
 const series = computed(() => {
   const rows = rawSeries.value
@@ -282,9 +298,9 @@ const series = computed(() => {
       return d >= from && d <= to
     })
   }
-  // 以最新有价日为终点回推，避免「标 7 日却只有 6 天」（当天尚未报价时）
-  const last = String(rows[rows.length - 1]?.date || '')
-  const end = /^\d{4}-\d{2}-\d{2}$/.test(last) ? new Date(`${last}T12:00:00`) : new Date()
+  // 以最新有价日为终点回推（不依赖接口 asc/desc 顺序）
+  const { max } = seriesDateBounds(rows)
+  const end = /^\d{4}-\d{2}-\d{2}$/.test(max) ? new Date(`${max}T12:00:00`) : new Date()
   const from = quoteWindowStart(selectedDays.value, end)
   return rows.filter((row) => String(row.date || '') >= from)
 })
@@ -292,8 +308,7 @@ const series = computed(() => {
 /** 库内实际天数远短于所选区间时提示（例如选了两年但只导了 2026） */
 const coverageHint = computed(() => {
   if (needLogin.value || series.value.length < 2) return ''
-  const from = String(series.value[0]?.date || '')
-  const to = String(series.value[series.value.length - 1]?.date || '')
+  const { min: from, max: to } = seriesDateBounds(series.value)
   const a = Date.parse(from.replace(/-/g, '/'))
   const b = Date.parse(to.replace(/-/g, '/'))
   if (!Number.isFinite(a) || !Number.isFinite(b) || b < a) return ''
@@ -304,8 +319,10 @@ const coverageHint = computed(() => {
   return ''
 })
 
-const candles = computed<Candle[]>(() =>
-  series.value.map((p, i, arr) => {
+const candles = computed<Candle[]>(() => {
+  // 走势图始终按日期升序画（左旧右新）；接口可能因历史表 sort=desc 返回倒序
+  const rows = [...series.value].sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')))
+  return rows.map((p, i, arr) => {
     const close = Number(p.price_avg) || 0
     const open = i === 0 ? close : Number(arr[i - 1].price_avg) || close
     const bodyHi = Math.max(open, close)
@@ -326,13 +343,14 @@ const candles = computed<Candle[]>(() =>
     }
     return {
       label: p.label || String(p.date || '').slice(5),
+      date: String(p.date || ''),
       open,
       high,
       low,
       close,
     }
-  }),
-)
+  })
+})
 
 /** 图上切换 7日/1月 等时，历史报价日期与表格跟同一窗口；自定义模式下由用户日期驱动，不再回写覆盖。 */
 function syncHistoryDates(list = series.value) {
@@ -341,8 +359,9 @@ function syncHistoryDates(list = series.value) {
     dateTo.value = ''
     return
   }
-  dateFrom.value = String(list[0].date || '')
-  dateTo.value = String(list[list.length - 1].date || '')
+  const { min, max } = seriesDateBounds(list)
+  dateFrom.value = min
+  dateTo.value = max
 }
 watch(series, (list) => {
   if (customActive.value) return
@@ -379,8 +398,9 @@ function activateCustomRange() {
     goLogin()
     return
   }
-  const from = dateFrom.value || (series.value[0] && String(series.value[0].date || '')) || earliestAllowedDate.value
-  const to = dateTo.value || (series.value.length && String(series.value[series.value.length - 1].date || '')) || latestSeriesDate.value
+  const bounds = seriesDateBounds(series.value)
+  const from = dateFrom.value || bounds.min || earliestAllowedDate.value
+  const to = dateTo.value || bounds.max || latestSeriesDate.value
   clampAndActivateCustom(from, to)
 }
 
@@ -391,18 +411,21 @@ function onCustomDateInput() {
 }
 
 const historyDesc = computed(() => {
-  // 自定义时 series 已按日期裁切；快捷 Tab 时仍可用日期再收窄表格
-  const rows = [...series.value].reverse()
-  if (customActive.value) return rows
-  const from = dateFrom.value
-  const to = dateTo.value
-  if (!from && !to) return rows
-  return rows.filter((r) => {
-    const d = String(r.date || '')
-    if (from && d < from) return false
-    if (to && d > to) return false
-    return true
-  })
+  // 顺序完全跟接口 series（已按 sort 参数 SQL 排序）；这里只做日期区间过滤，不再 reverse
+  let rows = [...series.value]
+  if (!customActive.value) {
+    const from = dateFrom.value
+    const to = dateTo.value
+    if (from || to) {
+      rows = rows.filter((r) => {
+        const d = String(r.date || '')
+        if (from && d < from) return false
+        if (to && d > to) return false
+        return true
+      })
+    }
+  }
+  return rows
 })
 
 const HIST_PAGE_SIZE = 15
@@ -413,12 +436,17 @@ const historyPageRows = computed(() => {
   return historyDesc.value.slice(start, start + HIST_PAGE_SIZE)
 })
 watch(historyDesc, () => { histPage.value = 1 })
+watch(histSort, () => { histPage.value = 1 })
 watch(histPageCount, (n) => {
   if (histPage.value > n) histPage.value = n
 })
 function goHistPage(p: number) {
   if (p < 1 || p > histPageCount.value) return
   histPage.value = p
+}
+function setHistSort(order: 'desc' | 'asc') {
+  if (histSort.value === order) return
+  histSort.value = order
 }
 
 /** 长列表均匀铺多个水印；短列表至少居中 1 个 */
@@ -715,7 +743,7 @@ const money = (n: unknown) => {
                   <div class="chart-expand-head">
                     <div class="chart-expand-titles">
                       <strong>{{ item?.name || '行情' }} · {{ rangeTitle }}价格走势{{ regionTitleHint }}</strong>
-                      <span>左右滑动查看整段起伏，悬停可读当天价格</span>
+                      <span>左右滑动查看整段；滚轮放大多显示日期，缩小少显示，悬停可读当天价格</span>
                     </div>
                     <button type="button" class="chart-expand-close" aria-label="关闭" @click="closeChartExpand">关闭</button>
                   </div>
@@ -732,24 +760,38 @@ const money = (n: unknown) => {
             <div class="dt-card">
               <div class="dt-h dt-h-row">
                 <span>历史报价{{ regionTitleHint }}</span>
-                <div v-if="!needLogin" class="date-range">
-                  <input
-                    v-model="dateFrom"
-                    type="date"
-                    :min="earliestAllowedDate || undefined"
-                    :max="dateTo || latestSeriesDate || undefined"
-                    aria-label="开始日期"
-                    @change="onCustomDateInput"
-                  >
-                  <span class="sep">—</span>
-                  <input
-                    v-model="dateTo"
-                    type="date"
-                    :min="dateFrom || earliestAllowedDate || undefined"
-                    :max="latestSeriesDate || undefined"
-                    aria-label="结束日期"
-                    @change="onCustomDateInput"
-                  >
+                <div v-if="!needLogin" class="hist-tools">
+                  <div class="hist-sort" role="group" aria-label="日期排序">
+                    <button
+                      type="button"
+                      :class="{ on: histSort === 'desc' }"
+                      @click="setHistSort('desc')"
+                    >日期倒序</button>
+                    <button
+                      type="button"
+                      :class="{ on: histSort === 'asc' }"
+                      @click="setHistSort('asc')"
+                    >日期正序</button>
+                  </div>
+                  <div class="date-range">
+                    <input
+                      v-model="dateFrom"
+                      type="date"
+                      :min="earliestAllowedDate || undefined"
+                      :max="dateTo || latestSeriesDate || undefined"
+                      aria-label="开始日期"
+                      @change="onCustomDateInput"
+                    >
+                    <span class="sep">—</span>
+                    <input
+                      v-model="dateTo"
+                      type="date"
+                      :min="dateFrom || earliestAllowedDate || undefined"
+                      :max="latestSeriesDate || undefined"
+                      aria-label="结束日期"
+                      @change="onCustomDateInput"
+                    >
+                  </div>
                 </div>
               </div>
 
@@ -1012,6 +1054,40 @@ const money = (n: unknown) => {
 }
 .dt-h-row::before {
   align-self: center;
+}
+.hist-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-left: auto;
+}
+.hist-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 2px;
+  border-radius: 8px;
+  background: #eef2f8;
+  border: 1px solid #e1e8f4;
+}
+.hist-sort button {
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #6b7a94;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1;
+}
+.hist-sort button.on {
+  background: #fff;
+  color: #2468f2;
+  box-shadow: 0 1px 4px rgba(36, 104, 242, 0.16);
 }
 .chart-tools {
   display: flex;
@@ -1388,6 +1464,10 @@ const money = (n: unknown) => {
 .other:hover { color: var(--blue); }
 .other b { color: var(--up); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
 @media (max-width: 700px) {
+  .hist-tools {
+    width: 100%;
+    margin-left: 0;
+  }
   .date-range {
     width: 100%;
     margin-left: 0;

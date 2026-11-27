@@ -89,3 +89,19 @@ export function yearInsideHistory(year: number, days: number, now = new Date()) 
   const endMonth = year < now.getFullYear() ? 12 : now.getMonth() + 1
   return monthInsideHistory(year, endMonth, days)
 }
+
+/** 前台走势年份下拉起点（产品：暂时只用 2022 起；后台导入仍可到 2016） */
+export const QUOTE_YEAR_MIN = 2022
+
+/** 前台年份下拉：2022～今年；序列里更早的年份不进前台列表 */
+export function quoteYearOptions(extraYears: Array<number | string | null | undefined> = [], now = new Date()) {
+  const nowY = now.getFullYear()
+  const set = new Set<number>()
+  for (let y = nowY; y >= QUOTE_YEAR_MIN; y--) set.add(y)
+  for (const raw of extraYears) {
+    const y = Number(raw)
+    // 只并入 ≥2022 的有价年，避免前台被后台历史年拖到 2016
+    if (Number.isFinite(y) && y >= QUOTE_YEAR_MIN && y <= nowY + 30) set.add(y)
+  }
+  return [...set].sort((a, b) => b - a)
+}

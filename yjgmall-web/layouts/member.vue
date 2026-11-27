@@ -364,21 +364,56 @@ function goSide(to: string, e?: Event) {
   border-color: var(--mc-brand-deep);
   filter: none;
 }
+/* 次要/危险按钮：禁止沿用主按钮白字，否则浅底上看不清 */
+.mc-main :deep(.btn.ghost),
+.mc-main :deep(button.btn.ghost) {
+  background: #f1f5f9 !important;
+  border: 1px solid #d7e4fb !important;
+  color: #334155 !important;
+}
+.mc-main :deep(.btn.ghost:hover),
+.mc-main :deep(button.btn.ghost:hover) {
+  background: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+.mc-main :deep(.btn.cancel),
+.mc-main :deep(button.btn.cancel) {
+  background: #fff7ed !important;
+  border: 1.5px solid #ea580c !important;
+  color: #c2410c !important;
+  box-shadow: none !important;
+}
+.mc-main :deep(.btn.cancel:hover),
+.mc-main :deep(button.btn.cancel:hover) {
+  background: #ffedd5 !important;
+  border-color: #c2410c !important;
+  color: #9a3412 !important;
+}
 .mc-main :deep(.btn-outline),
 .mc-main :deep(a.btn-outline),
-.mc-main :deep(button.btn-outline) {
+.mc-main :deep(button.btn-outline),
+.mc-main :deep(.btn--outline),
+.mc-main :deep(a.btn--outline),
+.mc-main :deep(button.btn--outline) {
   background: #fff !important;
   border: 1px solid var(--mc-brand) !important;
   color: var(--mc-brand) !important;
 }
 .mc-main :deep(.btn-outline:hover),
 .mc-main :deep(a.btn-outline:hover),
-.mc-main :deep(button.btn-outline:hover) {
+.mc-main :deep(button.btn-outline:hover),
+.mc-main :deep(.btn--outline:hover),
+.mc-main :deep(a.btn--outline:hover),
+.mc-main :deep(button.btn--outline:hover) {
   background: var(--mc-brand-tint) !important;
   color: var(--mc-brand-deep) !important;
 }
 .mc-main :deep(.btn--primary),
-.mc-main :deep(button.btn--primary) {
+.mc-main :deep(button.btn--primary),
+.mc-main :deep(.btn.primary),
+.mc-main :deep(button.btn.primary),
+.mc-main :deep(a.btn.primary) {
   background: var(--mc-brand) !important;
   border-color: var(--mc-brand) !important;
   color: #fff !important;
